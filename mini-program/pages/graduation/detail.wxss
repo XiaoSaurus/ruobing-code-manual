@@ -1,0 +1,13 @@
+.container { padding: 20rpx; }
+.detail { background: #fff; border-radius: 16rpx; overflow: hidden; }
+.cover { width: 100%; height: 400rpx; }
+.content { padding: 30rpx; }
+.title { font-size: 36rpx; font-weight: bold; color: #333; display: block; margin-bottom: 20rpx; }
+.meta { display: flex; font-size: 24rpx; color: #999; margin-bottom: 20rpx; }
+.meta text { margin-right: 20rpx; }
+.tags { display: flex; flex-wrap: wrap; margin-bottom: 20rpx; }
+.tag { padding: 8rpx 20rpx; background: #ecf5ff; color: #409eff; border-radius: 8rpx; font-size: 24rpx; margin-right: 15rpx; margin-bottom: 10rpx; }
+.desc { font-size: 28rpx; color: #666; line-height: 1.8; margin-bottom: 30rpx; }
+.code-section { margin-top: 30rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 20rpx; }
+.code-block { background: #f8f8f8; padding: 30rpx; border-radius: 12rpx; font-family: monospace; font-size: 26rpx; line-height: 1.8; white-space: pre-wrap; word-break: break-all; }

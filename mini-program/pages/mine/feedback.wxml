@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="form">
+    <textarea class="content-input" placeholder="请输入您的反馈意见..." bindinput="onContentInput" value="{{content}}" />
+    <input class="contact-input" placeholder="联系方式（选填）" bindinput="onContactInput" value="{{contact}}" />
+    <button class="submit-btn" bindtap="submit">提交反馈</button>
+  </view>
+</view>

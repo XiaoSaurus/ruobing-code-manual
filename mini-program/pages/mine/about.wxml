@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="content" wx:if="{{about}}">
+    <rich-text nodes="{{about.content}}"></rich-text>
+  </view>
+</view>

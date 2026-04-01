@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="timeline">
+    <view class="item" wx:for="{{list}}" wx:key="id">
+      <view class="version">{{item.version}}</view>
+      <view class="dot"></view>
+      <view class="content">
+        <text class="title">{{item.title}}</text>
+        <text class="type-tag {{item.type === 'feature' ? 'feature' : 'fix'}}">{{item.type === 'feature' ? '新功能' : '修复'}}</text>
+        <text class="text">{{item.content}}</text>
+        <text class="time">{{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,50 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索代码资源" bindconfirm="onSearch" />
+  </view>
+
+  <!-- 热门推荐 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">🔥 热门推荐</text>
+    </view>
+    <view class="card-list">
+      <view class="card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-type="web" data-id="{{item.id}}">
+        <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+        <view class="card-content">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-desc">{{item.description}}</text>
+          <view class="card-tags">
+            <text class="tag" wx:for="{{item.tags.split(',')}}" wx:key="index" wx:for-item="tag">{{tag}}</text>
+          </view>
+          <view class="card-meta">
+            <text>👁 {{item.views}}</text>
+            <text>❤️ {{item.likes}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最新更新 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">✨ 最新更新</text>
+    </view>
+    <view class="card-list">
+      <view class="card" wx:for="{{latestList}}" wx:key="id" bindtap="goDetail" data-type="web" data-id="{{item.id}}">
+        <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+        <view class="card-content">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-desc">{{item.description}}</text>
+          <view class="card-meta">
+            <text>👁 {{item.views}}</text>
+            <text>{{item.createTime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

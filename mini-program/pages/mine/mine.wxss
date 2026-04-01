@@ -1,0 +1,10 @@
+.container { padding: 20rpx; }
+.user-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16rpx; padding: 60rpx 30rpx; text-align: center; margin-bottom: 30rpx; }
+.avatar { width: 140rpx; height: 140rpx; border-radius: 70rpx; border: 4rpx solid #fff; display: block; margin: 0 auto 20rpx; }
+.nickname { color: #fff; font-size: 32rpx; }
+.menu-list { background: #fff; border-radius: 16rpx; overflow: hidden; margin-bottom: 30rpx; }
+.menu-item { display: flex; justify-content: space-between; align-items: center; padding: 30rpx; border-bottom: 1rpx solid #f0f0f0; }
+.menu-item:last-child { border-bottom: none; }
+.menu-item text:first-child { font-size: 30rpx; color: #333; }
+.arrow { color: #ccc; font-size: 36rpx; }
+.share-btn { background: #fff; border-radius: 50rpx; }

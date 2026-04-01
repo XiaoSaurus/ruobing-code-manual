@@ -1,0 +1,20 @@
+import axios from 'axios'
+
+const request = axios.create({
+  baseURL: '/api',
+  timeout: 10000
+})
+
+request.interceptors.request.use(config => {
+  return config
+})
+
+request.interceptors.response.use(
+  response => response.data,
+  error => {
+    ElementPlus.ElMessage.error(error.message || '请求失败')
+    return Promise.reject(error)
+  }
+)
+
+export default request

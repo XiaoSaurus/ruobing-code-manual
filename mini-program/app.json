@@ -1,0 +1,33 @@
+{
+  "name": "若冰代码手册",
+  "appid": "",
+  "description": "专业的代码分享平台",
+  "main": "index.html",
+  "window": {
+    "navigationBarTitleText": "若冰代码手册",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black"
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/web-design/list",
+    "pages/web-design/detail",
+    "pages/graduation/list",
+    "pages/graduation/detail",
+    "pages/mine/mine"
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#409eff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页", "iconPath": "static/tabbar/home.png", "selectedIconPath": "static/tabbar/home-active.png" },
+      { "pagePath": "pages/web-design/list", "text": "网页设计", "iconPath": "static/tabbar/code.png", "selectedIconPath": "static/tabbar/code-active.png" },
+      { "pagePath": "pages/graduation/list", "text": "毕业设计", "iconPath": "static/tabbar/school.png", "selectedIconPath": "static/tabbar/school-active.png" },
+      { "pagePath": "pages/mine/mine", "text": "我的", "iconPath": "static/tabbar/mine.png", "selectedIconPath": "static/tabbar/mine-active.png" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

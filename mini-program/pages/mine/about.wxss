@@ -1,0 +1,2 @@
+.container { padding: 20rpx; }
+.content { background: #fff; border-radius: 16rpx; padding: 30rpx; font-size: 28rpx; line-height: 1.8; }
