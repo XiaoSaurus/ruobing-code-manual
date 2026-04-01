@@ -19,7 +19,7 @@ public class GraduationProjectService {
     public PageResult<GraduationProject> getList(String keyword, String sortBy, Integer page, Integer pageSize) {
         Page<GraduationProject> pageParam = new Page<>(page, pageSize);
         QueryWrapper<GraduationProject> wrapper = new QueryWrapper<>();
-        wrapper.eq("status", true);
+        wrapper.eq("status", 1);
 
         if (keyword != null && !keyword.isEmpty()) {
             wrapper.and(w -> w.like("title", keyword).or().like("tags", keyword));
@@ -41,13 +41,15 @@ public class GraduationProjectService {
 
     public List<GraduationProject> getHotList() {
         QueryWrapper<GraduationProject> wrapper = new QueryWrapper<>();
-        wrapper.eq("status", true).eq("is_hot", true).orderByDesc("views").last("LIMIT 10");
+        wrapper.eq("status", 1).eq("is_hot", 1).orderByDesc("views");
+        wrapper.last("LIMIT 10");
         return graduationProjectRepository.selectList(wrapper);
     }
 
     public List<GraduationProject> getLatestList() {
         QueryWrapper<GraduationProject> wrapper = new QueryWrapper<>();
-        wrapper.eq("status", true).eq("is_latest", true).orderByDesc("create_time").last("LIMIT 10");
+        wrapper.eq("status", 1).eq("is_latest", 1).orderByDesc("create_time");
+        wrapper.last("LIMIT 10");
         return graduationProjectRepository.selectList(wrapper);
     }
 

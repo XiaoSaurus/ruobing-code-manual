@@ -1,15 +1,16 @@
 package com.ruobing.codebook.common;
 
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class PageResult<T> {
     private long total;
     private long page;
     private long pageSize;
-    private T records;
+    private List<?> records;
 
-    public static <T> PageResult<T> of(long total, long page, long pageSize, T records) {
+    public static <T> PageResult<T> of(long total, long page, long pageSize, List<T> records) {
         PageResult<T> result = new PageResult<>();
         result.setTotal(total);
         result.setPage(page);
