@@ -31,13 +31,14 @@ page { background: #f0f2f5; }
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 20rpx;
 }
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
   color: #1a1a1a;
+  margin-left: 10rpx;
 }
 .section-icon {
   width: 40rpx;
