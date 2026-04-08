@@ -10,8 +10,8 @@
   <!-- 热门推荐 -->
   <view class="section">
     <view class="section-header">
+      <text class="section-icon section-icon-hot">🔥</text>
       <text class="section-title">热门推荐</text>
-      <image class="section-icon" src="/static/tabbar/icon-hot.png" mode="aspectFit" />
     </view>
     <view class="card-list">
       <view class="card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
@@ -36,8 +36,8 @@
   <!-- 最新更新 -->
   <view class="section">
     <view class="section-header">
+      <text class="section-icon section-icon-new">✨</text>
       <text class="section-title">最新更新</text>
-      <image class="section-icon" src="/static/tabbar/icon-new.png" mode="aspectFit" />
     </view>
     <view class="card-list">
       <view class="card" wx:for="{{latestList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">

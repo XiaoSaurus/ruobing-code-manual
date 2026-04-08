@@ -31,7 +31,7 @@ page { background: #f0f2f5; }
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-bottom: 20rpx;
 }
 .section-title {
@@ -41,8 +41,8 @@ page { background: #f0f2f5; }
   margin-left: 10rpx;
 }
 .section-icon {
-  width: 40rpx;
-  height: 40rpx;
+  font-size: 36rpx;
+  line-height: 1;
 }
 
 /* 卡片列表 */
