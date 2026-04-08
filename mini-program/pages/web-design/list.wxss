@@ -94,7 +94,7 @@ page { background: #f0f2f5; }
   color: #999;
 }
 .meta-item { display: flex; align-items: center; margin-right: 20rpx; }
-.meta-icon { margin-right: 6rpx; }
+.meta-icon-img { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 
 .cover {
   width: 200rpx;

@@ -15,8 +15,9 @@ page { background: #f0f2f5; }
   border-radius: 50rpx;
   padding: 16rpx 28rpx;
 }
-.search-icon {
-  font-size: 28rpx;
+.search-icon-img {
+  width: 36rpx;
+  height: 36rpx;
   margin-right: 12rpx;
   opacity: 0.5;
 }
@@ -105,7 +106,11 @@ page { background: #f0f2f5; }
   align-items: center;
   margin-right: 24rpx;
 }
-.meta-icon { margin-right: 6rpx; font-size: 24rpx; }
+.meta-icon-img {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 6rpx;
+}
 .card-type {
   margin-left: auto;
   background: #f0f2f5;

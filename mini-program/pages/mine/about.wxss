@@ -14,8 +14,9 @@
   margin-bottom: 40rpx;
 }
 
-.logo-icon {
-  font-size: 80rpx;
+.logo-icon-img {
+  width: 100rpx;
+  height: 100rpx;
   margin-bottom: 20rpx;
 }
 
@@ -52,8 +53,9 @@
   color: #555;
 }
 
-.feature-icon {
-  font-size: 36rpx;
+.feature-icon-img {
+  width: 48rpx;
+  height: 48rpx;
   margin-right: 20rpx;
 }
 

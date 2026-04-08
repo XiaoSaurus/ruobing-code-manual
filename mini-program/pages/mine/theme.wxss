@@ -54,6 +54,6 @@
   align-items: center;
 }
 .preview-row { display: flex; align-items: center; }
-.preview-icon { font-size: 40rpx; margin-right: 16rpx; }
+.preview-icon-img { width: 52rpx; height: 52rpx; margin-right: 16rpx; }
 .preview-text { font-size: 30rpx; color: #fff; font-weight: 600; }
 .preview-tag { font-size: 22rpx; padding: 6rpx 20rpx; border-radius: 30rpx; }

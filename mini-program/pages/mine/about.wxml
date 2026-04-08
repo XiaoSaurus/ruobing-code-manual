@@ -1,7 +1,7 @@
 <view class="container">
   <view class="about-card" wx:if="{{about}}">
     <view class="about-header">
-      <view class="logo-icon">📚</view>
+      <image class="logo-icon-img" src="/static/icons/icon-book.png" mode="aspectFit" />
       <view class="app-name">{{about.title || '若冰代码手册'}}</view>
     </view>
     <view class="divider"></view>
@@ -17,7 +17,7 @@
 
   <view class="about-card" wx:if="{{!about}}">
     <view class="about-header">
-      <view class="logo-icon">📚</view>
+      <image class="logo-icon-img" src="/static/icons/icon-book.png" mode="aspectFit" />
       <view class="app-name">若冰代码手册</view>
     </view>
     <view class="divider"></view>
@@ -25,15 +25,15 @@
       <text class="about-desc">若冰代码手册是一个专业的代码分享平台，致力于为开发者提供优质的学习资源和交流空间。</text>
       <view class="feature-list">
         <view class="feature-item">
-          <text class="feature-icon">🖥️</text>
+          <image class="feature-icon-img" src="/static/icons/icon-monitor.png" mode="aspectFit" />
           <text>网页设计作品展示</text>
         </view>
         <view class="feature-item">
-          <text class="feature-icon">🎓</text>
+          <image class="feature-icon-img" src="/static/icons/icon-cap.png" mode="aspectFit" />
           <text>毕业设计项目分享</text>
         </view>
         <view class="feature-item">
-          <text class="feature-icon">💡</text>
+          <image class="feature-icon-img" src="/static/icons/icon-bulb.png" mode="aspectFit" />
           <text>技术资源交流社区</text>
         </view>
       </view>

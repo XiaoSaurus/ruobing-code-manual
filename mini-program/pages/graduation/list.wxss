@@ -81,7 +81,7 @@ page { background: #f0f2f5; }
 }
 .meta { display: flex; align-items: center; font-size: 24rpx; color: #999; }
 .meta-item { display: flex; align-items: center; margin-right: 20rpx; }
-.meta-icon { margin-right: 6rpx; }
+.meta-icon-img { width: 28rpx; height: 28rpx; margin-right: 6rpx; }
 .cover {
   width: 200rpx;
   height: 160rpx;

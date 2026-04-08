@@ -71,8 +71,9 @@
   display: flex;
   align-items: center;
 }
-.iconfont {
-  font-size: 36rpx;
+.menu-icon-img {
+  width: 48rpx;
+  height: 48rpx;
   margin-right: 20rpx;
 }
 .menu-label {
