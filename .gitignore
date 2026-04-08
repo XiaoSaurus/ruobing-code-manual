@@ -20,3 +20,13 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Dependencies
+web/node_modules/
+mini-program/node_modules/
+
+# Build outputs
+backend/target/
+
+# Private config (contains app-specific IDs)
+mini-program/project.private.config.json

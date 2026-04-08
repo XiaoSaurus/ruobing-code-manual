@@ -1,4 +1,4 @@
-import request from './request'
+import request from '../utils/request'
 
 export const webDesignApi = {
   getList: (params) => request.get('/web-design/list', { params }),
