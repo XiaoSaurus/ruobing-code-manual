@@ -31,17 +31,17 @@ page { background: #f0f2f5; }
 .section-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 20rpx;
-}
-.section-icon {
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 14rpx;
 }
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
   color: #1a1a1a;
+}
+.section-icon {
+  width: 40rpx;
+  height: 40rpx;
 }
 
 /* 卡片列表 */
