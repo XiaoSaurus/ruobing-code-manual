@@ -10,7 +10,7 @@
   <!-- 热门推荐 -->
   <view class="section">
     <view class="section-header">
-      <text class="section-icon section-icon-hot">🔥</text>
+      <image class="section-icon" src="/static/section_icons/section-hot.png" mode="aspectFit" />
       <text class="section-title">热门推荐</text>
     </view>
     <view class="card-list">
@@ -36,7 +36,7 @@
   <!-- 最新更新 -->
   <view class="section">
     <view class="section-header">
-      <text class="section-icon section-icon-new">✨</text>
+      <image class="section-icon" src="/static/section_icons/section-new.png" mode="aspectFit" />
       <text class="section-title">最新更新</text>
     </view>
     <view class="card-list">
