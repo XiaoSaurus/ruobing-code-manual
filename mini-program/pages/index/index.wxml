@@ -1,27 +1,32 @@
 <view class="container">
   <!-- 搜索栏 -->
   <view class="search-bar">
-    <input class="search-input" placeholder="搜索代码资源" bindconfirm="onSearch" />
+    <view class="search-inner">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索代码资源..." confirm-type="search" bindconfirm="onSearch" />
+    </view>
   </view>
 
   <!-- 热门推荐 -->
   <view class="section">
     <view class="section-header">
-      <view class="icon-hot"></view>
+      <image class="section-icon" src="/static/tabbar/icon-hot.png" mode="aspectFit" />
       <text class="section-title">热门推荐</text>
     </view>
     <view class="card-list">
-      <view class="card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-type="web" data-id="{{item.id}}">
+      <view class="card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
         <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
           <text class="card-desc">{{item.description}}</text>
           <view class="card-tags">
-            <text class="tag" wx:for="{{item.tags.split(',')}}" wx:key="index" wx:for-item="tag">{{tag}}</text>
+            <text class="tag" wx:for="{{item.tagsArray}}" wx:key="index">{{item}}</text>
           </view>
-          <view class="card-meta">
-            <text>阅 {{item.views}}</text>
-            <text>赞 {{item.likes}}</text>
+          <view class="card-footer">
+            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
+            <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
       </view>
@@ -31,18 +36,20 @@
   <!-- 最新更新 -->
   <view class="section">
     <view class="section-header">
-      <view class="icon-new"></view>
+      <image class="section-icon" src="/static/tabbar/icon-new.png" mode="aspectFit" />
       <text class="section-title">最新更新</text>
     </view>
     <view class="card-list">
-      <view class="card" wx:for="{{latestList}}" wx:key="id" bindtap="goDetail" data-type="web" data-id="{{item.id}}">
+      <view class="card" wx:for="{{latestList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
         <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
           <text class="card-desc">{{item.description}}</text>
-          <view class="card-meta">
-            <text>阅 {{item.views}}</text>
-            <text>{{item.createTime}}</text>
+          <view class="card-footer">
+            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
+            <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
       </view>

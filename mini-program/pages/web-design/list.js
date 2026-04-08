@@ -12,9 +12,9 @@ Page({
 
   onLoad(options) {
     if (options.keyword) {
-      this.setData({ keyword: options.keyword })
+      this.setData({ keyword: decodeURIComponent(options.keyword) })
     }
-    this.loadData()
+    this.loadData(true)
   },
 
   loadData(reset = false) {
@@ -22,15 +22,32 @@ Page({
       this.setData({ page: 1, list: [], hasMore: true })
     }
     const { keyword, sortBy, page, pageSize } = this.data
+    wx.showLoading({ title: '加载中...', mask: true })
     request('/web-design/list', {
       data: { keyword, sortBy, page, pageSize }
     }).then(res => {
-      const newList = reset ? res.data.records : [...this.data.list, ...res.data.records]
+      const records = (res.data.records || []).map(item => ({
+        ...item,
+        tagsArray: item.tags ? item.tags.split(',').filter(t => t.trim()) : []
+      }))
+      const newList = reset ? records : [...this.data.list, ...records]
       this.setData({
         list: newList,
-        hasMore: newList.length < res.data.total
+        hasMore: newList.length < (res.data.total || 0)
       })
+      wx.hideLoading()
+    }).catch(() => {
+      wx.hideLoading()
+      wx.showToast({ title: '加载失败', icon: 'none' })
     })
+  },
+
+  onSearch(e) {
+    const keyword = (e.detail.value || '').trim()
+    this.setData({ keyword })
+    if (keyword) {
+      this.loadData(true)
+    }
   },
 
   onKeywordInput(e) {
@@ -38,11 +55,14 @@ Page({
   },
 
   onSort(e) {
-    this.setData({ sortBy: e.currentTarget.dataset.sort })
+    const sortBy = e.currentTarget.dataset.sort
+    if (sortBy === this.data.sortBy) return
+    this.setData({ sortBy })
     this.loadData(true)
   },
 
   loadMore() {
+    if (!this.data.hasMore) return
     this.setData({ page: this.data.page + 1 })
     this.loadData()
   },

@@ -1,7 +1,7 @@
 <view class="container">
   <!-- 搜索筛选 -->
   <view class="filter-bar">
-    <input class="search-input" placeholder="搜索网页设计" value="{{keyword}}" bindinput="onKeywordInput" />
+    <input class="search-input" placeholder="搜索网页设计..." confirm-type="search" value="{{keyword}}" bindconfirm="onSearch" />
     <view class="sort-tabs">
       <text class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">默认</text>
       <text class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">最热</text>
@@ -17,11 +17,12 @@
           <text class="title">{{item.title}}</text>
           <text class="desc">{{item.description}}</text>
           <view class="tags">
-            <text class="tag" wx:for="{{item.tags.split(',')}}" wx:key="index" wx:for-item="t">{{t}}</text>
+            <text class="tag" wx:for="{{item.tagsArray}}" wx:key="index">{{item}}</text>
           </view>
           <view class="meta">
-            <text>👁 {{item.views}}</text>
-            <text>❤️ {{item.likes}}</text>
+            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
           </view>
         </view>
         <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />

@@ -1,109 +1,94 @@
-"""
-生成微信小程序 TabBar 图标
-尺寸: 81x81px, PNG 格式, 透明背景
-"""
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""生成小程序图标"""
 from PIL import Image, ImageDraw, ImageFont
-import os
+import os, sys
 
-SIZE = 81
-OUT_DIR = r"D:\AppData\QClaw\QClawData\workspace\ruobing-code-manual\mini-program\static\tabbar"
+sys.stdout.reconfigure(encoding='utf-8')
+d = r'D:\AppData\QClaw\QClawData\workspace\ruobing-code-manual\mini-program\static\tabbar'
+os.makedirs(d, exist_ok=True)
 
-# Element Plus 风格配色
-COLOR_NORMAL = (153, 153, 153)      # #999999 灰色
-COLOR_ACTIVE = (64, 158, 255)      # #409EFF 主题蓝
-COLOR_LINE = 3                      # 线条粗细
+def hex2rgb(h):
+    h = h.lstrip('#')
+    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
-def make(size=SIZE, color=COLOR_NORMAL, filled=False):
-    """创建画布并绘制"""
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+def make_section_icon(fn, text, bg_hex, text_color='#FFFFFF'):
+    sz = 64
+    img = Image.new('RGBA', (sz, sz), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    return img, draw
+    try:
+        font = ImageFont.truetype('C:/Windows/Fonts/msyh.ttc', 36)
+    except:
+        font = ImageFont.load_default()
+    draw.rounded_rectangle([(0, 0), (sz-1, sz-1)], radius=14, fill=hex2rgb(bg_hex))
+    bbox = draw.textbbox((0, 0), text, font=font)
+    tw, th = bbox[2]-bbox[0], bbox[3]-bbox[1]
+    draw.text(((sz-tw)//2, (sz-th)//2 - 2), text, fill=hex2rgb(text_color), font=font)
+    img.save(fn, 'PNG')
 
-def circle(draw, cx, cy, r, fill):
-    draw.ellipse([cx-r, cy-r, cx+r, cy+r], fill=fill)
+# Section 小图标
+make_section_icon(os.path.join(d, 'icon-hot.png'), '热', '#ff6b6b')
+make_section_icon(os.path.join(d, 'icon-new.png'), '新', '#ffd700', '#444444')
+print('Section icons OK')
 
-def rect(draw, xy, fill, radius=0):
-    x1, y1, x2, y2 = xy
-    if radius:
-        draw.rounded_rectangle([x1,y1,x2,y2], radius=radius, fill=fill)
-    else:
-        draw.rectangle([x1,y1,x2,y2], fill=fill)
+# ============ TabBar 图标 ============
+def make_tabbar(fn, shape, color_hex, active=False):
+    sz = 81
+    img = Image.new('RGBA', (sz, sz), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    c = hex2rgb(color_hex)
+    ic = (255, 255, 255) if active else c
 
-# ── 1. 首页 home ──────────────────────────────────────────────────────────────
-def draw_home(draw, color, filled):
-    c = SIZE // 2
-    # 屋顶三角形
-    draw.polygon([(c, 12), (18, 34), (63, 34)], fill=color)
-    # 墙面
-    draw.rectangle([24, 34, 57, 58], fill=color)
-    # 门
-    draw.rectangle([36, 44, 45, 58], fill=(0,0,0,0) if not filled else color)
+    if shape == 'home':
+        # 房子：屋顶三角形 + 墙体矩形 + 门
+        draw.polygon([(10, 34), (40, 12), (71, 34)], fill=c)      # 屋顶
+        draw.rectangle([18, 34, 63, 66], fill=c)                  # 墙体
+        draw.rectangle([34, 48, 47, 66], fill=ic)                  # 门
 
-def draw_home_active(draw, color, filled):
-    draw_home(draw, color, filled)
+    elif shape == 'code':
+        # 代码括号 < / >
+        try:
+            f40 = ImageFont.truetype('C:/Windows/Fonts/consola.ttf', 42)
+            f28 = ImageFont.truetype('C:/Windows/Fonts/consola.ttf', 30)
+        except:
+            f40 = f28 = ImageFont.load_default()
+        draw.text((8, 16), '<', fill=c, font=f40)
+        draw.text((46, 24), '/', fill=c, font=f28)
+        draw.text((60, 16), '>', fill=c, font=f40)
 
-# ── 2. 网页设计 code ─────────────────────────────────────────────────────────
-def draw_code(draw, color, filled):
-    # 括号 < >
-    # 左括号 <
-    draw.line([(18, 30), (10, 40), (18, 50)], fill=color, width=COLOR_LINE)
-    # 右括号 >
-    draw.line([(63, 30), (71, 40), (63, 50)], fill=color, width=COLOR_LINE)
-    # 斜杠 /
-    draw.line([(54, 22), (27, 58)], fill=color, width=COLOR_LINE)
-    # 左括号 >
-    draw.line([(18, 58), (10, 48), (18, 38)], fill=color, width=COLOR_LINE)
-    # 右括号 <
-    draw.line([(63, 58), (71, 48), (63, 38)], fill=color, width=COLOR_LINE)
+    elif shape == 'school':
+        # 学士帽：帽顶+帽尖+帽身+流苏
+        draw.rectangle([15, 34, 66, 42], fill=c)                   # 帽顶
+        draw.polygon([(10, 34), (40, 18), (71, 34)], fill=c)     # 帽尖
+        draw.rectangle([28, 42, 53, 58], fill=c)                  # 帽身
+        draw.polygon([(40, 58), (52, 74), (28, 74)], fill=c)     # 流苏
 
-# ── 3. 毕业设计 school ──────────────────────────────────────────────────────
-def draw_school(draw, color, filled):
-    # 帽子（矩形顶）
-    draw.rectangle([24, 18, 57, 28], fill=color)
-    # 帽子中装饰
-    draw.rectangle([38, 14, 43, 22], fill=color)
-    # 帽檐
-    draw.rectangle([18, 28, 63, 34], fill=color)
-    # 头
-    draw.ellipse([(30, 36), (51, 56)], fill=color)
-    # 袍子（梯形用矩形近似）
-    draw.rectangle([22, 56, 59, 70], fill=color)
-    # 袍子底部
-    draw.rectangle([18, 68, 63, 74], fill=color)
+    elif shape == 'mine':
+        # 头像：外圆 + 内圆（脸部）
+        draw.ellipse([14, 14, 67, 67], fill=c)                    # 头部
+        draw.ellipse([24, 20, 57, 53], fill=ic)                  # 脸部
+        draw.ellipse([30, 60, 51, 74], fill=c)                   # 身体
 
-# ── 4. 我的 mine ────────────────────────────────────────────────────────────
-def draw_mine(draw, color, filled):
-    # 头
-    draw.ellipse([(32, 16), (49, 34)], fill=color)
-    # 身体
-    draw.ellipse([(22, 40), (59, 64)], fill=color)
-    # 小圆点缀（表示个人）
-    if filled:
-        draw.ellipse([(35, 22), (46, 28)], fill=(255,255,255,200))
+    img.save(fn, 'PNG')
 
-# ── 生成并保存 ────────────────────────────────────────────────────────────────
-def generate():
-    os.makedirs(OUT_DIR, exist_ok=True)
+COLOR = '#409EFF'
 
-    icons = [
-        ("home",          draw_home,          draw_home_active),
-        ("code",          draw_code,          draw_code),
-        ("school",        draw_school,        draw_school),
-        ("mine",          draw_mine,          draw_mine),
-    ]
+# 普通状态
+make_tabbar(os.path.join(d, 'home.png'),        'home',   COLOR)
+make_tabbar(os.path.join(d, 'code.png'),        'code',   COLOR)
+make_tabbar(os.path.join(d, 'school.png'),      'school', COLOR)
+make_tabbar(os.path.join(d, 'mine.png'),        'mine',   COLOR)
 
-    for name, fn_normal, fn_active in icons:
-        # 普通状态
-        img_n, draw_n = make()
-        fn_normal(draw_n, COLOR_NORMAL, False)
-        img_n.save(os.path.join(OUT_DIR, f"{name}.png"))
+# 选中状态
+make_tabbar(os.path.join(d, 'home-active.png'),   'home',   COLOR, active=True)
+make_tabbar(os.path.join(d, 'code-active.png'),   'code',   COLOR, active=True)
+make_tabbar(os.path.join(d, 'school-active.png'), 'school', COLOR, active=True)
+make_tabbar(os.path.join(d, 'mine-active.png'),   'mine',   COLOR, active=True)
 
-        # 选中状态
-        img_a, draw_a = make()
-        fn_active(draw_a, COLOR_ACTIVE, True)
-        img_a.save(os.path.join(OUT_DIR, f"{name}-active.png"))
+print('TabBar icons OK')
 
-        print(f"OK: {name}.png + {name}-active.png")
-
-if __name__ == "__main__":
-    generate()
+# 验证尺寸
+for fn in os.listdir(d):
+    if fn.endswith('.png'):
+        img = Image.open(os.path.join(d, fn))
+        print(f'  {fn}: {img.size}')
