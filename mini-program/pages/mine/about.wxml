@@ -1,5 +1,47 @@
 <view class="container">
-  <view class="content" wx:if="{{about}}">
-    <rich-text nodes="{{about.content}}"></rich-text>
+  <view class="about-card" wx:if="{{about}}">
+    <view class="about-header">
+      <view class="logo-icon">📚</view>
+      <view class="app-name">{{about.title || '若冰代码手册'}}</view>
+    </view>
+    <view class="divider"></view>
+    <view class="about-body">
+      <rich-text nodes="{{about.content}}"></rich-text>
+    </view>
+    <view class="divider" wx:if="{{about.contact}}"></view>
+    <view class="contact-section" wx:if="{{about.contact}}">
+      <view class="contact-title">联系我们</view>
+      <view class="contact-text">{{about.contact}}</view>
+    </view>
+  </view>
+
+  <view class="about-card" wx:if="{{!about}}">
+    <view class="about-header">
+      <view class="logo-icon">📚</view>
+      <view class="app-name">若冰代码手册</view>
+    </view>
+    <view class="divider"></view>
+    <view class="about-body">
+      <text class="about-desc">若冰代码手册是一个专业的代码分享平台，致力于为开发者提供优质的学习资源和交流空间。</text>
+      <view class="feature-list">
+        <view class="feature-item">
+          <text class="feature-icon">🖥️</text>
+          <text>网页设计作品展示</text>
+        </view>
+        <view class="feature-item">
+          <text class="feature-icon">🎓</text>
+          <text>毕业设计项目分享</text>
+        </view>
+        <view class="feature-item">
+          <text class="feature-icon">💡</text>
+          <text>技术资源交流社区</text>
+        </view>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="contact-section">
+      <view class="contact-title">联系我们</view>
+      <view class="contact-text">欢迎通过意见反馈功能联系我们</view>
+    </view>
   </view>
 </view>

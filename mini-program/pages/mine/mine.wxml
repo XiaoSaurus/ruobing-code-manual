@@ -1,26 +1,61 @@
 <view class="container">
-  <!-- 用户信息 -->
-  <view class="user-card">
-    <image class="avatar" src="{{userInfo.avatar || '/static/default-avatar.png'}}" />
-    <text class="nickname">{{userInfo.nickname || '点击登录'}}</text>
+  <!-- 用户信息卡 -->
+  <view class="user-card" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);">
+    <view class="user-info" bindtap="goLogin">
+      <image class="avatar" src="{{userInfo ? userInfo.avatarUrl : '/static/default-avatar.png'}}" mode="aspectFill" />
+      <view class="user-text">
+        <text class="nickname">{{userInfo ? userInfo.nickName : '点击登录'}}</text>
+        <text class="tip">{{userInfo ? '已登录' : '登录后可获得更多功能'}}</text>
+      </view>
+      <view class="login-icon">
+        <text wx:if="{{!userInfo}}">›</text>
+        <text wx:else class="logout-btn" catchtap="logout">退出</text>
+      </view>
+    </view>
   </view>
 
-  <!-- 功能列表 -->
-  <view class="menu-list">
+  <!-- 功能菜单 -->
+  <view class="menu-card">
     <view class="menu-item" bindtap="goFeedback">
-      <text>意见反馈</text>
+      <view class="menu-left">
+        <text class="iconfont icon-feedback">📝</text>
+        <text class="menu-label">意见反馈</text>
+      </view>
       <text class="arrow">›</text>
     </view>
     <view class="menu-item" bindtap="goChangelog">
-      <text>更新日志</text>
+      <view class="menu-left">
+        <text class="iconfont icon-changelog">🕐</text>
+        <text class="menu-label">更新日志</text>
+      </view>
       <text class="arrow">›</text>
     </view>
     <view class="menu-item" bindtap="goAbout">
-      <text>关于我们</text>
+      <view class="menu-left">
+        <text class="iconfont icon-about">ℹ️</text>
+        <text class="menu-label">关于我们</text>
+      </view>
       <text class="arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goTheme" style="border-bottom: none;">
+      <view class="menu-left">
+        <text class="iconfont icon-theme">🎨</text>
+        <text class="menu-label">切换主题</text>
+      </view>
+      <view class="right-content">
+        <view class="theme-dot" style="background: {{themeColor}};"></view>
+        <text class="arrow">›</text>
+      </view>
     </view>
   </view>
 
   <!-- 分享 -->
-  <button class="share-btn" open-type="share">分享给好友</button>
+  <button class="share-btn" open-type="share">
+    <text>分享给好友</text>
+  </button>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>V1.0.0</text>
+  </view>
 </view>

@@ -1,14 +1,29 @@
 <view class="container">
-  <view class="timeline">
-    <view class="item" wx:for="{{list}}" wx:key="id">
-      <view class="version">{{item.version}}</view>
-      <view class="dot"></view>
-      <view class="content">
-        <text class="title">{{item.title}}</text>
-        <text class="type-tag {{item.type === 'feature' ? 'feature' : 'fix'}}">{{item.type === 'feature' ? '新功能' : '修复'}}</text>
-        <text class="text">{{item.content}}</text>
-        <text class="time">{{item.createTime}}</text>
+  <view class="header">
+    <view class="header-title">📋 更新日志</view>
+    <view class="header-subtitle">若冰代码手册 V1.0.0</view>
+  </view>
+
+  <view class="timeline" wx:if="{{list.length > 0}}">
+    <view class="timeline-item" wx:for="{{list}}" wx:key="id">
+      <view class="timeline-left">
+        <view class="timeline-dot"></view>
+        <view class="timeline-line"></view>
+      </view>
+      <view class="timeline-right">
+        <view class="version-card">
+          <view class="version-header">
+            <text class="version-tag">V{{item.version}}</text>
+            <text class="version-date">{{item.createTime}}</text>
+          </view>
+          <view class="version-title">{{item.title}}</view>
+          <view class="version-content">{{item.content}}</view>
+        </view>
       </view>
     </view>
+  </view>
+
+  <view class="empty" wx:if="{{loaded && list.length === 0}}">
+    <text>暂无更新日志</text>
   </view>
 </view>

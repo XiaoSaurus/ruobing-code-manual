@@ -1,3 +1,6 @@
+/* 首页样式 */
+page { background: #f5f5f5; }
+
 .search-bar {
   padding: 20rpx 30rpx;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -8,21 +11,65 @@
   padding: 20rpx 30rpx;
   font-size: 28rpx;
 }
-.section {
-  padding: 30rpx;
-}
+
+.section { padding: 30rpx; }
 .section-header {
   margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
 }
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
   color: #333;
-}
-.card-list {
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
+/* CSS 图标替代 emoji */
+.icon-hot {
+  display: inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  background: #ff6b6b;
+  border-radius: 8rpx;
+  margin-right: 12rpx;
+  position: relative;
+}
+.icon-hot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-left: 8rpx solid transparent;
+  border-right: 8rpx solid transparent;
+  border-bottom: 14rpx solid #fff;
+}
+.icon-new {
+  display: inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  background: #ffd700;
+  border-radius: 8rpx;
+  margin-right: 12rpx;
+  position: relative;
+  overflow: hidden;
+}
+.icon-new::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14rpx;
+  height: 14rpx;
+  background: #fff;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.card-list { display: flex; flex-direction: column; }
 .card {
   background: #fff;
   border-radius: 16rpx;
@@ -30,13 +77,8 @@
   overflow: hidden;
   box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
 }
-.cover {
-  width: 100%;
-  height: 300rpx;
-}
-.card-content {
-  padding: 20rpx;
-}
+.cover { width: 100%; height: 300rpx; }
+.card-content { padding: 20rpx; }
 .card-title {
   font-size: 30rpx;
   font-weight: bold;
@@ -53,11 +95,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 10rpx;
-}
+.card-tags { display: flex; flex-wrap: wrap; margin-bottom: 10rpx; }
 .tag {
   padding: 4rpx 16rpx;
   background: #ecf5ff;
@@ -67,9 +105,4 @@
   margin-right: 10rpx;
   margin-bottom: 8rpx;
 }
-.card-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24rpx;
-  color: #999;
-}
+.card-meta { display: flex; justify-content: space-between; font-size: 24rpx; color: #999; }

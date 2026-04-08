@@ -1,7 +1,17 @@
 const { request } = require('../../utils/request.js')
+
 Page({
-  data: { about: null },
+  data: {
+    about: null
+  },
+
   onLoad() {
-    request('/about').then(res => this.setData({ about: res.data }))
+    wx.showLoading({ title: '加载中...' })
+    request('/about').then(res => {
+      wx.hideLoading()
+      this.setData({ about: res.data })
+    }).catch(() => {
+      wx.hideLoading()
+    })
   }
 })

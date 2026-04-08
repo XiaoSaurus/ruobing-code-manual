@@ -14,11 +14,15 @@
     "pages/web-design/detail",
     "pages/graduation/list",
     "pages/graduation/detail",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/mine/feedback",
+    "pages/mine/changelog",
+    "pages/mine/about",
+    "pages/mine/theme"
   ],
   "tabBar": {
     "color": "#999999",
-    "selectedColor": "#409eff",
+    "selectedColor": "#409EFF",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [

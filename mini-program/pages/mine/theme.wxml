@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="tip">选择你喜欢的主题颜色</view>
+
+  <view class="theme-list">
+    <view
+      class="theme-item {{currentTheme.id === item.id ? 'active' : ''}}"
+      wx:for="{{themes}}"
+      wx:key="id"
+      bindtap="selectTheme"
+      data-theme="{{item}}"
+    >
+      <view class="color-circle" style="background: linear-gradient(135deg, {{item.color}}, {{item.selectedColor}});">
+        <text wx:if="{{currentTheme.id === item.id}}" class="check">✓</text>
+      </view>
+      <text class="theme-name">{{item.name}}</text>
+      <text class="theme-hex">{{item.color}}</text>
+    </view>
+  </view>
+
+  <view class="preview">
+    <view class="preview-title">效果预览</view>
+    <view class="preview-card" style="background: linear-gradient(135deg, {{currentTheme.color}}, {{currentTheme.selectedColor}});">
+      <view class="preview-row">
+        <text class="preview-icon">🔥</text>
+        <text class="preview-text">热门推荐</text>
+      </view>
+      <view class="preview-tag" style="background: rgba(255,255,255,0.3); color: #fff;">网页设计</view>
+    </view>
+  </view>
+</view>
