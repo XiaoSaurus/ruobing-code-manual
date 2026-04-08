@@ -33,3 +33,14 @@ export const aboutApi = {
   get: () => request.get('/about'),
   update: (data) => request.put('/about', data)
 }
+
+export const sysUserApi = {
+  getList: (params) => request.get('/sys-user/list', { params }),
+  getAll: () => request.get('/sys-user/all'),
+  getById: (id) => request.get(`/sys-user/${id}`),
+  save: (data) => request.post('/sys-user', data),
+  update: (id, data) => request.put(`/sys-user/${id}`, data),
+  delete: (id) => request.delete(`/sys-user/${id}`),
+  updateStatus: (id, status) => request.put(`/sys-user/${id}/status?status=${status}`),
+  getStats: () => request.get('/sys-user/stats')
+}

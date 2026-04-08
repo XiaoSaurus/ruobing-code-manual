@@ -18,6 +18,7 @@ const routes = [
       { path: 'graduation/edit/:id?', name: 'GraduationEdit', component: () => import('@/views/GraduationEdit.vue') },
       { path: 'feedback', name: 'Feedback', component: () => import('@/views/Feedback.vue') },
       { path: 'changelog', name: 'Changelog', component: () => import('@/views/Changelog.vue') },
+      { path: 'sys-user', name: 'SysUser', component: () => import('@/views/SysUser.vue') },
       { path: 'about', name: 'About', component: () => import('@/views/About.vue') }
     ]
   }

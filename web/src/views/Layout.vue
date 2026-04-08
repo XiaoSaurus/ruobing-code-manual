@@ -8,6 +8,7 @@
         <el-menu-item index="/graduation"><el-icon><School /></el-icon>毕业设计</el-menu-item>
         <el-menu-item index="/feedback"><el-icon><ChatDotRound /></el-icon>用户反馈</el-menu-item>
         <el-menu-item index="/changelog"><el-icon><List /></el-icon>更新日志</el-menu-item>
+        <el-menu-item index="/sys-user"><el-icon><UserFilled /></el-icon>用户管理</el-menu-item>
         <el-menu-item index="/about"><el-icon><InfoFilled /></el-icon>关于我们</el-menu-item>
       </el-menu>
     </el-aside>
@@ -21,7 +22,7 @@
 </template>
 
 <script setup>
-import { HomeFilled, Document, School, ChatDotRound, List, InfoFilled } from '@element-plus/icons-vue'
+import { HomeFilled, Document, School, ChatDotRound, List, InfoFilled, UserFilled } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
