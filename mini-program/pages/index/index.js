@@ -22,22 +22,32 @@ Page({
       request('/graduation/hot'),
       request('/graduation/latest')
     ]).then(([webHot, webLatest, gpHot, gpLatest]) => {
-      const merge = (list, type) => (list.data || []).map(item => ({
+      // 统一处理：可能是数组也可能是分页对象 {records, total}
+      const normalize = (res) => {
+        if (!res || res.code !== 200) return []
+        const data = res.data || []
+        // 如果是分页对象（有 records 字段），取 records
+        if (Array.isArray(data)) return data
+        if (data.records) return data.records
+        return []
+      }
+      const merge = (list, type) => normalize(list).map(item => ({
         ...item,
         _type: type,
         tagsArray: item.tags ? item.tags.split(',').filter(t => t.trim()) : []
       }))
-      const hotWeb = merge(webHot.data || [], 'web')
-      const hotGp = merge(gpHot.data || [], 'gp')
-      const newWeb = merge(webLatest.data || [], 'web')
-      const newGp = merge(gpLatest.data || [], 'gp')
+      const hotWeb = merge(webHot, 'web')
+      const hotGp = merge(gpHot, 'gp')
+      const newWeb = merge(webLatest, 'web')
+      const newGp = merge(gpLatest, 'gp')
       this.setData({
         hotList: [...hotWeb, ...hotGp].slice(0, 6),
         latestList: [...newWeb, ...newGp].slice(0, 6)
       })
       wx.hideLoading()
-    }).catch(() => {
+    }).catch(err => {
       wx.hideLoading()
+      console.error('loadData error:', err)
       wx.showToast({ title: '加载失败，请检查网络', icon: 'none' })
     })
   },
