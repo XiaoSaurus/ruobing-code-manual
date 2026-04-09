@@ -3,7 +3,8 @@
   <view class="search-bar">
     <view class="search-inner">
       <image class="search-icon-img" src="/static/icons/icon-search.png" mode="aspectFit" />
-      <input class="search-input" placeholder="搜索代码资源..." confirm-type="search" bindconfirm="onSearch" />
+      <input class="search-input" placeholder="搜索代码资源..." confirm-type="search" bindinput="onInput" value="{{keyword}}" />
+      <view class="search-btn" bindtap="doSearch">搜索</view>
     </view>
   </view>
 
@@ -18,15 +19,10 @@
         <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
-          <text class="card-desc">{{item.description}}</text>
-          <view class="card-tags">
-            <text class="tag" wx:for="{{item.tagsArray}}" wx:key="index">{{item}}</text>
-          </view>
           <view class="card-footer">
             <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
             <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
             <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
-            <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
       </view>
@@ -44,12 +40,10 @@
         <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
-          <text class="card-desc">{{item.description}}</text>
           <view class="card-footer">
             <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
             <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
             <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
-            <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
       </view>
