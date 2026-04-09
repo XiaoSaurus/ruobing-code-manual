@@ -23,18 +23,9 @@
             <text class="tag" wx:for="{{item.tagsArray}}" wx:key="index">{{item}}</text>
           </view>
           <view class="card-footer">
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-eye.png" mode="aspectFit" />
-              <text>{{item.views || 0}}</text>
-            </view>
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-heart.png" mode="aspectFit" />
-              <text>{{item.likes || 0}}</text>
-            </view>
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-star.png" mode="aspectFit" />
-              <text>{{item.favorites || 0}}</text>
-            </view>
+            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
             <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
@@ -55,18 +46,9 @@
           <text class="card-title">{{item.title}}</text>
           <text class="card-desc">{{item.description}}</text>
           <view class="card-footer">
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-eye.png" mode="aspectFit" />
-              <text>{{item.views || 0}}</text>
-            </view>
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-heart.png" mode="aspectFit" />
-              <text>{{item.likes || 0}}</text>
-            </view>
-            <view class="meta-item">
-              <image class="meta-icon-img" src="/static/icons/icon-star.png" mode="aspectFit" />
-              <text>{{item.favorites || 0}}</text>
-            </view>
+            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
             <text class="card-type">{{item._type === 'web' ? '网页' : '毕设'}}</text>
           </view>
         </view>
