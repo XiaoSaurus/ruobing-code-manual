@@ -1,48 +1,24 @@
 <view class="container">
-  <!-- 搜索栏 -->
-  <view class="search-bar">
-    <view class="search-inner">
-      <image class="search-icon-img" src="/static/icons/icon-search.png" mode="aspectFit" />
-      <input class="search-input" placeholder="搜索代码资源..." confirm-type="search" bindinput="onInput" bindconfirm="onSearch" value="{{keyword}}" />
-      <view class="search-btn" bindtap="doSearch">
-        <image class="search-btn-icon" src="/static/icons/icon-search.png" mode="aspectFit" />
-        <text class="search-btn-text">搜索</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 搜索结果 -->
-  <view class="section" wx:if="{{isSearching}}">
-    <view class="search-result-header">
-      <view class="search-result-left">
-        <text class="search-result-title">搜索结果</text>
-        <view class="search-result-badge">{{searchResult.length}}</view>
-      </view>
-      <view class="search-clear-btn" bindtap="clearSearch">
-        <text class="search-clear-icon">✕</text>
-        <text class="search-clear-text">清除搜索</text>
-      </view>
-    </view>
-    <view class="card-list" wx:if="{{searchResult.length > 0}}">
-      <view class="card" wx:for="{{searchResult}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
-        <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
-        <view class="card-content">
-          <text class="card-title">{{item.title}}</text>
-          <view class="card-footer">
-            <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
-            <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
-            <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="empty-tip" wx:else>
-      <text>未找到相关资源</text>
-    </view>
+  <!-- 轮播图 -->
+  <view class="banner-wrap">
+    <swiper class="banner-swiper" indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" autoplay circular interval="4000" duration="600">
+      <swiper-item>
+        <image class="banner-img" src="/static/banners/banner-design.png" mode="aspectFill" />
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-img" src="/static/banners/banner-graduation.png" mode="aspectFill" />
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-img" src="/static/banners/banner-theme.png" mode="aspectFill" />
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-img" src="/static/banners/banner-update.png" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
   </view>
 
   <!-- 热门推荐 -->
-  <view class="section" wx:if="{{!isSearching}}">
+  <view class="section">
     <view class="section-header">
       <image class="section-icon" src="/static/section_icons/section-hot.png" mode="aspectFit" />
       <text class="section-title">热门推荐</text>
@@ -63,7 +39,7 @@
   </view>
 
   <!-- 最新更新 -->
-  <view class="section" wx:if="{{!isSearching}}">
+  <view class="section">
     <view class="section-header">
       <image class="section-icon" src="/static/section_icons/section-new.png" mode="aspectFit" />
       <text class="section-title">最新更新</text>
