@@ -1,10 +1,9 @@
 <view class="container">
   <!-- 搜索栏 -->
   <view class="search-bar">
-    <view class="search-inner">
-      <image class="search-icon-img" src="/static/icons/icon-search.png" mode="aspectFit" />
-      <input class="search-input" placeholder="搜索代码资源..." confirm-type="search" bindinput="onInput" value="{{keyword}}" />
-      <view class="search-btn" bindtap="doSearch">搜索</view>
+    <view class="search-box" bindtap="focusSearch">
+      <image class="search-icon" src="/static/icons/icon-search.png" mode="aspectFit" />
+      <input class="search-input" placeholder="搜索代码资源" confirm-type="search" bindinput="onInput" bindconfirm="doSearch" value="{{keyword}}" />
     </view>
   </view>
 

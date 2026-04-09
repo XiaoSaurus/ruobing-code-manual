@@ -1,38 +1,30 @@
 /* 首页样式 */
-page { background: #f0f2f5; }
+page { background: #f5f6fa; }
 
 .container { padding-bottom: 40rpx; }
 
-/* 搜索栏 */
+/* 搜索栏 - 简洁风格 */
 .search-bar {
-  padding: 20rpx 30rpx 16rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20rpx 30rpx;
+  background: #fff;
 }
-.search-inner {
+.search-box {
   display: flex;
   align-items: center;
-  background: #fff;
-  border-radius: 50rpx;
-  padding: 12rpx 12rpx 12rpx 28rpx;
+  background: #f0f2f5;
+  border-radius: 32rpx;
+  padding: 16rpx 24rpx;
 }
-.search-icon-img {
-  width: 36rpx;
-  height: 36rpx;
+.search-icon {
+  width: 32rpx;
+  height: 32rpx;
   margin-right: 12rpx;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .search-input {
   flex: 1;
   font-size: 28rpx;
   color: #333;
-}
-.search-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  font-size: 26rpx;
-  padding: 12rpx 28rpx;
-  border-radius: 40rpx;
-  margin-left: 12rpx;
 }
 
 /* Section 通用 */
@@ -40,18 +32,17 @@ page { background: #f0f2f5; }
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   margin-bottom: 20rpx;
 }
 .section-title {
   font-size: 32rpx;
-  font-weight: bold;
+  font-weight: 600;
   color: #1a1a1a;
-  margin-left: 10rpx;
+  margin-left: 12rpx;
 }
 .section-icon {
-  width: 48rpx;
-  height: 48rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 
 /* 卡片列表 */
@@ -61,11 +52,11 @@ page { background: #f0f2f5; }
   background: #fff;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 .cover {
   width: 100%;
-  height: 320rpx;
+  height: 300rpx;
   display: block;
 }
 .card-content {
@@ -73,7 +64,7 @@ page { background: #f0f2f5; }
 }
 .card-title {
   font-size: 30rpx;
-  font-weight: bold;
+  font-weight: 500;
   color: #1a1a1a;
   display: block;
   margin-bottom: 16rpx;

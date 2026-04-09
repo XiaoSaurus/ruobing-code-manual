@@ -64,6 +64,10 @@ Page({
     }
   },
 
+  focusSearch() {
+    // 点击搜索框区域，让input自动聚焦
+  },
+
   onSearch(e) {
     const keyword = (e.detail.value || '').trim()
     if (keyword) {
