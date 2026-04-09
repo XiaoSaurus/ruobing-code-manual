@@ -3,23 +3,24 @@ page { background: #f0f2f5; }
 
 .container { padding-bottom: 40rpx; }
 
-/* 搜索栏 */
+/* 搜索栏 - 简洁风格 */
 .search-bar {
-  padding: 20rpx 30rpx 16rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 .search-inner {
   display: flex;
   align-items: center;
-  background: #fff;
-  border-radius: 50rpx;
-  padding: 12rpx 12rpx 12rpx 28rpx;
+  background: #f5f6fa;
+  border-radius: 32rpx;
+  padding: 14rpx 20rpx;
 }
 .search-icon-img {
-  width: 36rpx;
-  height: 36rpx;
+  width: 32rpx;
+  height: 32rpx;
   margin-right: 12rpx;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .search-input {
   flex: 1;
@@ -30,8 +31,8 @@ page { background: #f0f2f5; }
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   font-size: 26rpx;
-  padding: 12rpx 28rpx;
-  border-radius: 40rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 28rpx;
   margin-left: 12rpx;
 }
 
