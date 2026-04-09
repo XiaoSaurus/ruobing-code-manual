@@ -4,7 +4,9 @@ Page({
   data: {
     hotList: [],
     latestList: [],
-    keyword: ''
+    keyword: '',
+    isSearching: false,
+    searchResult: []
   },
 
   onLoad() {
@@ -12,7 +14,10 @@ Page({
   },
 
   onShow() {
-    this.loadData()
+    // 从搜索结果返回时恢复首页
+    if (this.data.isSearching) {
+      this.setData({ isSearching: false, searchResult: [], keyword: '' })
+    }
   },
 
   loadData() {
@@ -23,11 +28,9 @@ Page({
       request('/graduation/hot'),
       request('/graduation/latest')
     ]).then(([webHot, webLatest, gpHot, gpLatest]) => {
-      // 统一处理：可能是数组也可能是分页对象 {records, total}
       const normalize = (res) => {
         if (!res || res.code !== 200) return []
         const data = res.data || []
-        // 如果是分页对象（有 records 字段），取 records
         if (Array.isArray(data)) return data
         if (data.records) return data.records
         return []
@@ -59,16 +62,54 @@ Page({
 
   doSearch() {
     const keyword = (this.data.keyword || '').trim()
-    if (keyword) {
-      wx.navigateTo({ url: `/pages/web-design/list?keyword=${encodeURIComponent(keyword)}` })
+    if (!keyword) {
+      wx.showToast({ title: '请输入搜索关键词', icon: 'none' })
+      return
     }
+    this._executeSearch(keyword)
   },
 
   onSearch(e) {
     const keyword = (e.detail.value || '').trim()
-    if (keyword) {
-      wx.navigateTo({ url: `/pages/web-design/list?keyword=${encodeURIComponent(keyword)}` })
-    }
+    if (!keyword) return
+    this.setData({ keyword })
+    this._executeSearch(keyword)
+  },
+
+  _executeSearch(keyword) {
+    wx.showLoading({ title: '搜索中...' })
+    // 同时搜索网页设计和毕业设计
+    Promise.all([
+      request('/web-design/list', { data: { keyword, page: 1, pageSize: 20 } }),
+      request('/graduation/list', { data: { keyword, page: 1, pageSize: 20 } })
+    ]).then(([webRes, gpRes]) => {
+      const normalize = (res) => {
+        if (!res || res.code !== 200) return []
+        const data = res.data || []
+        if (Array.isArray(data)) return data
+        if (data.records) return data.records
+        return []
+      }
+      const webResults = normalize(webRes).map(item => ({ ...item, _type: 'web' }))
+      const gpResults = normalize(gpRes).map(item => ({ ...item, _type: 'gp' }))
+      const allResults = [...webResults, ...gpResults]
+      this.setData({
+        isSearching: true,
+        searchResult: allResults
+      })
+      wx.hideLoading()
+      if (allResults.length === 0) {
+        wx.showToast({ title: '未找到相关资源', icon: 'none' })
+      }
+    }).catch(err => {
+      wx.hideLoading()
+      console.error('search error:', err)
+      wx.showToast({ title: '搜索失败', icon: 'none' })
+    })
+  },
+
+  clearSearch() {
+    this.setData({ isSearching: false, searchResult: [], keyword: '' })
   },
 
   goDetail(e) {

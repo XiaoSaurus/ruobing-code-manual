@@ -73,6 +73,25 @@ page { background: #f8f9fa; }
   opacity: 0.9;
 }
 
+/* 搜索结果 */
+.search-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 16rpx;
+}
+.search-clear {
+  font-size: 24rpx;
+  color: var(--theme-color);
+  margin-left: auto;
+  margin-right: 8rpx;
+}
+.empty-tip {
+  text-align: center;
+  padding: 80rpx 0;
+  color: #bbb;
+  font-size: 28rpx;
+}
+
 /* 卡片列表 - 简洁高级 */
 .card-list { display: flex; flex-direction: column; gap: 20rpx; }
 
