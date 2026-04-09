@@ -3,8 +3,7 @@ const { request } = require('../../utils/request.js')
 Page({
   data: {
     hotList: [],
-    latestList: [],
-    keyword: ''
+    latestList: []
   },
 
   onLoad() {
@@ -51,21 +50,6 @@ Page({
       console.error('loadData error:', err)
       wx.showToast({ title: '加载失败，请检查网络', icon: 'none' })
     })
-  },
-
-  onInput(e) {
-    this.setData({ keyword: e.detail.value })
-  },
-
-  doSearch() {
-    const keyword = (this.data.keyword || '').trim()
-    if (keyword) {
-      wx.navigateTo({ url: `/pages/web-design/list?keyword=${encodeURIComponent(keyword)}` })
-    }
-  },
-
-  focusSearch() {
-    // 点击搜索框区域，让input自动聚焦
   },
 
   onSearch(e) {
