@@ -1,14 +1,10 @@
 <view class="container">
-  <!-- 搜索栏 -->
+  <!-- 搜索栏 - Apple风格简洁 -->
   <view class="search-bar">
-    <view class="search-wrap {{focused ? 'focused' : ''}}">
-      <input class="search-input" placeholder="搜索毕业设计项目..."
-        confirm-type="search" value="{{keyword}}"
-        bindinput="onKeywordInput" bindconfirm="onSearch" bindfocus="onFocus" bindblur="onBlur" />
-      <view class="search-btn" bindtap="onSearch">
-        <text class="iconfont">🔍</text>
-      </view>
-    </view>
+    <text class="search-icon">🔍</text>
+    <input class="search-input" placeholder="搜索毕业设计..."
+      confirm-type="search" value="{{keyword}}"
+      bindinput="onKeywordInput" bindconfirm="onSearch" />
   </view>
 
   <!-- 排序切换 -->
