@@ -1,18 +1,12 @@
 <view class="container">
-  <!-- 轮播图 -->
+  <!-- 轮播图（动态） -->
   <view class="banner-wrap">
-    <swiper class="banner-swiper" indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" autoplay circular interval="4000" duration="600">
-      <swiper-item>
-        <image class="banner-img" src="/static/banners/banner-design.png" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item>
-        <image class="banner-img" src="/static/banners/banner-graduation.png" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item>
-        <image class="banner-img" src="/static/banners/banner-theme.png" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item>
-        <image class="banner-img" src="/static/banners/banner-update.png" mode="aspectFill" />
+    <swiper class="banner-swiper"
+      indicator-dots indicator-color="rgba(255,255,255,0.4)"
+      indicator-active-color="#fff"
+      autoplay circular interval="4000" duration="600">
+      <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="goBanner" data-index="{{index}}">
+        <image class="banner-img" src="{{item.imageUrl}}" mode="aspectFill" />
       </swiper-item>
     </swiper>
   </view>

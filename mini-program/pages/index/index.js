@@ -2,6 +2,7 @@ const { request } = require('../../utils/request.js')
 
 Page({
   data: {
+    banners: [],
     hotList: [],
     latestList: []
   },
@@ -13,11 +14,12 @@ Page({
   loadData() {
     wx.showLoading({ title: '加载中...' })
     Promise.all([
+      request('/banner/list'),
       request('/web-design/hot'),
       request('/web-design/latest'),
       request('/graduation/hot'),
       request('/graduation/latest')
-    ]).then(([webHot, webLatest, gpHot, gpLatest]) => {
+    ]).then(([banners, webHot, webLatest, gpHot, gpLatest]) => {
       const normalize = (res) => {
         if (!res || res.code !== 200) return []
         const data = res.data || []
@@ -25,18 +27,21 @@ Page({
         if (data.records) return data.records
         return []
       }
+
+      // 轮播图：直接取数组
+      const bannerList = normalize(banners)
+
+      // 热门/最新：合并网页设计+毕业设计
       const merge = (list, type) => normalize(list).map(item => ({
         ...item,
         _type: type,
         tagsArray: item.tags ? item.tags.split(',').filter(t => t.trim()) : []
       }))
-      const hotWeb = merge(webHot, 'web')
-      const hotGp = merge(gpHot, 'gp')
-      const newWeb = merge(webLatest, 'web')
-      const newGp = merge(gpLatest, 'gp')
+
       this.setData({
-        hotList: [...hotWeb, ...hotGp].slice(0, 6),
-        latestList: [...newWeb, ...newGp].slice(0, 6)
+        banners: bannerList,
+        hotList: [...merge(webHot, 'web'), ...merge(gpHot, 'gp')].slice(0, 6),
+        latestList: [...merge(webLatest, 'web'), ...merge(gpLatest, 'gp')].slice(0, 6)
       })
       wx.hideLoading()
     }).catch(err => {
@@ -51,6 +56,32 @@ Page({
     if (type === 'web' || type === 'gp') {
       const page = type === 'web' ? 'web-design' : 'graduation'
       wx.navigateTo({ url: `/pages/${page}/detail?id=${id}` })
+    }
+  },
+
+  goBanner(e) {
+    const { index } = e.currentTarget.dataset
+    const banner = this.data.banners[index]
+    if (!banner) return
+
+    switch (banner.linkType) {
+      case 2: // 网页设计
+        if (banner.linkId) {
+          wx.navigateTo({ url: `/pages/web-design/detail?id=${banner.linkId}` })
+        }
+        break
+      case 3: // 毕业设计
+        if (banner.linkId) {
+          wx.navigateTo({ url: `/pages/graduation/detail?id=${banner.linkId}` })
+        }
+        break
+      case 4: // 外部链接
+        if (banner.linkUrl) {
+          wx.navigateTo({ url: `/pages/webview/index?url=${encodeURIComponent(banner.linkUrl)}` })
+        }
+        break
+      default:
+        break
     }
   }
 })
