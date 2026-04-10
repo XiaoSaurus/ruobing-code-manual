@@ -2,33 +2,28 @@
   <!-- 搜索栏 - Apple风格简洁 -->
   <view class="search-bar">
     <text class="search-icon">🔍</text>
-    <input class="search-input" placeholder="搜索网页设计资源"
+    <input class="search-input" placeholder="搜索网页设计..."
       confirm-type="search" value="{{keyword}}"
       bindinput="onKeywordInput" bindconfirm="onSearch" />
   </view>
 
-  <!-- 排序切换 + 视图切换 -->
-  <view class="toolbar">
-    <view class="sort-tabs">
-      <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
-        <text>默认</text>
-      </view>
-      <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
-        <text>最热</text>
-      </view>
-      <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
-        <text>最新</text>
-      </view>
+  <!-- 排序切换 -->
+  <view class="sort-tabs">
+    <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
+      <text>默认</text>
     </view>
-    <view class="view-toggle" bindtap="toggleView">
-      <text class="toggle-icon">{{viewMode === 'single' ? '☰' : '▦'}}</text>
+    <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
+      <text>最热</text>
+    </view>
+    <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
+      <text>最新</text>
     </view>
   </view>
 
-  <!-- 列表（内联样式控制单列/双列） -->
-  <view class="card-container {{viewMode}}" style="{{viewMode === 'single' ? 'display:flex;flex-direction:column;' : 'display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;'}}">
-    <view class="card {{viewMode}}" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <image class="cover {{viewMode}}" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+  <!-- 列表 -->
+  <view class="card-list">
+    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">
         <text class="card-title">{{item.title}}</text>
         <view class="card-footer">
