@@ -65,10 +65,10 @@ page { background: #f8f9fa; }
 
 /* ========== 双列瀑布流（组合选择器优先级更高） ========== */
 .card-list.double {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  background: rgba(64, 158, 255, 0.1) !important;
 }
 
 .card {

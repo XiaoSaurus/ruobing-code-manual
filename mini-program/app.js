@@ -12,7 +12,7 @@ const THEMES = [
 
 App({
   globalData: {
-    apiBase: 'http://10.212.91.134:8080/api',
+    apiBase: 'http://localhost:8080/api',
     userInfo: null,
     themes: THEMES,
     currentTheme: null

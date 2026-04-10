@@ -2,7 +2,7 @@
   <!-- 搜索栏 - Apple风格简洁 -->
   <view class="search-bar">
     <text class="search-icon">🔍</text>
-    <input class="search-input" placeholder="搜索网页设计..."
+    <input class="search-input" placeholder="搜索网页设计资源"
       confirm-type="search" value="{{keyword}}"
       bindinput="onKeywordInput" bindconfirm="onSearch" />
   </view>
