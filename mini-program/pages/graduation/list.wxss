@@ -27,8 +27,13 @@ page { background: #f8f9fa; }
 .card-list .meta-item { display: flex; align-items: center; margin-right: 24rpx; }
 .card-list .meta-icon { font-size: 24rpx; margin-right: 6rpx; }
 
-/* 双列列表（完全独立） */
-.card-list-double { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
+/* 双列列表（强制覆盖任何全局样式） */
+.card-list-double {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+}
 .card-list-double .card { background: #fff; border-radius: 20rpx; overflow: hidden; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04); width: 48%; margin-bottom: 16rpx; }
 .card-list-double .cover { width: 100%; height: 200rpx; display: block; }
 .card-list-double .card-content { padding: 12rpx 16rpx; }
