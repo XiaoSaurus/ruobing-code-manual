@@ -63,6 +63,14 @@ page { background: #f8f9fa; }
   flex-direction: column;
 }
 
+/* ========== 双列瀑布流（组合选择器优先级更高） ========== */
+.card-list.double {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .card {
   background: #fff;
   border-radius: 20rpx;
@@ -158,33 +166,28 @@ page { background: #f8f9fa; }
   color: #1d1d1f;
 }
 
-/* ========== 双列瀑布流 ========== */
-.double {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.double .card {
+/* ========== 双列卡片样式 ========== */
+.card-list.double .card {
   width: 48%;
   margin-bottom: 16rpx;
 }
-.double .cover {
+.card-list.double .cover {
   height: 200rpx;
 }
-.double .card-content {
+.card-list.double .card-content {
   padding: 12rpx 16rpx;
 }
-.double .card-title {
+.card-list.double .card-title {
   font-size: 26rpx;
   margin-bottom: 8rpx;
   line-height: 1.4;
 }
-.double .card-footer {
+.card-list.double .card-footer {
   font-size: 20rpx;
 }
-.double .meta-item {
+.card-list.double .meta-item {
   margin-right: 12rpx;
 }
-.double .meta-icon {
+.card-list.double .meta-icon {
   font-size: 20rpx;
 }
