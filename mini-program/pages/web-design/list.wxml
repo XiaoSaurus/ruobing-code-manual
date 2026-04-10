@@ -25,10 +25,10 @@
     </view>
   </view>
 
-  <!-- 列表 -->
-  <view class="{{viewMode === 'single' ? 'list-single' : 'list-double'}}">
-    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+  <!-- 列表（内联样式控制单列/双列） -->
+  <view class="card-container {{viewMode}}" style="{{viewMode === 'single' ? 'display:flex;flex-direction:column;' : 'display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;'}}">
+    <view class="card {{viewMode}}" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="cover {{viewMode}}" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">
         <text class="card-title">{{item.title}}</text>
         <view class="card-footer">
