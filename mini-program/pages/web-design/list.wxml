@@ -19,30 +19,22 @@
     </view>
   </view>
 
-  <!-- 单列列表 -->
-  <view class="card-list" wx:if="{{viewMode === 'single'}}">
-    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+  <!-- 单列 / 双列列表：共用一个容器，通过 class 切换 -->
+  <view class="card-list view-{{viewMode}}">
+    <view
+      class="card card-{{viewMode}}"
+      wx:for="{{list}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
       <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">
         <text class="card-title">{{item.title}}</text>
         <view class="card-footer">
           <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
           <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
-          <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 双列列表 -->
-  <view class="card-list-double" wx:else>
-    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
-      <view class="card-content">
-        <text class="card-title">{{item.title}}</text>
-        <view class="card-footer">
-          <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
-          <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
+          <view class="meta-item" wx:if="{{viewMode === 'single'}}"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
         </view>
       </view>
     </view>
