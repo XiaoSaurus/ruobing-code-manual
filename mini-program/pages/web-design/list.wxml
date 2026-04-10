@@ -1,11 +1,26 @@
 <view class="container">
-  <!-- 搜索筛选 -->
-  <view class="filter-bar">
-    <input class="search-input" placeholder="搜索网页设计..." confirm-type="search" value="{{keyword}}" bindconfirm="onSearch" />
-    <view class="sort-tabs">
-      <text class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">默认</text>
-      <text class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">最热</text>
-      <text class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">最新</text>
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-wrap {{focused ? 'focused' : ''}}">
+      <input class="search-input" placeholder="搜索网页设计资源..."
+        confirm-type="search" value="{{keyword}}"
+        bindinput="onKeywordInput" bindconfirm="onSearch" bindfocus="onFocus" bindblur="onBlur" />
+      <view class="search-btn" bindtap="onSearch">
+        <text class="iconfont">🔍</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 排序切换 -->
+  <view class="sort-tabs">
+    <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
+      <text>默认</text>
+    </view>
+    <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
+      <text>最热</text>
+    </view>
+    <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
+      <text>最新</text>
     </view>
   </view>
 
@@ -32,9 +47,9 @@
 
   <!-- 加载更多 -->
   <view class="load-more" wx:if="{{hasMore}}">
-    <text bindtap="loadMore">加载更多</text>
+    <text bindtap="loadMore">加载更多 ↓</text>
   </view>
   <view class="no-more" wx:else>
-    <text>没有更多了</text>
+    <text>— 没有更多了 —</text>
   </view>
 </view>

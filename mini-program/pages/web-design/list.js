@@ -7,7 +7,8 @@ Page({
     list: [],
     page: 1,
     pageSize: 10,
-    hasMore: true
+    hasMore: true,
+    focused: false
   },
 
   onLoad(options) {
@@ -42,16 +43,22 @@ Page({
     })
   },
 
-  onSearch(e) {
-    const keyword = (e.detail.value || '').trim()
-    this.setData({ keyword })
-    if (keyword) {
-      this.loadData(true)
-    }
-  },
-
   onKeywordInput(e) {
     this.setData({ keyword: e.detail.value })
+  },
+
+  onSearch() {
+    const keyword = this.data.keyword.trim()
+    this.setData({ keyword, focused: false })
+    this.loadData(true)
+  },
+
+  onFocus() {
+    this.setData({ focused: true })
+  },
+
+  onBlur() {
+    this.setData({ focused: false })
   },
 
   onSort(e) {
