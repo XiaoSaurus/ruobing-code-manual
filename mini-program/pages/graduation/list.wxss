@@ -61,7 +61,6 @@ page { background: #f8f9fa; }
 .card-list {
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
 }
 .card {
   background: #fff;
@@ -69,6 +68,7 @@ page { background: #f8f9fa; }
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
   transition: all 0.3s ease;
+  margin-bottom: 20rpx;
 }
 .card:active {
   transform: translateY(2rpx);
@@ -157,7 +157,7 @@ page { background: #f8f9fa; }
 
 /* ========== 双列瀑布流 ========== */
 .double {
-  display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -180,6 +180,12 @@ page { background: #f8f9fa; }
   font-size: 20rpx;
 }
 .double .meta-item {
+  margin-right: 12rpx;
+}
+.double .meta-icon {
+  font-size: 20rpx;
+}
+-item {
   margin-right: 12rpx;
 }
 .double .meta-icon {
