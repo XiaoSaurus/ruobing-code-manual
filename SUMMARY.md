@@ -295,6 +295,11 @@ npm run dev
 
 | Commit | 时间 | 说明 |
 |--------|------|------|
+| `7d72cd2` | 2026-04-10 | docs: 创建项目 SUMMARY.md 总览文档 |
+| `66fafb2` | 2026-04-10 | style: 列表页卡片三段式布局对齐首页，新增30条Mock数据 |
+| `121e716` | 2026-04-10 | style: 列表页搜索栏和卡片UI对齐首页风格 |
+| `cfedeec` | 2026-04-10 | docs: 更新DEV.md，补充Banner表结构和接口文档 |
+| `c5f7fdf` | 2026-04-10 | feat: 轮播图后端接口动态获取（Banner表+CRUD接口） |
 | `793ca1b` | 2026-04-09 | 创建 DEV.md 开发手册 |
 | `052762b` | 2026-04-09 | 清理 backend/target/ 从 git 跟踪移除 |
 | `1461e92` | 2026-04-09 | feat: 轮播图替代首页搜索功能 |
@@ -305,6 +310,12 @@ npm run dev
 | `95f9ba3` | 2026-04-08 | feat: 小程序 TabBar 和主题系统 |
 | `93214f1` | 2026-04-08 | feat: 首页 echarts 可视化大屏 |
 | `...` | 更早 | 初始项目搭建 |
+
+> ⚠️ **GitHub 推送状态**：HTTPS 443 端口被封，SSH 22 端口正常。
+> 已生成 SSH key（`id_ed25519_github`），公钥需手动添加到 GitHub：
+> - 打开 https://github.com/settings/keys → New SSH key
+> - 粘贴：`ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYllXtJmssQkRBxpc+/tiHe2uumKMlLxZ1l0aOwyH2U XiaoSaurus@aliyun.com`
+> - 添加后运行 `git-push-ssh.ps1` 即可推送
 
 ---
 
