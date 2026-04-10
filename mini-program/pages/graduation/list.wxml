@@ -1,49 +1,47 @@
 <view class="container">
-  <!-- 搜索栏 -->
-  <view class="search-bar">
-    <view class="search-wrap {{focused ? 'focused' : ''}}">
-      <input class="search-input" placeholder="搜索毕业设计项目..."
+  <!-- 搜索栏 - Apple风格 -->
+  <view class="search-section">
+    <view class="search-bar">
+      <text class="search-icon">􀊫</text>
+      <input class="search-input" placeholder="搜索毕业设计..."
         confirm-type="search" value="{{keyword}}"
-        bindinput="onKeywordInput" bindconfirm="onSearch" bindfocus="onFocus" bindblur="onBlur" />
-      <view class="search-btn" bindtap="onSearch">
-        <text class="iconfont">🔍</text>
-      </view>
+        bindinput="onKeywordInput" bindconfirm="onSearch" />
     </view>
   </view>
 
-  <!-- 排序切换 -->
-  <view class="sort-tabs">
-    <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
+  <!-- 排序 - Apple风格 -->
+  <view class="filter-bar">
+    <view class="filter-item {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
       <text>默认</text>
     </view>
-    <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
+    <view class="filter-divider"></view>
+    <view class="filter-item {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
       <text>最热</text>
     </view>
-    <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
+    <view class="filter-divider"></view>
+    <view class="filter-item {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
       <text>最新</text>
     </view>
   </view>
 
-  <!-- 列表 -->
+  <!-- 卡片列表 -->
   <view class="card-list">
     <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
       <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
-      <view class="card-content">
-        <text class="card-title">{{item.title}}</text>
-        <view class="card-footer">
-          <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
-          <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
-          <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
+      <view class="card-body">
+        <text class="title">{{item.title}}</text>
+        <view class="stats">
+          <text class="stat">{{item.views || 0}} 浏览</text>
+          <text class="stat">{{item.likes || 0}} 喜欢</text>
+          <text class="stat">{{item.favorites || 0}} 收藏</text>
         </view>
       </view>
     </view>
   </view>
 
-  <!-- 加载更多 -->
-  <view class="load-more" wx:if="{{hasMore}}">
-    <text bindtap="loadMore">加载更多 ↓</text>
-  </view>
-  <view class="no-more" wx:else>
-    <text>— 没有更多了 —</text>
+  <!-- 加载状态 -->
+  <view class="load-status">
+    <text wx:if="{{hasMore}}" bindtap="loadMore">查看更多</text>
+    <text wx:else>已显示全部内容</text>
   </view>
 </view>
