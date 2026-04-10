@@ -98,16 +98,36 @@ page { background: #f8f9fa; }
   margin-right: 6rpx;
 }
 
-/* ========== 加载更多 ========== */
-.load-more {
+/* ========== 底部加载状态 ========== */
+.bottom-status {
+  padding: 40rpx 0;
   text-align: center;
-  padding: 36rpx;
-  color: var(--theme-color, #409eff);
-  font-size: 26rpx;
 }
-.no-more {
-  text-align: center;
-  padding: 24rpx;
-  color: #ccc;
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading-dot {
+  width: 8rpx;
+  height: 8rpx;
+  background: #86868b;
+  border-radius: 50%;
+  margin: 0 6rpx;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.loading-text {
   font-size: 24rpx;
+  color: #86868b;
+  margin-left: 12rpx;
+}
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+.no-more-text {
+  font-size: 24rpx;
+  color: #ccc;
 }

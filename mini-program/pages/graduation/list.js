@@ -48,17 +48,7 @@ Page({
   },
 
   onSearch() {
-    const keyword = this.data.keyword.trim()
-    this.setData({ keyword, focused: false })
     this.loadData(true)
-  },
-
-  onFocus() {
-    this.setData({ focused: true })
-  },
-
-  onBlur() {
-    this.setData({ focused: false })
   },
 
   onSort(e) {
@@ -68,8 +58,8 @@ Page({
     this.loadData(true)
   },
 
-  loadMore() {
-    if (!this.data.hasMore) return
+  onReachBottom() {
+    if (!this.data.hasMore || this.data.loading) return
     this.setData({ page: this.data.page + 1 })
     this.loadData()
   },

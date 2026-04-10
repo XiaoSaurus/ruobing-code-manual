@@ -35,11 +35,14 @@
     </view>
   </view>
 
-  <!-- 加载更多 -->
-  <view class="load-more" wx:if="{{hasMore}}">
-    <text bindtap="loadMore">加载更多 ↓</text>
-  </view>
-  <view class="no-more" wx:else>
-    <text>— 没有更多了 —</text>
+  <!-- 底部状态 -->
+  <view class="bottom-status" wx:if="{{loading || !hasMore}}">
+    <view class="loading-indicator" wx:if="{{loading}}">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <text class="loading-text">正在加载...</text>
+    </view>
+    <text class="no-more-text" wx:elif="{{!hasMore && list.length > 0}}">— 没有更多了 —</text>
   </view>
 </view>
