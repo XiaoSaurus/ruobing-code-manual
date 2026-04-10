@@ -8,7 +8,8 @@ Page({
     page: 1,
     pageSize: 10,
     hasMore: true,
-    focused: false
+    loading: false,
+    viewMode: 'single'
   },
 
   onLoad(options) {
@@ -23,7 +24,7 @@ Page({
       this.setData({ page: 1, list: [], hasMore: true })
     }
     const { keyword, sortBy, page, pageSize } = this.data
-    wx.showLoading({ title: '加载中...', mask: true })
+    this.setData({ loading: true })
     request('/graduation/list', {
       data: { keyword, sortBy, page, pageSize }
     }).then(res => {
@@ -34,11 +35,11 @@ Page({
       const newList = reset ? records : [...this.data.list, ...records]
       this.setData({
         list: newList,
-        hasMore: newList.length < (res.data.total || 0)
+        hasMore: newList.length < (res.data.total || 0),
+        loading: false
       })
-      wx.hideLoading()
     }).catch(() => {
-      wx.hideLoading()
+      this.setData({ loading: false })
       wx.showToast({ title: '加载失败', icon: 'none' })
     })
   },
@@ -62,6 +63,11 @@ Page({
     if (!this.data.hasMore || this.data.loading) return
     this.setData({ page: this.data.page + 1 })
     this.loadData()
+  },
+
+  toggleView() {
+    const newMode = this.data.viewMode === 'single' ? 'double' : 'single'
+    this.setData({ viewMode: newMode })
   },
 
   goDetail(e) {

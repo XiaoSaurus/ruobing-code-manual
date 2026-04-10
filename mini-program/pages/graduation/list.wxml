@@ -7,21 +7,26 @@
       bindinput="onKeywordInput" bindconfirm="onSearch" />
   </view>
 
-  <!-- 排序切换 -->
-  <view class="sort-tabs">
-    <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
-      <text>默认</text>
+  <!-- 排序切换 + 视图切换 -->
+  <view class="toolbar">
+    <view class="sort-tabs">
+      <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
+        <text>默认</text>
+      </view>
+      <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
+        <text>最热</text>
+      </view>
+      <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
+        <text>最新</text>
+      </view>
     </view>
-    <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
-      <text>最热</text>
-    </view>
-    <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
-      <text>最新</text>
+    <view class="view-toggle" bindtap="toggleView">
+      <text class="toggle-icon">{{viewMode === 'single' ? '☰' : '▦'}}</text>
     </view>
   </view>
 
   <!-- 列表 -->
-  <view class="card-list">
+  <view class="card-list {{viewMode}}">
     <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
       <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">

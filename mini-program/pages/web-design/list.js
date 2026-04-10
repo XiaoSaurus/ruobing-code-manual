@@ -8,7 +8,8 @@ Page({
     page: 1,
     pageSize: 10,
     hasMore: true,
-    loading: false
+    loading: false,
+    viewMode: 'single'  // 'single' 或 'double'
   },
 
   onLoad(options) {
@@ -62,6 +63,11 @@ Page({
     if (!this.data.hasMore || this.data.loading) return
     this.setData({ page: this.data.page + 1 })
     this.loadData()
+  },
+
+  toggleView() {
+    const newMode = this.data.viewMode === 'single' ? 'double' : 'single'
+    this.setData({ viewMode: newMode })
   },
 
   goDetail(e) {
