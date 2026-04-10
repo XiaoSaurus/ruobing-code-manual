@@ -26,7 +26,7 @@
   </view>
 
   <!-- 列表 -->
-  <view class="card-list {{viewMode}}">
+  <view class="{{viewMode === 'single' ? 'list-single' : 'list-double'}}">
     <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
       <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">
