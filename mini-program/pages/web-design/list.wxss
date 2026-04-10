@@ -17,24 +17,10 @@ page { background: #f8f9fa; }
 .toggle-icon { font-size: 32rpx; color: #1d1d1f; }
 
 /* ========== 单列视图 ========== */
-.card-list.view-single {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 20rpx;
-  /* 🔵 调试边框 */
-  border: 4rpx solid blue !important;
-  box-sizing: border-box;
-}
+.card-list.view-single { display: flex; flex-direction: column; gap: 20rpx; }
 .card-list.view-single .card-single {
-  background: #fff;
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
-  transition: all 0.3s ease;
-  width: 100% !important;
-  /* 🔴 调试边框 */
-  border: 4rpx solid red !important;
-  box-sizing: border-box;
+  background: #fff; border-radius: 20rpx; overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04); transition: all 0.3s ease; width: 100%;
 }
 .card-list.view-single .card-single:active { transform: translateY(2rpx); }
 .card-list.view-single .cover { width: 100%; height: 320rpx; display: block; }
@@ -45,26 +31,10 @@ page { background: #f8f9fa; }
 .card-list.view-single .meta-icon { font-size: 24rpx; margin-right: 6rpx; }
 
 /* ========== 双列视图 ========== */
-.card-list.view-double {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  justify-content: space-between !important;
-  gap: 0;
-  /* 🔵 调试边框 - 蓝色，看容器是否生效 */
-  border: 4rpx solid blue !important;
-  box-sizing: border-box;
-}
+.card-list.view-double { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
 .card-list.view-double .card-double {
-  background: #fff;
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
-  width: 48% !important;
-  margin-bottom: 16rpx;
-  /* 🔴 调试边框 - 红色，看卡片是否生效 */
-  border: 4rpx solid red !important;
-  box-sizing: border-box;
+  background: #fff; border-radius: 20rpx; overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04); width: 48%; margin-bottom: 16rpx;
 }
 .card-list.view-double .card-double .cover { width: 100%; height: 200rpx; display: block; }
 .card-list.view-double .card-double .card-content { padding: 12rpx 16rpx; }
