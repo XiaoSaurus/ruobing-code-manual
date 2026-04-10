@@ -143,8 +143,8 @@ page { background: #f8f9fa; }
 
 /* ========== 视图切换按钮 ========== */
 .view-toggle {
-  width: 56rpx;
-  height: 56rpx;
+  width: 72rpx;
+  height: 72rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,7 +154,7 @@ page { background: #f8f9fa; }
   box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.04);
 }
 .toggle-icon {
-  font-size: 28rpx;
+  font-size: 32rpx;
   color: #1d1d1f;
 }
 
@@ -162,10 +162,11 @@ page { background: #f8f9fa; }
 .card-list.double {
   display: flex;
   flex-wrap: wrap;
-  gap: 16rpx;
+  justify-content: space-between;
 }
 .card-list.double .card {
-  width: calc(50% - 8rpx);
+  width: 48%;
+  margin-bottom: 16rpx;
 }
 .card-list.double .cover {
   height: 200rpx;
