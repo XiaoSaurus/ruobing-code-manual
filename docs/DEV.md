@@ -138,6 +138,21 @@ ruobing-code-manual/
 - `changelog` - 更新日志
 - `feedback` - 用户反馈
 
+#### `banner` 首页轮播图
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | BIGINT PK | 主键 |
+| title | VARCHAR(200) | 标题 |
+| subtitle | VARCHAR(500) | 副标题/描述 |
+| image_url | VARCHAR(500) | 图片URL（小程序静态路径或外链） |
+| link_type | TINYINT | 1无链接 2网页设计 3毕业设计 4外部链接 |
+| link_id | BIGINT | 关联资源ID |
+| link_url | VARCHAR(500) | 外部链接URL |
+| sort_order | INT | 排序顺序（越小越靠前） |
+| status | TINYINT | 0禁用 1启用 |
+| create_time | DATETIME | 创建时间 |
+
 ---
 
 ## 🌐 API 接口
@@ -160,6 +175,11 @@ ruobing-code-manual/
 | GET | `/about` | 关于我们 | 单条 |
 | GET | `/changelog` | 更新日志列表 | 数组 |
 | GET | `/user/login` | 用户登录（GET） | `{token, user}` |
+| GET | `/banner/list` | 获取轮播图列表（仅启用） | 数组，按 sort_order 升序 |
+| GET | `/banner/all` | 获取所有轮播图（含禁用） | 数组（管理接口） |
+| POST | `/banner/add` | 添加轮播图 | 管理接口 |
+| POST | `/banner/update` | 更新轮播图 | 管理接口 |
+| POST | `/banner/delete/{id}` | 删除轮播图 | 管理接口 |
 
 ### 管理接口（需登录）
 
