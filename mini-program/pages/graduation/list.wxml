@@ -1,5 +1,5 @@
 <view class="container">
-  <!-- 搜索栏 - Apple风格简洁 -->
+  <!-- 搜索栏 -->
   <view class="search-bar">
     <text class="search-icon">🔍</text>
     <input class="search-input" placeholder="搜索毕业设计..."
@@ -7,21 +7,20 @@
       bindinput="onKeywordInput" bindconfirm="onSearch" />
   </view>
 
-  <!-- 排序切换 -->
-  <view class="sort-tabs">
-    <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order">
-      <text>默认</text>
+  <!-- 工具栏：排序 + 视图切换 -->
+  <view class="toolbar">
+    <view class="sort-tabs">
+      <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order"><text>默认</text></view>
+      <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views"><text>最热</text></view>
+      <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest"><text>最新</text></view>
     </view>
-    <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views">
-      <text>最热</text>
-    </view>
-    <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest">
-      <text>最新</text>
+    <view class="view-toggle" bindtap="toggleView">
+      <text class="toggle-icon">{{viewMode === 'single' ? '☰' : '▦'}}</text>
     </view>
   </view>
 
-  <!-- 列表 -->
-  <view class="card-list">
+  <!-- 单列列表 -->
+  <view class="card-list" wx:if="{{viewMode === 'single'}}">
     <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
       <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
       <view class="card-content">
@@ -30,6 +29,20 @@
           <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
           <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
           <view class="meta-item"><text class="meta-icon">⭐</text><text>{{item.favorites || 0}}</text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 双列列表 -->
+  <view class="card-list-double" wx:else>
+    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+      <view class="card-content">
+        <text class="card-title">{{item.title}}</text>
+        <view class="card-footer">
+          <view class="meta-item"><text class="meta-icon">👁</text><text>{{item.views || 0}}</text></view>
+          <view class="meta-item"><text class="meta-icon">❤️</text><text>{{item.likes || 0}}</text></view>
         </view>
       </view>
     </view>

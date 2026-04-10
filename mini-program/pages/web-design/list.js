@@ -4,6 +4,7 @@ Page({
   data: {
     keyword: '',
     sortBy: 'sort_order',
+    viewMode: 'single',  // 'single' | 'double'
     list: [],
     page: 1,
     pageSize: 10,
@@ -40,6 +41,12 @@ Page({
     }).catch(() => {
       this.setData({ loading: false })
       wx.showToast({ title: '加载失败', icon: 'none' })
+    })
+  },
+
+  toggleView() {
+    this.setData({
+      viewMode: this.data.viewMode === 'single' ? 'double' : 'single'
     })
   },
 
