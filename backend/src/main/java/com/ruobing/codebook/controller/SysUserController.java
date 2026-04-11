@@ -1,4 +1,4 @@
-﻿package com.ruobing.codebook.controller;
+package com.ruobing.codebook.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruobing.codebook.common.Result;

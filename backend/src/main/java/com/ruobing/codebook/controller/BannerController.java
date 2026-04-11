@@ -1,4 +1,4 @@
-﻿package com.ruobing.codebook.controller;
+package com.ruobing.codebook.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruobing.codebook.common.Result;
