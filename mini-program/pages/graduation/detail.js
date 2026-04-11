@@ -16,5 +16,14 @@ Page({
         })
       })
     }
+  },
+
+  // 打开公众号文章
+  openArticle() {
+    if (this.data.articleUrl) {
+      wx.navigateTo({
+        url: `/pages/web-view/web-view?url=${encodeURIComponent(this.data.articleUrl)}`
+      })
+    }
   }
 })

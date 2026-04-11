@@ -1,6 +1,17 @@
 <view class="container">
-  <!-- 有 articleUrl → 直接展示公众号文章 -->
-  <web-view wx:if="{{articleUrl}}" src="{{articleUrl}}"></web-view>
+  <!-- 有 articleUrl → 显示文章预览卡片 + 按钮 -->
+  <view class="article-card" wx:if="{{articleUrl && detail}}">
+    <image class="card-cover" src="{{detail.coverImage}}" mode="aspectFill" />
+    <view class="card-body">
+      <text class="card-title">{{detail.title}}</text>
+      <text class="card-summary">{{detail.description}}</text>
+      <view class="card-meta">
+        <text>{{detail.views}} 浏览</text>
+        <text>{{detail.likes}} 点赞</text>
+      </view>
+      <button class="read-btn" bindtap="openArticle">阅读全文</button>
+    </view>
+  </view>
 
   <!-- 无 articleUrl → 展示本地详情 -->
   <view class="detail" wx:elif="{{detail}}">
