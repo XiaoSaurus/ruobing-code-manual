@@ -26,3 +26,16 @@ mybatis-plus:
 jwt:
   secret: ruobing-codebook-secret-key-2024
   expiration: 86400000
+
+# SpringDoc OpenAPI 配置
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.ruobing.codebook.controller
+  default-flat-param-object: true
