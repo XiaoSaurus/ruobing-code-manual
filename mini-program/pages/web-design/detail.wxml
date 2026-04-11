@@ -1,11 +1,15 @@
 <view class="container">
-  <view class="detail" wx:if="{{detail}}">
+  <!-- 有 articleUrl → 直接展示公众号文章 -->
+  <web-view wx:if="{{articleUrl}}" src="{{articleUrl}}"></web-view>
+
+  <!-- 无 articleUrl → 展示本地详情 -->
+  <view class="detail" wx:elif="{{detail}}">
     <image class="cover" src="{{detail.coverImage || '/static/default.png'}}" mode="aspectFill" />
     <view class="content">
       <text class="title">{{detail.title}}</text>
       <view class="meta">
-        <text>👁 {{detail.views}} 浏览</text>
-        <text>❤️ {{detail.likes}} 点赞</text>
+        <text>{{detail.views}} 浏览</text>
+        <text>{{detail.likes}} 点赞</text>
         <text>{{detail.createTime}}</text>
       </view>
       <view class="tags">
