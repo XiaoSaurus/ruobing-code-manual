@@ -2,6 +2,12 @@ server:
   port: 4001
   servlet:
     context-path: /api
+  ssl:
+    enabled: true
+    key-store: classpath:ruobing.site.pfx
+    key-store-type: PKCS12
+    key-store-password: ey9mbf3bhvg15x3
+    key-alias: ruobing.site
 
 spring:
   application:
