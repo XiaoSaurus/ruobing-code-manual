@@ -1,4 +1,4 @@
-package com.ruobing.codebook.controller;
+﻿package com.ruobing.codebook.controller;
 
 import com.ruobing.codebook.common.Result;
 import com.ruobing.codebook.entity.WebDesign;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/web-design")
+@RequestMapping("/web-design")
 public class WebDesignController {
 
     @Autowired

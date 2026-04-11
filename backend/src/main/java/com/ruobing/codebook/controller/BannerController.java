@@ -1,4 +1,4 @@
-package com.ruobing.codebook.controller;
+﻿package com.ruobing.codebook.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruobing.codebook.common.Result;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/banner")
+@RequestMapping("/banner")
 @CrossOrigin(origins = "*")
 public class BannerController {
 

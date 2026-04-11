@@ -1,4 +1,4 @@
-package com.ruobing.codebook.controller;
+﻿package com.ruobing.codebook.controller;
 
 import com.ruobing.codebook.common.Result;
 import com.ruobing.codebook.entity.GraduationProject;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/graduation")
+@RequestMapping("/graduation")
 public class GraduationProjectController {
 
     @Autowired

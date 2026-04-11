@@ -1,4 +1,4 @@
-package com.ruobing.codebook.controller;
+﻿package com.ruobing.codebook.controller;
 
 import com.ruobing.codebook.common.Result;
 import com.ruobing.codebook.entity.User;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.ruobing.codebook.controller;
+﻿package com.ruobing.codebook.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruobing.codebook.common.Result;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/sys-user")
+@RequestMapping("/sys-user")
 public class SysUserController {
 
     @Autowired
