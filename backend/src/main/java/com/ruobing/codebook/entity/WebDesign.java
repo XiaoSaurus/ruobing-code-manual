@@ -17,6 +17,7 @@ public class WebDesign {
     private Integer views;
     private Integer likes;
     private Integer favorites;
+    private String articleUrl;
     private Integer sortOrder;
     private Boolean isHot;
     private Boolean isLatest;

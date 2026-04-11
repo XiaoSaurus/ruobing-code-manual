@@ -12,7 +12,7 @@ const THEMES = [
 
 App({
   globalData: {
-    apiBase: 'http://101.43.84.205:4001/api',
+    apiBase: 'https://www.ruobing.site:4001/api',
     userInfo: null,
     themes: THEMES,
     currentTheme: null
