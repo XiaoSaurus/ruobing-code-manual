@@ -1,21 +1,43 @@
 <view class="container" style="{{pageStyle}}">
-  <!-- 用户信息卡 -->
-  <view class="user-card" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);">
-    <view class="user-info" bindtap="goLogin">
-      <image class="avatar" src="{{userInfo ? userInfo.avatarUrl : '/static/default-avatar.png'}}" mode="aspectFill" />
+  <!-- 用户信息卡：未登录 -->
+  <view class="user-card" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);" wx:if="{{!userInfo}}" bindtap="goLogin">
+    <view class="user-info">
+      <image class="avatar" src="/static/default-avatar.png" mode="aspectFill" />
       <view class="user-text">
-        <text class="nickname">{{userInfo ? userInfo.nickName : '点击登录'}}</text>
-        <text class="tip">{{userInfo ? '已登录' : '登录后可获得更多功能'}}</text>
+        <text class="nickname">点击登录</text>
+        <text class="tip">登录后解锁更多功能</text>
       </view>
       <view class="login-icon">
-        <text wx:if="{{!userInfo}}">›</text>
-        <text wx:else class="logout-btn" catchtap="logout">退出</text>
+        <text class="arrow-text">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 用户信息卡：已登录 -->
+  <view class="user-card logged" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);" wx:if="{{userInfo}}">
+    <view class="user-info" bindtap="goProfile">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
+      <view class="user-text">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="tip">点击编辑个人资料</text>
+      </view>
+      <view class="login-icon">
+        <text class="arrow-text">›</text>
       </view>
     </view>
   </view>
 
   <!-- 功能菜单 -->
   <view class="menu-card">
+    <!-- 登录后才显示：个人资料 -->
+    <view class="menu-item" bindtap="goProfile" wx:if="{{userInfo}}">
+      <view class="menu-left">
+        <image class="menu-icon" src="/static/icons/icon-about.png" mode="aspectFit" />
+        <text class="menu-label">个人资料</text>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
     <view class="menu-item" bindtap="goFeedback">
       <view class="menu-left">
         <image class="menu-icon" src="/static/icons/icon-feedback.png" mode="aspectFit" />
@@ -53,6 +75,11 @@
   <button class="share-btn" open-type="share">
     <text>分享给好友</text>
   </button>
+
+  <!-- 退出登录（已登录时显示） -->
+  <view class="logout-row" wx:if="{{userInfo}}" bindtap="logout">
+    <text class="logout-text">退出登录</text>
+  </view>
 
   <!-- 版本信息 -->
   <view class="version-info">

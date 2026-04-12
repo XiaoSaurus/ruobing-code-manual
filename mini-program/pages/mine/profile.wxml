@@ -1,0 +1,57 @@
+<view class="profile-page">
+  <!-- 头部个人信息卡 -->
+  <view class="profile-card">
+    <view class="avatar-wrap" bindtap="changeAvatar">
+      <image class="avatar-img" src="{{form.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
+      <view class="avatar-tip">点击更换</view>
+    </view>
+    <text class="profile-name">{{form.nickName || '未设置昵称'}}</text>
+  </view>
+
+  <!-- 编辑表单 -->
+  <view class="form-card">
+    <!-- 头像 -->
+    <view class="form-item" bindtap="changeAvatar">
+      <text class="item-label">头像</text>
+      <view class="item-right">
+        <image class="item-avatar" src="{{form.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 昵称 -->
+    <view class="form-item" bindtap="editNickname">
+      <text class="item-label">昵称</text>
+      <view class="item-right">
+        <text class="item-value {{form.nickName ? '' : 'placeholder'}}">{{form.nickName || '未设置'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-item" bindtap="editGender">
+      <text class="item-label">性别</text>
+      <view class="item-right">
+        <text class="item-value">{{genderText}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 地区 -->
+    <view class="form-item" style="border-bottom: none;">
+      <text class="item-label">地区</text>
+      <view class="item-right">
+        <text class="item-value {{form.province ? '' : 'placeholder'}}">{{form.province || '未设置'}}{{form.city ? ' · ' + form.city : ''}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <button class="save-btn" bindtap="saveProfile">保存修改</button>
+
+  <!-- 退出登录 -->
+  <view class="logout-row" bindtap="logout">
+    <text class="logout-text">退出登录</text>
+  </view>
+</view>

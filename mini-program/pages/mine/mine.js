@@ -33,22 +33,14 @@ Page({
     })
   },
 
-  // 登录
+  // 登录跳转
   goLogin() {
-    wx.getUserProfile({
-      desc: '用于完善个人资料',
-      success: res => {
-        const userInfo = res.userInfo
-        userInfo.avatar = userInfo.avatarUrl
-        userInfo.nickname = userInfo.nickName
-        wx.setStorageSync('userInfo', userInfo)
-        this.setData({ userInfo })
-        wx.showToast({ title: '登录成功', icon: 'success' })
-      },
-      fail: () => {
-        wx.showToast({ title: '您取消了授权', icon: 'none' })
-      }
-    })
+    wx.navigateTo({ url: '/pages/mine/login' })
+  },
+
+  // 个人资料
+  goProfile() {
+    wx.navigateTo({ url: '/pages/mine/profile' })
   },
 
   // 退出登录

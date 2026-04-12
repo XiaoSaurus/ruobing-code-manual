@@ -19,7 +19,9 @@
     "pages/mine/feedback",
     "pages/mine/changelog",
     "pages/mine/about",
-    "pages/mine/theme"
+    "pages/mine/theme",
+    "pages/mine/login",
+    "pages/mine/profile"
   ],
   "tabBar": {
     "color": "#999999",
