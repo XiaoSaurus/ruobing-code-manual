@@ -123,3 +123,25 @@
   font-size: 30rpx;
   color: #ff4757;
 }
+
+/* 头像按钮：去除默认边框和背景 */
+.avatar-head-btn,
+.avatar-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+}
+.avatar-head-btn::after,
+.avatar-btn::after {
+  border: none;
+}
+/* 表格内头像按钮需要撑满一行 */
+.avatar-btn {
+  display: block;
+  width: 100%;
+}
+.avatar-form-item {
+  border-bottom: 1rpx solid #f0f0f5;
+}

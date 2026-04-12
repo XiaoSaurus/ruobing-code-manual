@@ -40,14 +40,12 @@ Page({
     })
   },
 
-  changeAvatar() {
-    wx.chooseAvatar({
-      success: res => {
-        const tempFilePath = res.avatarUrl
-        this.setData({ 'form.avatarUrl': tempFilePath })
-        this.saveToBackend({ avatar: tempFilePath })
-      }
-    })
+  // 微信按钮选择头像（button open-type="chooseAvatar" 方式）
+  onChooseAvatar(e) {
+    const tempFilePath = e.detail.avatarUrl
+    this.setData({ 'form.avatarUrl': tempFilePath })
+    // 头像选了直接保存
+    this.saveProfile()
   },
 
   editNickname() {
