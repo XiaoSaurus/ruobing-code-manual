@@ -75,6 +75,30 @@ Page({
     })
   },
 
+  editRegion() {
+    wx.chooseLocation({
+      success: res => {
+        const address = res.address || ''
+        // 地址格式：省 市 区/县 详情地址
+        const parts = address.split(/省|市/)
+        let province = '', city = ''
+        if (parts.length >= 2) {
+          province = parts[0] + (address.includes('省') ? '省' : '')
+          city = parts[1] ? (parts[1] + (address.includes('市') ? '市' : '')) : ''
+        } else {
+          province = address
+        }
+        this.setData({
+          'form.province': province,
+          'form.city': city
+        })
+      },
+      fail: () => {
+        // 用户取消不提示
+      }
+    })
+  },
+
   saveProfile() {
     if (this.data.saving) return
     const form = this.data.form

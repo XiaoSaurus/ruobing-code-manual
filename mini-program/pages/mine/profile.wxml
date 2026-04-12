@@ -42,7 +42,7 @@
     </view>
 
     <!-- 地区 -->
-    <view class="form-item" style="border-bottom: none;">
+    <view class="form-item" bindtap="editRegion" style="border-bottom: none;">
       <text class="item-label">地区</text>
       <view class="item-right">
         <text class="item-value {{form.province ? '' : 'placeholder'}}">{{form.province || '未设置'}}{{form.city ? ' · ' + form.city : ''}}</text>
