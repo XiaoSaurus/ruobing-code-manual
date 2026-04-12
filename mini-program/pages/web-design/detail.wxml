@@ -38,7 +38,7 @@
   <view class="action-bar">
     <button class="action-btn" hover-class="btn-hover" bindtap="handleLike">
       <text class="btn-icon">{{liked ? '❤️' : '🤍'}}</text>
-      <text class="btn-text">{{liked ? '已赞' : '点赞'}}</text>
+      <text class="btn-text">{{liked ? '取消' : '点赞'}}</text>
     </button>
     <button class="action-btn" hover-class="btn-hover" open-type="share">
       <text class="btn-icon">📤</text>

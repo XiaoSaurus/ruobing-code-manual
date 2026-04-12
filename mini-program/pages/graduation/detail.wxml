@@ -32,7 +32,7 @@
   <view class="action-bar">
     <button class="action-btn" hover-class="btn-hover" bindtap="handleLike">
       <text class="btn-icon">{{liked ? '❤️' : '🤍'}}</text>
-      <text class="btn-text">{{liked ? '已赞' : '点赞'}}</text>
+      <text class="btn-text">{{liked ? '取消' : '点赞'}}</text>
     </button>
     <button class="action-btn" hover-class="btn-hover" open-type="share">
       <text class="btn-icon">📤</text>
@@ -44,7 +44,7 @@
     </button>
   </view>
 
-  <!-- 声明卡片 -->
+  <!-- 声明卡片 - 放最下面 -->
   <view class="disclaimer">
     <text class="disclaimer-text">声明：部分资料来源于络，非小程序作者原创，仅供学习交流使用，如有侵权，请联系作者删除。</text>
   </view>
