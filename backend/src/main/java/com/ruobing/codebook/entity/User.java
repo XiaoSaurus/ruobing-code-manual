@@ -12,6 +12,7 @@ public class User {
     private String openid;
     private String nickname;
     private String avatar;
+    private Integer gender;   // 性别: 0未设置 1男 2女
     private String phone;
     private String email;
     private LocalDateTime createTime;

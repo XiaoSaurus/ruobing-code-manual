@@ -1,4 +1,4 @@
-const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
@@ -6,8 +6,8 @@ Page({
   },
 
   onLoad() {
-    wx.showLoading({ title: '加载中...' })
-    request('/about').then(res => {
+    wx.showLoading({ title: '加载中…' })
+    app.request.get('/about').then(res => {
       wx.hideLoading()
       this.setData({ about: res.data })
     }).catch(() => {

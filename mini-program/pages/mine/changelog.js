@@ -1,4 +1,4 @@
-const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
@@ -11,8 +11,8 @@ Page({
   },
 
   loadData() {
-    wx.showLoading({ title: '加载中...' })
-    request('/changelog/list').then(res => {
+    wx.showLoading({ title: '加载中…' })
+    app.request.get('/changelog/list').then(res => {
       wx.hideLoading()
       this.setData({
         list: res.data || [],

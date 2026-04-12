@@ -1,4 +1,4 @@
-const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
@@ -21,12 +21,11 @@ Page({
       return
     }
     this.setData({ submitting: true })
-    request('/feedback', {
-      method: 'POST',
-      data: {
-        content: this.data.content.trim(),
-        contact: this.data.contact.trim()
-      }
+    const userInfo = wx.getStorageSync('userInfo') || {}
+    app.request.post('/feedback', {
+      openid: userInfo.openid || '',
+      content: this.data.content.trim(),
+      contact: this.data.contact.trim()
     }).then(res => {
       this.setData({ submitting: false })
       if (res.code === 200 || res.code === 0) {

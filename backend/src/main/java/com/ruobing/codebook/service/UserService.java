@@ -93,4 +93,19 @@ public class UserService {
     public void updateInfo(User user) {
         userRepository.updateById(user);
     }
+
+    /**
+     * 通过 openid 更新用户资料
+     */
+    public void updateProfile(String openid, String nickname, String avatar,
+                              Integer gender, String phone, String email) {
+        User user = getByOpenid(openid);
+        if (user == null) return;
+        if (nickname != null) user.setNickname(nickname);
+        if (avatar != null) user.setAvatar(avatar);
+        if (gender != null) user.setGender(gender);
+        if (phone != null) user.setPhone(phone);
+        if (email != null) user.setEmail(email);
+        userRepository.updateById(user);
+    }
 }

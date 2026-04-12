@@ -48,4 +48,31 @@ public class UserController {
         userService.updateInfo(user);
         return Result.success();
     }
+
+    @Operation(summary = "通过 openid 获取用户信息", description = "小程序同步用户数据")
+    @GetMapping("/info")
+    public Result<?> getByOpenid(
+            @Parameter(description = "用户 openid") @RequestParam String openid) {
+        User user = userService.getByOpenid(openid);
+        if (user == null) {
+            return Result.error(404, "用户不存在");
+        }
+        return Result.success(user);
+    }
+
+    @Operation(summary = "通过 openid 更新用户资料", description = "小程序保存个人资料")
+    @PutMapping("/info")
+    public Result<?> updateByOpenid(@RequestBody Map<String, String> params) {
+        String openid = params.get("openid");
+        if (openid == null || openid.isEmpty()) {
+            return Result.error("缺少 openid");
+        }
+        String nickname = params.get("nickname");
+        String avatar = params.get("avatar");
+        Integer gender = params.get("gender") != null ? Integer.parseInt(params.get("gender")) : null;
+        String phone = params.get("phone");
+        String email = params.get("email");
+        userService.updateProfile(openid, nickname, avatar, gender, phone, email);
+        return Result.success();
+    }
 }

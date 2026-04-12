@@ -51,6 +51,7 @@ Page({
       success: res => {
         if (res.confirm) {
           wx.removeStorageSync('userInfo')
+          app.globalData.userInfo = null  // 清理全局状态
           this.setData({ userInfo: null })
           wx.showToast({ title: '已退出', icon: 'none' })
         }
