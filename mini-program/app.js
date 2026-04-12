@@ -60,7 +60,7 @@ App({
   // 更新 TabBar 样式和图标
   updateTabBar(theme) {
     console.log('updateTabBar called with theme:', theme)
-    
+
     if (!theme || !theme.id) {
       console.error('Invalid theme:', theme)
       return
@@ -72,10 +72,8 @@ App({
       selectedColor: theme.color,
       backgroundColor: '#ffffff',
       borderStyle: 'white'
-    }).then(() => {
-      console.log('setTabBarStyle success, color:', theme.color)
     }).catch(err => {
-      console.error('setTabBarStyle error:', err)
+      console.warn('setTabBarStyle error (ignore):', err)
     })
 
     // 更新每个 Tab 的图标
@@ -89,8 +87,7 @@ App({
     tabs.forEach(tab => {
       const iconPath = `/static/tabbar/${tab.name}.png`
       const selectedIconPath = `/static/tabbar/${tab.name}-${theme.id}.png`
-      console.log(`Setting tab ${tab.index}: ${iconPath} / ${selectedIconPath}`)
-      
+
       wx.setTabBarItem({
         index: tab.index,
         text: tab.text,
@@ -99,7 +96,8 @@ App({
       }).then(() => {
         console.log(`setTabBarItem ${tab.name} success`)
       }).catch(err => {
-        console.error(`setTabBarItem ${tab.name} error:`, err)
+        // ignore - 页面未加载时 setTabBarItem 会失败，这是正常的
+        console.warn(`setTabBarItem ${tab.name} skip (page not loaded yet):`, err)
       })
     })
   }
