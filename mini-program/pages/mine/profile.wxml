@@ -49,9 +49,4 @@
 
   <!-- 保存按钮 -->
   <button class="save-btn" bindtap="saveProfile">保存修改</button>
-
-  <!-- 退出登录 -->
-  <view class="logout-row" bindtap="logout">
-    <text class="logout-text">退出登录</text>
-  </view>
 </view>

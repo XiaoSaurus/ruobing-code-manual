@@ -20,13 +20,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "微信登录", description = "小程序微信授权登录")
+    @Operation(summary = "微信登录", description = "前端传 code，后端换 openid，新用户自动注册")
     @PostMapping("/login")
     public Result<?> login(@RequestBody Map<String, String> params) {
-        String openid = params.get("openid");
+        String code = params.get("code");
         String nickname = params.get("nickname");
         String avatar = params.get("avatar");
-        User user = userService.createOrUpdate(openid, nickname, avatar);
+        if (code == null || code.isEmpty()) {
+            return Result.error("缺少 code 参数");
+        }
+        User user = userService.loginByWechat(code, nickname, avatar);
         Map<String, Object> data = new HashMap<>();
         data.put("user", user);
         return Result.success(data);

@@ -80,18 +80,4 @@ Page({
     setTimeout(() => wx.navigateBack(), 800)
   },
 
-  // 退出登录
-  logout() {
-    wx.showModal({
-      title: '提示',
-      content: '确定退出登录吗？',
-      success: res => {
-        if (res.confirm) {
-          wx.removeStorageSync('userInfo')
-          app.globalData.userInfo = null
-          wx.reLaunch({ url: '/pages/index/index' })
-        }
-      }
-    })
-  }
 })

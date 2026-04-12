@@ -18,8 +18,8 @@ App({
     userInfo: null,
     themes: THEMES,
     currentTheme: null,
-    // 标记主题已更新，等待 TabBar 页面 onShow 时应用
-    themeDirty: false
+    themeDirty: false,
+    request: request  // HTTP 请求工具，login.js 等页面通过 app.request 调用
   },
 
   onLaunch() {

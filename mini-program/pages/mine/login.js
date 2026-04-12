@@ -6,60 +6,80 @@ Page({
   },
 
   onLoad() {
-    // 如果已经登录，直接跳转回来
     const userInfo = wx.getStorageSync('userInfo')
-    if (userInfo) {
+    if (userInfo && userInfo.openid) {
       wx.navigateBack()
     }
   },
 
-  // 微信授权登录（获取用户信息）
+  // 微信授权登录（真实流程）
   onGetUserInfo(e) {
+    if (this.data.loading) return
     if (e.detail.errMsg !== 'getUserProfile:ok') {
       wx.showToast({ title: '您取消了授权', icon: 'none' })
       return
     }
     const userInfo = e.detail.userInfo
-    this.saveAndLogin(userInfo)
+    this.doWechatLogin(userInfo)
   },
 
-  // 获取手机号（需企业认证账号）
-  onGetPhoneNumber(e) {
-    if (e.detail.errMsg !== 'getPhoneNumber:ok') {
-      wx.showToast({ title: '授权失败，请重试', icon: 'none' })
-      return
-    }
-    // 真实项目：把 e.detail 传给后端，后端调微信接口解密
-    wx.showToast({ title: '手机号获取需企业认证', icon: 'none' })
+  // 正式微信登录流程：wx.login() → 拿 code 换 openid → 后端注册/登录
+  doWechatLogin(userInfo) {
+    this.setData({ loading: true })
+    wx.showLoading({ title: '登录中…' })
+
+    wx.login({
+      success: loginRes => {
+        if (!loginRes.code) {
+          wx.hideLoading()
+          this.setData({ loading: false })
+          wx.showToast({ title: '微信登录失败', icon: 'none' })
+          return
+        }
+        // 调用后端登录接口（后端拿 code 换 openid，新用户自动入库）
+        app.request.post('/user/login', {
+          code: loginRes.code,
+          nickname: userInfo.nickName,
+          avatar: userInfo.avatarUrl
+        }).then(res => {
+          wx.hideLoading()
+          this.setData({ loading: false })
+          if (res.code === 200 || res.code === 0) {
+            const user = res.data?.user || {}
+            const storeInfo = {
+              id: user.id,
+              openid: user.openid,
+              nickName: user.nickname || userInfo.nickName,
+              avatarUrl: user.avatar || userInfo.avatarUrl,
+              gender: userInfo.gender,
+              province: userInfo.province,
+              city: userInfo.city,
+              loginTime: Date.now()
+            }
+            wx.setStorageSync('userInfo', storeInfo)
+            app.globalData.userInfo = storeInfo
+            wx.showToast({ title: '登录成功', icon: 'success' })
+            setTimeout(() => wx.navigateBack(), 800)
+          } else {
+            wx.showToast({ title: (res.message || '登录失败'), icon: 'none' })
+          }
+        }).catch(err => {
+          wx.hideLoading()
+          this.setData({ loading: false })
+          wx.showToast({ title: '网络异常，请重试', icon: 'none' })
+          console.error('登录失败:', err)
+        })
+      },
+      fail: () => {
+        wx.hideLoading()
+        this.setData({ loading: false })
+        wx.showToast({ title: '微信登录失败', icon: 'none' })
+      }
+    })
   },
 
-  // 演示：游客登录（仅本地演示用）
+  // 暂不登录：直接返回"我的"，不保存任何信息
   onGuestLogin() {
-    const guestInfo = {
-      nickName: '游客_' + Math.random().toString(36).slice(2, 7),
-      avatarUrl: '/static/default-avatar.png',
-      gender: 0,
-      province: '',
-      city: '',
-      country: ''
-    }
-    this.saveAndLogin(guestInfo)
-  },
-
-  // 保存并跳转
-  saveAndLogin(userInfo) {
-    const storeInfo = {
-      nickName: userInfo.nickName || userInfo.nickname,
-      avatarUrl: userInfo.avatarUrl,
-      gender: userInfo.gender,
-      province: userInfo.province,
-      city: userInfo.city,
-      country: userInfo.country,
-      loginTime: Date.now()
-    }
-    wx.setStorageSync('userInfo', storeInfo)
-    app.globalData.userInfo = storeInfo
-    wx.showToast({ title: '登录成功', icon: 'success' })
-    setTimeout(() => wx.navigateBack(), 800)
+    wx.navigateBack()
   }
 })
