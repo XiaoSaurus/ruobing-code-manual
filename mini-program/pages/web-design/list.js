@@ -11,7 +11,8 @@ Page({
     pageSize: 10,
     hasMore: true,
     loading: false,
-    themeClass: ''
+    themeClass: '',
+    pageStyle: ''
   },
 
   onLoad(options) {
@@ -26,11 +27,15 @@ Page({
     this.applyTheme()
   },
 
-  // 应用主题
+  // 应用主题 - 使用内联样式
   applyTheme() {
     const theme = app.globalData.currentTheme
     if (theme) {
-      this.setData({ themeClass: 'theme-' + theme.id })
+      const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
+      this.setData({
+        themeClass: 'theme-' + theme.id,
+        pageStyle: style
+      })
     }
   },
 

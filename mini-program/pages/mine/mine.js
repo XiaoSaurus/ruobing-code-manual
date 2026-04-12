@@ -4,18 +4,29 @@ Page({
   data: {
     userInfo: null,
     theme: null,
-    themeColor: '#409EFF'
+    themeColor: '#409EFF',
+    pageStyle: ''
   },
 
   onLoad() {
-    const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({ theme, themeColor: theme.color })
+    this.applyTheme()
   },
 
   onShow() {
     const userInfo = wx.getStorageSync('userInfo') || null
+    this.applyTheme()
+    this.setData({ userInfo })
+  },
+
+  // 应用主题 - 使用内联样式
+  applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({ userInfo, theme, themeColor: theme.color })
+    const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
+    this.setData({ 
+      theme, 
+      themeColor: theme.color,
+      pageStyle: style 
+    })
   },
 
   // 登录

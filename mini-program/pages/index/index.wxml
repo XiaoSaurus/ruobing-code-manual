@@ -1,4 +1,4 @@
-<view class="container {{themeClass}}">
+<view class="container {{themeClass}}" style="{{pageStyle}}">
   <!-- 轮播图（动态） -->
   <view class="banner-wrap">
     <swiper class="banner-swiper"

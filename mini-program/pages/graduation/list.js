@@ -11,7 +11,8 @@ Page({
     pageSize: 10,
     hasMore: true,
     loading: false,
-    themeClass: ''
+    themeClass: '',
+    pageStyle: ''
   },
 
   onLoad(options) {
@@ -29,7 +30,11 @@ Page({
   applyTheme() {
     const theme = app.globalData.currentTheme
     if (theme) {
-      this.setData({ themeClass: 'theme-' + theme.id })
+      const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
+      this.setData({
+        themeClass: 'theme-' + theme.id,
+        pageStyle: style
+      })
     }
   },
 

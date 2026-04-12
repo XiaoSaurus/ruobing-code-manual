@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" style="{{pageStyle}}">
   <!-- 用户信息卡 -->
   <view class="user-card" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);">
     <view class="user-info" bindtap="goLogin">
