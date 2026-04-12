@@ -43,7 +43,7 @@ Page({
           return
         }
         // 调用后端登录接口（后端拿 code 换 openid，新用户自动入库）
-        app.request.post('/user/login', {
+        app.globalData.request.post('/user/login', {
           code: loginRes.code,
           nickname: userInfo.nickName,
           avatar: userInfo.avatarUrl

@@ -17,12 +17,12 @@ Page({
 
   submit() {
     if (!this.data.content.trim()) {
-      wx.showToast({ title: '请输入反馈内容', icon: 'none' })
+      wx.showToast({ title: '请输入反馈内�?, icon: 'none' })
       return
     }
     this.setData({ submitting: true })
     const userInfo = wx.getStorageSync('userInfo') || {}
-    app.request.post('/feedback', {
+    app.globalData.request.post('/feedback', {
       openid: userInfo.openid || '',
       content: this.data.content.trim(),
       contact: this.data.contact.trim()
