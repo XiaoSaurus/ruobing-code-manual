@@ -15,11 +15,17 @@ Page({
   // 微信授权登录（真实流程）
   onGetUserInfo(e) {
     if (this.data.loading) return
-    if (e.detail.errMsg !== 'getUserProfile:ok') {
+    // 用户点拒绝按钮时 errMsg 包含 "auth deny" 或 "cancel"
+    const errMsg = e.detail.errMsg || ''
+    if (errMsg.includes('cancel') || errMsg.includes('deny') || errMsg.includes('fail')) {
       wx.showToast({ title: '您取消了授权', icon: 'none' })
       return
     }
     const userInfo = e.detail.userInfo
+    if (!userInfo) {
+      wx.showToast({ title: '获取用户信息失败', icon: 'none' })
+      return
+    }
     this.doWechatLogin(userInfo)
   },
 
