@@ -1,0 +1,25 @@
+.legal-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+  box-sizing: border-box;
+}
+
+.scroll {
+  height: 100vh;
+  padding: 28rpx 32rpx 48rpx;
+  box-sizing: border-box;
+}
+
+.rich {
+  display: block;
+  font-size: 28rpx;
+  color: #444;
+  line-height: 1.75;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 80rpx 0;
+}

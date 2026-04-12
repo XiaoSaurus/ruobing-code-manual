@@ -17,10 +17,12 @@
     "pages/graduation/detail",
     "pages/mine/mine",
     "pages/mine/feedback",
+    "pages/mine/feedback-list",
     "pages/mine/changelog",
     "pages/mine/about",
     "pages/mine/theme",
     "pages/mine/login",
+    "pages/mine/legal",
     "pages/mine/profile"
   ],
   "tabBar": {

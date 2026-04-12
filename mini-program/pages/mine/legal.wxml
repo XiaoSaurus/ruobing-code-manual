@@ -1,0 +1,6 @@
+<view class="legal-page" style="{{pageStyle}}">
+  <scroll-view class="scroll" scroll-y>
+    <rich-text wx:if="{{html}}" class="rich" nodes="{{html}}" type="html"></rich-text>
+    <view wx:else class="empty">{{loadErr || '加载中…'}}</view>
+  </scroll-view>
+</view>

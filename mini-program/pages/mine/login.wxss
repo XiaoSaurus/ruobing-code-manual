@@ -1,152 +1,212 @@
-/* 登录页面 */
+/* 主题色来自 pageStyle：--theme-color / --theme-light / --theme-dark */
+
 .login-page {
   min-height: 100vh;
-  background: linear-gradient(160deg, #f0f4ff 0%, #e8f0fe 40%, #f5f0ff 100%);
+  background: linear-gradient(180deg, var(--theme-light, #e8f4ff) 0%, #f5f7fa 45%, #ffffff 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  box-sizing: border-box;
 }
 
-/* 顶部装饰圆 */
 .top-decoration {
   width: 100%;
-  height: 320rpx;
-  background: linear-gradient(135deg, #5b9cf6 0%, #7c6cf6 50%, #a855f7 100%);
-  border-radius: 0 0 60rpx 60rpx;
+  height: 300rpx;
+  background: linear-gradient(135deg, var(--theme-color, #66b1ff) 0%, var(--theme-dark, #409eff) 100%);
+  border-radius: 0 0 56rpx 56rpx;
   position: relative;
 }
-.top-decoration::after {
-  content: '';
-  position: absolute;
-  bottom: -40rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200rpx;
-  height: 80rpx;
-  background: #e8f0fe;
-  border-radius: 50%;
-}
 
-/* Logo 区域 */
 .logo-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40rpx;
+  /* 略减轻上叠 + 顶部留白，整块内容下移（再下移约一行 +48rpx） */
+  margin-top: -64rpx;
+  padding-top: 88rpx;
   position: relative;
   z-index: 1;
 }
+
+/* 去掉白底卡片：透明底 + 轻投影，与顶部渐变、浅灰底自然融合 */
 .logo-wrap {
-  width: 160rpx;
-  height: 160rpx;
-  background: #fff;
-  border-radius: 40rpx;
+  width: 136rpx;
+  height: 136rpx;
+  padding: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border-radius: 28rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 32rpx rgba(91, 156, 246, 0.3);
 }
-.logo-icon {
-  font-size: 80rpx;
-  line-height: 1;
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 24rpx;
+  /* 替代白卡片：轮廓 + 阴影，在蓝顶与灰底上都较协调 */
+  box-shadow:
+    0 8rpx 28rpx rgba(0, 0, 0, 0.1),
+    0 0 0 1rpx rgba(255, 255, 255, 0.35);
 }
+
 .app-name {
   display: block;
   font-size: 40rpx;
   font-weight: 700;
   color: #1a1a2e;
-  margin-top: 24rpx;
+  margin-top: 22rpx;
   letter-spacing: 2rpx;
 }
+
 .app-slogan {
   display: block;
   font-size: 26rpx;
-  color: #8a8aaa;
-  margin-top: 8rpx;
+  color: #8a8a9a;
+  margin-top: 10rpx;
 }
 
-/* 登录卡片 */
 .login-card {
   width: 640rpx;
   background: #fff;
-  border-radius: 32rpx;
-  padding: 56rpx 48rpx;
-  margin-top: 60rpx;
-  box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.08);
+  border-radius: 28rpx;
+  padding: 52rpx 44rpx 48rpx;
+  margin-top: 56rpx;
+  box-shadow: 0 8rpx 36rpx rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .card-title {
-  font-size: 40rpx;
+  font-size: 38rpx;
   font-weight: 700;
   color: #1a1a2e;
 }
+
 .card-desc {
   font-size: 26rpx;
-  color: #9999bb;
+  color: #999;
   margin-top: 12rpx;
-  margin-bottom: 48rpx;
+  margin-bottom: 44rpx;
 }
 
-/* 微信授权按钮 */
-.wx-login-btn {
+/* 协议行：父级 text-align:center + 子级 inline-flex，真机可稳定居中 */
+.agreement-row {
   width: 100%;
-  background: linear-gradient(135deg, #5b9cf6, #7c6cf6);
-  border-radius: 50rpx;
-  padding: 0;
-  margin: 0;
-  border: none;
-  box-shadow: 0 6rpx 24rpx rgba(91, 156, 246, 0.4);
+  margin-top: 20rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  text-align: center;
 }
-.wx-login-btn::after { border: none; }
-.btn-inner {
+
+.agreement-center {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.check-wrap {
+  flex-shrink: 0;
+  padding: 4rpx 10rpx 0 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.check-circle {
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  border: 2rpx solid #c8c8d0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28rpx 0;
+  box-sizing: border-box;
+  background: #fff;
 }
-.btn-icon {
-  width: 52rpx;
-  height: 52rpx;
-  background: rgba(255,255,255,0.25);
-  border-radius: 26rpx;
-  font-size: 24rpx;
+
+.check-circle.checked {
+  background: var(--theme-color, #66b1ff);
+  border-color: var(--theme-color, #66b1ff);
+}
+
+.check-mark {
+  font-size: 16rpx;
   color: #fff;
-  line-height: 52rpx;
-  text-align: center;
-  margin-right: 16rpx;
+  font-weight: 700;
+  line-height: 1;
 }
+
+.agreement-text {
+  flex: 0 1 auto;
+  max-width: 520rpx;
+  font-size: 22rpx;
+  color: #888;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.agreement-plain {
+  color: #888;
+}
+
+.agreement-text .link {
+  display: inline;
+  color: var(--theme-color, #409eff);
+  margin: 0 2rpx;
+}
+
+/* 微信授权：渐变主按钮；勿用原生 disabled/loading 属性，易被系统样式覆盖 */
+.wx-login-btn {
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--theme-dark, #409eff) 0%,
+    var(--theme-color, #66b1ff) 100%
+  );
+  border-radius: 20rpx;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88rpx;
+  box-sizing: border-box;
+}
+
+.wx-login-btn::after {
+  border: none;
+}
+
+/* 勿用原生 disabled/loading，否则会覆盖自定义背景；忙碌态用类名 */
+.wx-login-btn--busy {
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.wx-login-btn-hover {
+  opacity: 0.9;
+}
+
+.wx-login-btn--busy.wx-login-btn-hover {
+  opacity: 0.92;
+}
+
 .btn-text {
-  font-size: 32rpx;
-  font-weight: 600;
+  font-size: 30rpx;
+  font-weight: 500;
   color: #fff;
   letter-spacing: 2rpx;
+  line-height: 1.3;
+  padding: 24rpx 32rpx;
 }
 
-/* 游客登录 */
-.alt-login {
-  margin-top: 36rpx;
-  padding: 16rpx;
-}
-.alt-text {
-  font-size: 26rpx;
-  color: #9999bb;
-}
-
-/* 用户协议 */
-.agreement {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-size: 22rpx;
-  color: #aaaacc;
-  margin-top: 40rpx;
-  padding: 0 40rpx;
-  text-align: center;
-}
-.link {
-  color: #5b9cf6;
-  margin: 0 4rpx;
-}

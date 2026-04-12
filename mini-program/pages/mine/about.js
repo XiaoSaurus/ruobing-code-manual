@@ -1,17 +1,23 @@
 const app = getApp()
+const { buildThemePageStyle } = require('../../utils/themeUi.js')
 
 Page({
   data: {
-    about: null
+    pageStyle: ''
   },
 
   onLoad() {
-    wx.showLoading({ title: '加载中…' })
-    app.globalData.request.get('/about').then(res => {
-      wx.hideLoading()
-      this.setData({ about: res.data })
-    }).catch(() => {
-      wx.hideLoading()
+    this.applyTheme()
+  },
+
+  onShow() {
+    this.applyTheme()
+  },
+
+  applyTheme() {
+    const theme = app.globalData.currentTheme || app.globalData.themes[0]
+    this.setData({
+      pageStyle: buildThemePageStyle(theme)
     })
   }
 })

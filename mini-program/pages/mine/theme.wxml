@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" style="{{pageStyle}}">
   <view class="tip">选择你喜欢的主题颜色</view>
 
   <view class="theme-list">
@@ -9,8 +9,8 @@
       bindtap="selectTheme"
       data-theme="{{item}}"
     >
-      <view class="color-circle" style="background: linear-gradient(135deg, {{item.color}}, {{item.light}});">
-        <text wx:if="{{currentTheme.id === item.id}}" class="check">✓</text>
+      <view class="color-circle" style="background: linear-gradient(160deg, {{item.light}} 0%, {{item.color}} 100%);">
+        <text wx:if="{{currentTheme.id === item.id}}" class="check" style="color: {{item.dark}};">✓</text>
       </view>
       <text class="theme-name">{{item.name}}</text>
       <text class="theme-hex">{{item.color}}</text>
@@ -19,12 +19,20 @@
 
   <view class="preview">
     <view class="preview-title">效果预览</view>
-    <view class="preview-card" style="background: linear-gradient(135deg, {{currentTheme.color}}, {{currentTheme.light}});">
-      <view class="preview-row">
-        <image class="preview-icon-img" src="/static/icons/icon-fire.png" mode="aspectFit" />
-        <text class="preview-text">热门推荐</text>
+    <view
+      class="user-card logged {{previewUserCardLight ? 'user-card--light' : ''}}"
+      style="background: {{previewUserCardBg}};"
+    >
+      <view class="user-info">
+        <image class="avatar" src="/static/default-avatar.png" mode="aspectFill" />
+        <view class="user-text">
+          <text class="nickname">主题预览</text>
+          <text class="tip">个人中心头像区域效果</text>
+        </view>
       </view>
-      <view class="preview-tag" style="background: rgba(255,255,255,0.3); color: #fff;">网页设计</view>
+      <view class="logout-area">
+        <text class="logout-btn">退出</text>
+      </view>
     </view>
   </view>
 </view>

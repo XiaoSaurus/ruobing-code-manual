@@ -15,6 +15,12 @@ public class User {
     private Integer gender;   // 性别: 0未设置 1男 2女
     private String phone;
     private String email;
+    /** 省（小程序地区选择） */
+    private String province;
+    /** 市 */
+    private String city;
+    /** 区/县 */
+    private String district;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

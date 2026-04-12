@@ -35,8 +35,8 @@ public class UserController {
         return Result.success(data);
     }
 
-    @Operation(summary = "获取用户信息", description = "根据ID获取用户信息")
-    @GetMapping("/{id}")
+    @Operation(summary = "获取用户信息", description = "根据数字ID获取用户（路径不可与 /info 冲突）")
+    @GetMapping("/by-id/{id}")
     public Result<?> getUser(
             @Parameter(description = "用户ID") @PathVariable Long id) {
         return Result.success(userService.getById(id));
@@ -62,17 +62,53 @@ public class UserController {
 
     @Operation(summary = "通过 openid 更新用户资料", description = "小程序保存个人资料")
     @PutMapping("/info")
-    public Result<?> updateByOpenid(@RequestBody Map<String, String> params) {
-        String openid = params.get("openid");
+    public Result<?> updateByOpenid(@RequestBody Map<String, Object> params) {
+        String openid = toStr(params.get("openid"));
         if (openid == null || openid.isEmpty()) {
             return Result.error("缺少 openid");
         }
-        String nickname = params.get("nickname");
-        String avatar = params.get("avatar");
-        Integer gender = params.get("gender") != null ? Integer.parseInt(params.get("gender")) : null;
-        String phone = params.get("phone");
-        String email = params.get("email");
-        userService.updateProfile(openid, nickname, avatar, gender, phone, email);
+        String nickname = toStr(params.get("nickname"));
+        String avatar = toStr(params.get("avatar"));
+        Integer gender = toInt(params.get("gender"));
+        String phone = toStr(params.get("phone"));
+        String email = toStr(params.get("email"));
+        String province = toStr(params.get("province"));
+        String city = toStr(params.get("city"));
+        String district = toStr(params.get("district"));
+        if (!userService.updateProfile(openid, nickname, avatar, gender, phone, email, province, city, district)) {
+            return Result.error(404, "用户不存在或 openid 无效，请重新登录");
+        }
         return Result.success();
+    }
+
+    /** 与 Jackson 数字/字符串兼容；避免把 null 序列化成字面量 "null" */
+    private static String toStr(Object o) {
+        if (o == null) {
+            return null;
+        }
+        if (o instanceof String) {
+            return (String) o;
+        }
+        String s = String.valueOf(o);
+        return "null".equals(s) ? null : s;
+    }
+
+    /** 兼容 JSON 里 gender 为数字或字符串 */
+    private static Integer toInt(Object o) {
+        if (o == null) {
+            return null;
+        }
+        if (o instanceof Number) {
+            return ((Number) o).intValue();
+        }
+        try {
+            String s = String.valueOf(o).trim();
+            if (s.isEmpty()) {
+                return null;
+            }
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

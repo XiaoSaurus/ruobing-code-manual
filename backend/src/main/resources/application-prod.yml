@@ -23,6 +23,11 @@ mybatis-plus:
   configuration:
     log-impl:
 
+# 微信小程序（建议生产用环境变量 WXAPP_APPID / WXAPP_SECRET 覆盖，并定期轮换密钥）
+wxapp:
+  appid: ${WXAPP_APPID:wx5282bd68a559448f}
+  secret: ${WXAPP_SECRET:df8d6f8a4f0c9b3ebcf695e95ba8d217}
+
 logging:
   level:
     com.ruobing.codebook: info

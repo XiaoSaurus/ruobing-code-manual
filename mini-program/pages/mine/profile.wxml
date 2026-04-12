@@ -1,29 +1,24 @@
-<view class="profile-page">
-  <!-- 头部个人信息卡 -->
+<view class="profile-page" style="{{pageStyle}}">
+  <!-- 头部：头像 + 提示文案（纵向排版，避免与昵称重叠、遮挡） -->
   <view class="profile-card">
-    <button class="avatar-head-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-      <view class="avatar-wrap">
+    <!-- 官方「使用微信头像」：open-type="chooseAvatar"，需基础库 ≥2.21.2 -->
+    <button
+      class="avatar-choose-btn"
+      plain
+      hover-class="avatar-choose-hover"
+      open-type="chooseAvatar"
+      bindchooseavatar="onChooseAvatar"
+    >
+      <view class="avatar-ring">
         <image class="avatar-img" src="{{form.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
-        <view class="avatar-tip">点击更换</view>
       </view>
+      <text class="avatar-hint">使用微信头像</text>
     </button>
     <text class="profile-name">{{form.nickName || '未设置昵称'}}</text>
   </view>
 
   <!-- 编辑表单 -->
   <view class="form-card">
-    <!-- 头像（button open-type="chooseAvatar" 是官方推荐方式） -->
-    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-      <view class="form-item avatar-form-item">
-        <text class="item-label">头像</text>
-        <view class="item-right">
-          <image class="item-avatar" src="{{form.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
-          <text class="arrow">›</text>
-        </view>
-      </view>
-    </button>
-
-    <!-- 昵称 -->
     <view class="form-item" bindtap="editNickname">
       <text class="item-label">昵称</text>
       <view class="item-right">
@@ -32,7 +27,6 @@
       </view>
     </view>
 
-    <!-- 性别 -->
     <view class="form-item" bindtap="editGender">
       <text class="item-label">性别</text>
       <view class="item-right">
@@ -41,16 +35,16 @@
       </view>
     </view>
 
-    <!-- 地区 -->
-    <view class="form-item" bindtap="editRegion" style="border-bottom: none;">
-      <text class="item-label">地区</text>
-      <view class="item-right">
-        <text class="item-value {{form.province ? '' : 'placeholder'}}">{{form.province || '未设置'}}{{form.city ? ' · ' + form.city : ''}}</text>
-        <text class="arrow">›</text>
+    <picker mode="region" value="{{regionValue}}" bindchange="onRegionChange">
+      <view class="form-item form-item-last">
+        <text class="item-label">地区</text>
+        <view class="item-right">
+          <text class="item-value {{regionDisplayText ? '' : 'placeholder'}}">{{regionDisplayText || '请选择省市区'}}</text>
+          <text class="arrow">›</text>
+        </view>
       </view>
-    </view>
+    </picker>
   </view>
 
-  <!-- 保存按钮 -->
   <button class="save-btn" bindtap="saveProfile">保存修改</button>
 </view>

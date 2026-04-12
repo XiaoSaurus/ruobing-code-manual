@@ -7,6 +7,7 @@ import com.ruobing.codebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -40,9 +41,10 @@ public class UserService {
      * 调用微信接口，用 code 换 openid
      */
     private String getOpenidFromCode(String code) {
-        if (appid == null || appid.isEmpty() || secret == null || secret.isEmpty()) {
-            // 未配置微信参数，调试模式下直接用 code 充当 openid（仅开发测试用）
-            return "debug_openid_" + code;
+        // 未配置 appid/secret 时：wx.login 每次返回的 code 都不同，
+        // 若用「debug_openid_ + code」会每次登录都是新 openid，资料永远对不上。
+        if (!StringUtils.hasText(appid) || !StringUtils.hasText(secret)) {
+            return "debug_openid_stable";
         }
         String url = "https://api.weixin.qq.com/sns/jscode2session"
                 + "?appid=" + appid
@@ -70,6 +72,11 @@ public class UserService {
         );
     }
 
+    /**
+     * 新用户写入微信昵称/头像；已存在用户登录时不再用本次授权覆盖库里的资料，
+     * 否则会把用户在「个人资料」里保存的昵称/头像冲掉。
+     * 若库里昵称为空，则用本次微信昵称补一次（首次完善资料）。
+     */
     public User createOrUpdate(String openid, String nickname, String avatar) {
         User user = getByOpenid(openid);
         if (user == null) {
@@ -77,10 +84,24 @@ public class UserService {
             user.setOpenid(openid);
             user.setNickname(nickname);
             user.setAvatar(avatar);
+            if (user.getGender() == null) {
+                user.setGender(0);
+            }
             userRepository.insert(user);
-        } else {
-            if (nickname != null) user.setNickname(nickname);
-            if (avatar != null) user.setAvatar(avatar);
+            return user;
+        }
+        boolean needUpdate = false;
+        if ((user.getNickname() == null || user.getNickname().isEmpty())
+                && nickname != null && !nickname.isEmpty()) {
+            user.setNickname(nickname);
+            needUpdate = true;
+        }
+        if ((user.getAvatar() == null || user.getAvatar().isEmpty())
+                && avatar != null && !avatar.isEmpty()) {
+            user.setAvatar(avatar);
+            needUpdate = true;
+        }
+        if (needUpdate) {
             userRepository.updateById(user);
         }
         return user;
@@ -96,16 +117,24 @@ public class UserService {
 
     /**
      * 通过 openid 更新用户资料
+     * @return false 表示 openid 在库中不存在（openid 与登录不一致时）
      */
-    public void updateProfile(String openid, String nickname, String avatar,
-                              Integer gender, String phone, String email) {
+    public boolean updateProfile(String openid, String nickname, String avatar,
+                               Integer gender, String phone, String email,
+                               String province, String city, String district) {
         User user = getByOpenid(openid);
-        if (user == null) return;
+        if (user == null) {
+            return false;
+        }
         if (nickname != null) user.setNickname(nickname);
         if (avatar != null) user.setAvatar(avatar);
         if (gender != null) user.setGender(gender);
         if (phone != null) user.setPhone(phone);
         if (email != null) user.setEmail(email);
+        if (province != null) user.setProvince(province);
+        if (city != null) user.setCity(city);
+        if (district != null) user.setDistrict(district);
         userRepository.updateById(user);
+        return true;
     }
 }

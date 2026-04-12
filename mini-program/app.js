@@ -1,15 +1,29 @@
 const { request } = require('./utils/request.js')
 
-// 预设主题色板 - 使用更浅的颜色
+// 预设主题色板（共 12 种；首项「科技蓝」为默认）
 const THEMES = [
-  { id: 'blue',   name: '科技蓝',   color: '#66B1FF', light: '#E6F4FF', dark: '#409EFF' },
-  { id: 'purple', name: '优雅紫',   color: '#B388FF', light: '#F3E8FF', dark: '#9C27B0' },
-  { id: 'green',  name: '清新绿',   color: '#85CE61', light: '#E8F5E8', dark: '#67C23A' },
-  { id: 'orange', name: '活力橙',   color: '#F0C78A', light: '#FFF7E6', dark: '#E6A23C' },
-  { id: 'red',    name: '中国红',   color: '#F78989', light: '#FFE8E8', dark: '#F56C6C' },
-  { id: 'pink',   name: '少女粉',   color: '#F4B8C5', light: '#FFEEF0', dark: '#E88A9C' },
-  { id: 'dark',   name: '极客黑',   color: '#409EFF', light: '#1E2A3A', dark: '#66B1FF' }
+  { id: 'blue',   name: '科技蓝',  color: '#66B1FF', light: '#E6F4FF', dark: '#409EFF' },
+  { id: 'purple', name: '优雅紫',  color: '#B388FF', light: '#F3E8FF', dark: '#9C27B0' },
+  { id: 'green',  name: '清新绿',  color: '#85CE61', light: '#E8F5E8', dark: '#67C23A' },
+  { id: 'orange', name: '活力橙',  color: '#F0C78A', light: '#FFF7E6', dark: '#E6A23C' },
+  { id: 'red',    name: '中国红',  color: '#F78989', light: '#FFE8E8', dark: '#F56C6C' },
+  { id: 'pink',   name: '少女粉',  color: '#F4B8C5', light: '#FFEEF0', dark: '#E88A9C' },
+  { id: 'cyan',   name: '天青色',  color: '#36CFC9', light: '#E6FFFB', dark: '#13C2C2' },
+  { id: 'teal',   name: '松石绿',  color: '#3EB489', light: '#E8FFF4', dark: '#08979C' },
+  { id: 'indigo', name: '靛青蓝',  color: '#7B95F6', light: '#EEF2FF', dark: '#5C6BC0' },
+  { id: 'amber',  name: '暖阳黄',  color: '#F5A623', light: '#FFF8E6', dark: '#D48806' },
+  { id: 'rose',   name: '蔷薇粉',  color: '#F472B6', light: '#FCE7F3', dark: '#DB2777' },
+  { id: 'lilac',  name: '丁香紫',  color: '#B37FEB', light: '#F9F0FF', dark: '#9254DE' }
 ]
+
+function normalizeSavedTheme(saved) {
+  if (!saved || !saved.id) return THEMES[0]
+  if (saved.id === 'white') return THEMES[0] // 已移除「纯白色」→ 科技蓝
+  const hit = THEMES.find(t => t.id === saved.id)
+  if (hit) return hit
+  // 已移除「极客黑」或缓存损坏时回退默认
+  return THEMES[0]
+}
 
 App({
   globalData: {
@@ -24,7 +38,10 @@ App({
 
   onLaunch() {
     const saved = wx.getStorageSync('theme')
-    const theme = saved || THEMES[0]
+    const theme = normalizeSavedTheme(saved)
+    if (!saved || saved.id !== theme.id) {
+      wx.setStorageSync('theme', theme)
+    }
     this.setTheme(theme, false) // 启动时不更新 TabBar（此时无 TabBar）
   },
 

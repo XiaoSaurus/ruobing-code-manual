@@ -1,0 +1,25 @@
+<view class="container" style="{{pageStyle}}">
+  <view class="page-head">
+    <view class="page-title">我的反馈</view>
+    <view class="page-sub">仅展示本账号提交的反馈</view>
+  </view>
+
+  <view class="card-list" wx:if="{{list.length > 0}}">
+    <view class="fb-card" wx:for="{{list}}" wx:key="id">
+      <view class="fb-meta">
+        <text class="fb-time">{{item.timeLabel}}</text>
+        <text class="fb-status {{item.statusClass}}">{{item.statusLabel}}</text>
+      </view>
+      <view class="fb-content">{{item.content}}</view>
+      <view class="fb-contact" wx:if="{{item.contact}}">联系方式：{{item.contact}}</view>
+      <view class="fb-reply-wrap" wx:if="{{item.reply}}">
+        <view class="fb-reply-label">官方回复</view>
+        <view class="fb-reply">{{item.reply}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{loaded && list.length === 0}}">
+    <text>暂无反馈记录</text>
+  </view>
+</view>

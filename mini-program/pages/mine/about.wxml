@@ -1,47 +1,67 @@
-<view class="container">
-  <view class="about-card" wx:if="{{about}}">
-    <view class="about-header">
-      <image class="logo-icon-img" src="/static/icons/icon-book.png" mode="aspectFit" />
-      <view class="app-name">{{about.title || '若冰代码手册'}}</view>
-    </view>
-    <view class="divider"></view>
-    <view class="about-body">
-      <rich-text nodes="{{about.content}}"></rich-text>
-    </view>
-    <view class="divider" wx:if="{{about.contact}}"></view>
-    <view class="contact-section" wx:if="{{about.contact}}">
-      <view class="contact-title">联系我们</view>
-      <view class="contact-text">{{about.contact}}</view>
-    </view>
-  </view>
-
-  <view class="about-card" wx:if="{{!about}}">
-    <view class="about-header">
-      <image class="logo-icon-img" src="/static/icons/icon-book.png" mode="aspectFit" />
+<view class="container" style="{{pageStyle}}">
+  <view class="about-card">
+    <view class="about-hero">
+      <view class="logo-badge">
+        <image class="logo-icon-img" src="/static/ruobing-it_favicon.png" mode="aspectFit" />
+      </view>
       <view class="app-name">若冰代码手册</view>
+      <text class="app-sub">学习 · 展示 · 交流</text>
     </view>
-    <view class="divider"></view>
+
     <view class="about-body">
-      <text class="about-desc">若冰代码手册是一个专业的代码分享平台，致力于为开发者提供优质的学习资源和交流空间。</text>
-      <view class="feature-list">
-        <view class="feature-item">
-          <image class="feature-icon-img" src="/static/icons/icon-monitor.png" mode="aspectFit" />
-          <text>网页设计作品展示</text>
-        </view>
-        <view class="feature-item">
-          <image class="feature-icon-img" src="/static/icons/icon-cap.png" mode="aspectFit" />
-          <text>毕业设计项目分享</text>
-        </view>
-        <view class="feature-item">
-          <image class="feature-icon-img" src="/static/icons/icon-bulb.png" mode="aspectFit" />
-          <text>技术资源交流社区</text>
+      <view class="md-block md-block--lead">
+        <view class="md-h2">简介</view>
+        <view class="feature-sheet feature-sheet--plain">
+          <text class="md-p sheet-text">「若冰代码手册」是面向学习与作品展示的微信小程序，聚合网页设计案例与毕业设计项目，便于随时浏览、收藏灵感；配合个人中心、主题与反馈等能力，让日常查阅更轻便。</text>
         </view>
       </view>
-    </view>
-    <view class="divider"></view>
-    <view class="contact-section">
-      <view class="contact-title">联系我们</view>
-      <view class="contact-text">欢迎通过意见反馈功能联系我们</view>
+
+      <view class="md-block">
+        <view class="md-h2">定位</view>
+        <view class="feature-sheet feature-sheet--plain">
+          <text class="md-p sheet-text">为学生、设计与开发人员提供案例浏览与项目参考，侧重「学习、展示与交流」，不替代系统课程或完整工程交付。</text>
+        </view>
+      </view>
+
+      <view class="md-block">
+        <view class="md-h2">提供什么</view>
+        <view class="feature-list feature-sheet">
+          <view class="feature-chip">
+            <view class="feature-dot"></view>
+            <view class="feature-text-wrap">
+              <text class="feature-title">网页设计</text>
+              <text class="feature-desc">作品列表与详情，案例说明与演示入口。</text>
+            </view>
+          </view>
+          <view class="feature-chip">
+            <view class="feature-dot"></view>
+            <view class="feature-text-wrap">
+              <text class="feature-title">毕业设计</text>
+              <text class="feature-desc">项目分享与选题、实现要点梳理。</text>
+            </view>
+          </view>
+          <view class="feature-chip">
+            <view class="feature-dot"></view>
+            <view class="feature-text-wrap">
+              <text class="feature-title">我的</text>
+              <text class="feature-desc">登录与资料、主题色、意见反馈与更新日志等。</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="md-block">
+        <view class="md-h2">使用与版权</view>
+        <view class="feature-sheet feature-sheet--plain feature-sheet--muted">
+          <text class="md-p md-p--small sheet-text">案例、图片与文字版权归原作者所有或已获授权；仅供个人学习与非商业交流，请勿擅自转载、商用或用于违法用途。合作或授权请通过「意见反馈」说明来意。</text>
+        </view>
+      </view>
+
+      <view class="version-pill">
+        <text class="version-label">当前版本</text>
+        <text class="version-value">V1.0.0</text>
+      </view>
+      
     </view>
   </view>
 </view>

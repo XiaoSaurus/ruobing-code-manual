@@ -1,6 +1,6 @@
 <view class="container" style="{{pageStyle}}">
   <!-- 用户信息卡：未登录 -->
-  <view class="user-card" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);" wx:if="{{!userInfo}}" bindtap="goLogin">
+  <view class="user-card {{userCardLight ? 'user-card--light' : ''}}" style="background: {{userCardBg}};" wx:if="{{!userInfo}}" bindtap="goLogin">
     <view class="user-info">
       <image class="avatar" src="/static/default-avatar.png" mode="aspectFill" />
       <view class="user-text">
@@ -14,7 +14,7 @@
   </view>
 
   <!-- 用户信息卡：已登录 -->
-  <view class="user-card logged" style="background: linear-gradient(135deg, {{themeColor}} 0%, #764ba2 100%);" wx:if="{{userInfo}}">
+  <view class="user-card logged {{userCardLight ? 'user-card--light' : ''}}" style="background: {{userCardBg}};" wx:if="{{userInfo}}">
     <view class="user-info" bindtap="goProfile">
       <image class="avatar" src="{{userInfo.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill" />
       <view class="user-text">
@@ -32,7 +32,7 @@
     <!-- 登录后才显示：个人资料 -->
     <view class="menu-item" bindtap="goProfile" wx:if="{{userInfo}}">
       <view class="menu-left">
-        <image class="menu-icon" src="/static/icons/icon-about.png" mode="aspectFit" />
+        <image class="menu-icon" src="/static/icons/icon-profile.png" mode="aspectFit" />
         <text class="menu-label">个人资料</text>
       </view>
       <text class="arrow">›</text>
@@ -75,9 +75,4 @@
   <button class="share-btn" open-type="share">
     <text>分享给好友</text>
   </button>
-
-  <!-- 版本信息 -->
-  <view class="version-info">
-    <text>V1.0.0</text>
-  </view>
 </view>

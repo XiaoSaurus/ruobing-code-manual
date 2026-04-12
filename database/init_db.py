@@ -19,8 +19,36 @@ for sql in sqls:
     cursor.execute(sql)
 
 # Insert initial data
-cursor.execute("""INSERT INTO `about_us` (`content`) VALUES ('<h2>RuoBing Codebook</h2><p>A professional code sharing platform.</p><h3>Contact</h3><p>Email: contact@ruobingcode.com</p>')""")
-cursor.execute("""INSERT INTO `changelog` (`version`, `title`, `content`, `type`) VALUES ('1.0.0', 'Official Release', 'RuoBing Codebook officially launched', 'feature')""")
+# content 为 NULL 时小程序展示本地默认关于页；需要后台文案时改为 HTML
+cursor.execute("""INSERT INTO `about_us` (`content`) VALUES (NULL)""")
+_changelog_rows = [
+    (
+        '1.0.0',
+        '首发上线',
+        '## 若冰代码手册正式发布\n\n- 小程序基础框架与「首页 / 网页设计 / 毕业设计 / 我的」导航\n- **微信登录**与本地用户信息缓存\n- 关于我们、更新日志入口',
+        'feature',
+        '2025-08-01 10:00:00',
+    ),
+    (
+        '1.1.0',
+        '资源与反馈',
+        '## 新增\n\n- 首页 Banner 与热门、最新内容聚合展示\n- 网页设计 / 毕业设计 **列表与详情**页\n- 「意见反馈」收集使用问题与建议',
+        'feature',
+        '2026-01-18 15:30:00',
+    ),
+    (
+        '1.2.0',
+        '主题与合规',
+        '## 更新内容\n\n- **多主题色**：个人中心支持切换主题预览\n- **用户协议 / 隐私政策**：登录前勾选，协议内容可后台配置\n- **个人资料**：头像与昵称编辑、与后端同步\n- 关于我们页展示优化',
+        'feature',
+        '2026-04-12 12:00:00',
+    ),
+]
+for row in _changelog_rows:
+    cursor.execute(
+        'INSERT INTO `changelog` (`version`, `title`, `content`, `type`, `create_time`) VALUES (%s,%s,%s,%s,%s)',
+        row,
+    )
 
 conn.commit()
 cursor.execute('SHOW TABLES')

@@ -1,10 +1,15 @@
 const app = getApp()
+const { pullUserFromServer } = require('../../utils/userSync.js')
+const { buildUserCardGradient, isUserCardLightMode } = require('../../utils/themeUi.js')
 
 Page({
   data: {
     userInfo: null,
     theme: null,
-    themeColor: '#409EFF',
+    themeColor: '#66B1FF',
+    /** 用户卡背景；userCardLight 为 true 时用浅色字样式 .user-card--light */
+    userCardBg: 'linear-gradient(175deg, #E6F4FF 0%, #ffffff 100%)',
+    userCardLight: true,
     pageStyle: ''
   },
 
@@ -13,12 +18,21 @@ Page({
   },
 
   onShow() {
-    const userInfo = wx.getStorageSync('userInfo') || null
+    let userInfo = wx.getStorageSync('userInfo') || null
     this.applyTheme()
     this.setData({ userInfo })
     if (app.globalData.themeDirty) {
       app.globalData.themeDirty = false
       app.updateTabBar(app.globalData.currentTheme)
+    }
+    // 从服务端同步资料，避免仅本地有缓存、库中已更新或换机后不一致
+    if (userInfo && userInfo.openid) {
+      pullUserFromServer(userInfo.openid).then(fresh => {
+        if (!fresh) return
+        wx.setStorageSync('userInfo', fresh)
+        app.globalData.userInfo = fresh
+        this.setData({ userInfo: fresh })
+      })
     }
   },
 
@@ -26,10 +40,13 @@ Page({
   applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
     const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
-    this.setData({ 
-      theme, 
+    const userCardBg = buildUserCardGradient(theme)
+    this.setData({
+      theme,
       themeColor: theme.color,
-      pageStyle: style 
+      userCardBg,
+      userCardLight: isUserCardLightMode(theme),
+      pageStyle: style
     })
   },
 
@@ -59,8 +76,13 @@ Page({
     })
   },
 
-  // 意见反馈
+  // 意见反馈（需登录）
   goFeedback() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo || !userInfo.openid) {
+      wx.navigateTo({ url: '/pages/mine/login' })
+      return
+    }
     wx.navigateTo({ url: '/pages/mine/feedback' })
   },
 

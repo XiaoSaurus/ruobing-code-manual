@@ -12,7 +12,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-# 微信小程序登录配置（生产环境用环境变量 WXAPP_APPID / WXAPP_SECRET 更安全）
+# 微信小程序登录（jscode2session）。也可用环境变量覆盖：WXAPP_APPID、WXAPP_SECRET
 wxapp:
   appid: ${WXAPP_APPID:wx5282bd68a559448f}
   secret: ${WXAPP_SECRET:df8d6f8a4f0c9b3ebcf695e95ba8d217}

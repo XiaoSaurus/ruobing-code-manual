@@ -1,23 +1,31 @@
-<view class="container">
+<view class="container" style="{{pageStyle}}">
   <view class="header">
-    <view class="header-title">📋 更新日志</view>
-    <view class="header-subtitle">若冰代码手册 V1.0.0</view>
+    <view class="header-title">更新日志</view>
+    <view class="header-subtitle" wx:if="{{latestVersion}}">当前最新版本 V{{latestVersion}}</view>
+    <view class="header-subtitle" wx:else>若冰代码手册</view>
   </view>
 
   <view class="timeline" wx:if="{{list.length > 0}}">
     <view class="timeline-item" wx:for="{{list}}" wx:key="id">
       <view class="timeline-left">
         <view class="timeline-dot"></view>
-        <view class="timeline-line"></view>
+        <view class="timeline-line" wx:if="{{index < list.length - 1}}"></view>
       </view>
       <view class="timeline-right">
         <view class="version-card">
           <view class="version-header">
             <text class="version-tag">V{{item.version}}</text>
-            <text class="version-date">{{item.createTime}}</text>
+            <text class="version-date">{{item.createTimeLabel}}</text>
           </view>
-          <view class="version-title">{{item.title}}</view>
-          <view class="version-content">{{item.content}}</view>
+
+          <view class="version-title-row" catchtap="toggleDetail" data-id="{{item.id}}">
+            <text class="version-title-text">{{item.title}}</text>
+            <text class="title-arrow">{{item.expanded ? '▲' : '▼'}}</text>
+          </view>
+
+          <view class="detail-subcard" wx:if="{{item.expanded}}">
+            <rich-text class="version-content-md" type="html" nodes="{{item.contentHtml}}"></rich-text>
+          </view>
         </view>
       </view>
     </view>

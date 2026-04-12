@@ -1,7 +1,7 @@
 {
-  "miniprogramRoot": "./miniprogram",
+  "miniprogramRoot": "./mini-program",
   "projectname": "ruobing-codebook",
-  "appid": "",
+  "appid": "wx5282bd68a559448f",
   "compileType": "miniprogram",
   "setting": {
     "urlCheck": false,

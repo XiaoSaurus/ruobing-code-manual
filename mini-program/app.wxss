@@ -1,6 +1,6 @@
 /* 全局主题 CSS 变量 */
 page {
-  /* 默认科技蓝主题 - 更浅的配色 */
+  /* 默认「科技蓝」主题 */
   --theme-color: #66B1FF;
   --theme-light: #E6F4FF;
   --theme-dark: #409EFF;
@@ -10,51 +10,89 @@ page {
   --theme-text-light: #666666;
 }
 
-/* 主题类 - 通过 JS 动态添加到 page 元素 */
-page.theme-blue {
+/* 主题类：page 或带 themeClass 的根节点 .container 均可 */
+page.theme-blue,
+.container.theme-blue {
   --theme-color: #66B1FF;
   --theme-light: #E6F4FF;
   --theme-dark: #409EFF;
 }
 
-page.theme-purple {
+page.theme-purple,
+.container.theme-purple {
   --theme-color: #B388FF;
   --theme-light: #F3E8FF;
   --theme-dark: #9C27B0;
 }
 
-page.theme-green {
+page.theme-green,
+.container.theme-green {
   --theme-color: #85CE61;
   --theme-light: #E8F5E8;
   --theme-dark: #67C23A;
 }
 
-page.theme-orange {
+page.theme-orange,
+.container.theme-orange {
   --theme-color: #F0C78A;
   --theme-light: #FFF7E6;
   --theme-dark: #E6A23C;
 }
 
-page.theme-red {
+page.theme-red,
+.container.theme-red {
   --theme-color: #F78989;
   --theme-light: #FFE8E8;
   --theme-dark: #F56C6C;
 }
 
-page.theme-pink {
+page.theme-pink,
+.container.theme-pink {
   --theme-color: #F4B8C5;
   --theme-light: #FFEEF0;
   --theme-dark: #E88A9C;
 }
 
-page.theme-dark {
-  --theme-color: #67C23A;
-  --theme-light: #1E2A3A;
-  --theme-dark: #409EFF;
-  --theme-bg: #121212;
-  --theme-card: #1E1E1E;
-  --theme-text: #E0E0E0;
-  --theme-text-light: #999999;
+page.theme-cyan,
+.container.theme-cyan {
+  --theme-color: #36CFC9;
+  --theme-light: #E6FFFB;
+  --theme-dark: #13C2C2;
+}
+
+page.theme-teal,
+.container.theme-teal {
+  --theme-color: #3EB489;
+  --theme-light: #E8FFF4;
+  --theme-dark: #08979C;
+}
+
+page.theme-indigo,
+.container.theme-indigo {
+  --theme-color: #7B95F6;
+  --theme-light: #EEF2FF;
+  --theme-dark: #5C6BC0;
+}
+
+page.theme-amber,
+.container.theme-amber {
+  --theme-color: #F5A623;
+  --theme-light: #FFF8E6;
+  --theme-dark: #D48806;
+}
+
+page.theme-rose,
+.container.theme-rose {
+  --theme-color: #F472B6;
+  --theme-light: #FCE7F3;
+  --theme-dark: #DB2777;
+}
+
+page.theme-lilac,
+.container.theme-lilac {
+  --theme-color: #B37FEB;
+  --theme-light: #F9F0FF;
+  --theme-dark: #9254DE;
 }
 
 /* 全局样式 */

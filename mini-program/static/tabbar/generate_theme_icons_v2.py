@@ -6,7 +6,7 @@
 from PIL import Image, ImageDraw
 import os
 
-# 主题配置
+# 主题配置（与 app.js 中 THEMES 一致，共 12 种）
 THEMES = {
     'blue':   {'color': '#66B1FF', 'name': '科技蓝'},
     'purple': {'color': '#B388FF', 'name': '优雅紫'},
@@ -14,7 +14,12 @@ THEMES = {
     'orange': {'color': '#F0C78A', 'name': '活力橙'},
     'red':    {'color': '#F78989', 'name': '中国红'},
     'pink':   {'color': '#F4B8C5', 'name': '少女粉'},
-    'dark':   {'color': '#67C23A', 'name': '极客黑'},
+    'cyan':   {'color': '#36CFC9', 'name': '天青色'},
+    'teal':   {'color': '#3EB489', 'name': '松石绿'},
+    'indigo': {'color': '#7B95F6', 'name': '靛青蓝'},
+    'amber':  {'color': '#F5A623', 'name': '暖阳黄'},
+    'rose':   {'color': '#F472B6', 'name': '蔷薇粉'},
+    'lilac':  {'color': '#B37FEB', 'name': '丁香紫'},
 }
 
 # 尺寸

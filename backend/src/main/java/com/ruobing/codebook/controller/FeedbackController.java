@@ -24,11 +24,18 @@ public class FeedbackController {
         return Result.success();
     }
 
-    @Operation(summary = "获取反馈列表", description = "获取用户反馈列表")
+    @Operation(summary = "获取反馈列表", description = "获取用户反馈列表（可选按用户ID筛选）")
     @GetMapping("/list")
     public Result<?> getList(
             @Parameter(description = "用户ID（可选）") @RequestParam(required = false) Long userId) {
         return Result.success(feedbackService.getList(userId, null));
+    }
+
+    @Operation(summary = "我的反馈记录", description = "当前微信用户提交的反馈列表")
+    @GetMapping("/mine")
+    public Result<?> mine(
+            @Parameter(description = "微信 openid") @RequestParam(required = false) String openid) {
+        return Result.success(feedbackService.listByOpenid(openid));
     }
 
     @Operation(summary = "回复反馈", description = "管理员回复用户反馈")

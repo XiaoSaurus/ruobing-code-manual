@@ -6,7 +6,18 @@
   border-radius: 20rpx;
   padding: 50rpx 30rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.1);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.06);
+}
+/* 浅色渐变底：深色字，保证对比度 */
+.user-card--light .nickname { color: #333; }
+.user-card--light .tip { color: #666; }
+.user-card--light .login-icon,
+.user-card--light .arrow-text { color: #999; }
+.user-card--light .avatar { border-color: rgba(0,0,0,0.08); }
+.user-card--light .logout-btn {
+  color: var(--theme-color);
+  background: rgba(255,255,255,0.95);
+  border: 1rpx solid var(--theme-color);
 }
 /* 已登录卡片：头像+文字左对齐，退出按钮右浮动 */
 .user-card.logged {
