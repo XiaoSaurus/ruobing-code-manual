@@ -11,7 +11,7 @@ Page({
   },
 
   loadData() {
-    wx.showLoading({ title: '加载中�? })
+    wx.showLoading({ title: '加载中…' })
     app.globalData.request.get('/changelog/list').then(res => {
       wx.hideLoading()
       this.setData({

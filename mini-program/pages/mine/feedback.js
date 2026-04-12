@@ -17,7 +17,7 @@ Page({
 
   submit() {
     if (!this.data.content.trim()) {
-      wx.showToast({ title: '请输入反馈内�?, icon: 'none' })
+      wx.showToast({ title: '请输入反馈内容', icon: 'none' })
       return
     }
     this.setData({ submitting: true })
