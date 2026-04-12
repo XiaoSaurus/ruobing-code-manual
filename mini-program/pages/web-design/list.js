@@ -25,6 +25,10 @@ Page({
 
   onShow() {
     this.applyTheme()
+    if (app.globalData.themeDirty) {
+      app.globalData.themeDirty = false
+      app.updateTabBar(app.globalData.currentTheme)
+    }
   },
 
   // 应用主题 - 使用内联样式

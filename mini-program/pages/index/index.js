@@ -17,6 +17,11 @@ Page({
 
   onShow() {
     this.applyTheme()
+    // 主题切换后，从 TabBar 页面更新 TabBar 样式
+    if (app.globalData.themeDirty) {
+      app.globalData.themeDirty = false
+      app.updateTabBar(app.globalData.currentTheme)
+    }
   },
 
   // 应用主题 - 使用内联样式

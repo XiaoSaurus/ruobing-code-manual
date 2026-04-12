@@ -25,6 +25,10 @@ Page({
 
   onShow() {
     this.applyTheme()
+    if (app.globalData.themeDirty) {
+      app.globalData.themeDirty = false
+      app.updateTabBar(app.globalData.currentTheme)
+    }
   },
 
   applyTheme() {

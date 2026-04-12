@@ -17,24 +17,29 @@ App({
     apiBase: 'http://localhost:4001/api',
     userInfo: null,
     themes: THEMES,
-    currentTheme: null
+    currentTheme: null,
+    // 标记主题已更新，等待 TabBar 页面 onShow 时应用
+    themeDirty: false
   },
 
   onLaunch() {
     const saved = wx.getStorageSync('theme')
     const theme = saved || THEMES[0]
-    this.setTheme(theme)
+    this.setTheme(theme, false) // 启动时不更新 TabBar（此时无 TabBar）
   },
 
-  setTheme(theme) {
+  setTheme(theme, updateTabBarNow = false) {
     this.globalData.currentTheme = theme
+    this.globalData.themeDirty = true
     wx.setStorageSync('theme', theme)
-    
+
     // 应用主题到当前页面
     this.applyThemeToPage(theme)
-    
-    // 更新 tabBar 样式和图标
-    this.updateTabBar(theme)
+
+    // TabBar 更新：只在当前有 TabBar 时才更新
+    if (updateTabBarNow) {
+      this.updateTabBar(theme)
+    }
   },
 
   // 应用主题到页面
@@ -45,7 +50,6 @@ App({
         if (page && page.setData && page.applyTheme) {
           page.applyTheme()
         } else if (page && page.setData) {
-          // 对于没有 applyTheme 方法的页面，直接设置 themeClass
           page.setData({
             themeClass: 'theme-' + theme.id,
             theme: theme
@@ -57,14 +61,9 @@ App({
     }
   },
 
-  // 更新 TabBar 样式和图标
+  // 更新 TabBar 样式和图标（仅从 TabBar 页面调用才有效）
   updateTabBar(theme) {
-    console.log('updateTabBar called with theme:', theme)
-
-    if (!theme || !theme.id) {
-      console.error('Invalid theme:', theme)
-      return
-    }
+    if (!theme || !theme.id) return
 
     // 更新样式（选中文字颜色）
     wx.setTabBarStyle({
@@ -72,9 +71,7 @@ App({
       selectedColor: theme.color,
       backgroundColor: '#ffffff',
       borderStyle: 'white'
-    }).catch(err => {
-      console.warn('setTabBarStyle error (ignore):', err)
-    })
+    }).catch(() => {})
 
     // 更新每个 Tab 的图标
     const tabs = [
@@ -85,20 +82,12 @@ App({
     ]
 
     tabs.forEach(tab => {
-      const iconPath = `/static/tabbar/${tab.name}.png`
-      const selectedIconPath = `/static/tabbar/${tab.name}-${theme.id}.png`
-
       wx.setTabBarItem({
         index: tab.index,
         text: tab.text,
-        iconPath: iconPath,
-        selectedIconPath: selectedIconPath
-      }).then(() => {
-        console.log(`setTabBarItem ${tab.name} success`)
-      }).catch(err => {
-        // ignore - 页面未加载时 setTabBarItem 会失败，这是正常的
-        console.warn(`setTabBarItem ${tab.name} skip (page not loaded yet):`, err)
-      })
+        iconPath: `/static/tabbar/${tab.name}.png`,
+        selectedIconPath: `/static/tabbar/${tab.name}-${theme.id}.png`
+      }).catch(() => {})
     })
   }
 })
