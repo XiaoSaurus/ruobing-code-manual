@@ -42,27 +42,34 @@ Page({
     }
   },
 
-  // 点赞
+  // 点赞 / 取消点赞
   handleLike() {
-    if (this.data.liked) {
-      wx.showToast({ title: '已经点过赞啦', icon: 'none' })
-      return
-    }
-    
-    this.setData({ liked: true })
-    
-    // 更新本地显示
+    const isLiked = this.data.liked
     const detail = this.data.detail
+    
+    // 切换点赞状态
+    this.setData({ liked: !isLiked })
+    
+    // 更新本地显示的点赞数
     if (detail) {
+      const newLikes = isLiked 
+        ? Math.max(0, (detail.likes || 0) - 1)  // 取消点赞，-1
+        : (detail.likes || 0) + 1                // 点赞，+1
+      
       this.setData({
-        detail: { ...detail, likes: (detail.likes || 0) + 1 }
+        detail: { ...detail, likes: newLikes }
       })
     }
     
-    wx.showToast({ title: '点赞成功 ❤️', icon: 'none' })
+    // 显示提示
+    if (isLiked) {
+      wx.showToast({ title: '已取消点赞', icon: 'none' })
+    } else {
+      wx.showToast({ title: '点赞成功 ❤️', icon: 'none' })
+    }
     
     // TODO: 调用后端API更新点赞数
-    // request('/graduation/like', { method: 'POST', data: { id: this.data.detail.id } })
+    // request('/graduation/like', { method: 'POST', data: { id: this.data.detail.id, liked: !isLiked } })
   },
 
   // 分享
