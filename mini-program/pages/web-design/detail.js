@@ -5,7 +5,7 @@ Page({
     detail: null,
     articleUrl: '',
     liked: false,
-    touchStartTime: 0
+    lastTapTime: 0  // 上一次点击时间，用于检测双击
   },
 
   onLoad(options) {
@@ -28,20 +28,21 @@ Page({
     }
   },
 
-  // 双击点赞 - 通过触摸事件检测
-  handleTouchStart(e) {
-    this.setData({ touchStartTime: e.timeStamp })
-  },
-
-  handleTouchEnd(e) {
-    const diff = e.timeStamp - this.data.touchStartTime
-    // 双击间隔小于300ms
+  // 双击点赞 - 检测两次点击间隔
+  handleDoubleTap() {
+    const now = Date.now()
+    const diff = now - this.data.lastTapTime
+    
+    // 如果两次点击间隔小于300ms，视为双击
     if (diff > 0 && diff < 300) {
       this.handleLike()
     }
+    
+    // 更新上次点击时间
+    this.setData({ lastTapTime: now })
   },
 
-  // 点赞 / 取消点赞
+  // 点赞 / 取消点赞（单击按钮或双击屏幕）
   handleLike() {
     const isLiked = this.data.liked
     const detail = this.data.detail
@@ -68,7 +69,6 @@ Page({
     }
     
     // TODO: 调用后端API更新点赞数
-    // request('/web-design/like', { method: 'POST', data: { id: this.data.detail.id, liked: !isLiked } })
   },
 
   // 分享

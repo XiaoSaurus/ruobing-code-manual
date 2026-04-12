@@ -1,6 +1,6 @@
-<view class="container" bindtouchstart="handleTouchStart" bindtouchend="handleTouchEnd">
+<view class="container">
   <!-- 有 articleUrl → 显示文章预览卡片 + 按钮 -->
-  <view class="article-card" wx:if="{{articleUrl && detail}}">
+  <view class="article-card" wx:if="{{articleUrl && detail}}" bindtap="handleDoubleTap">
     <image class="card-cover" src="{{detail.coverImage}}" mode="aspectFill" />
     <view class="card-body">
       <text class="card-title">{{detail.title}}</text>
@@ -9,12 +9,12 @@
         <text>👁 {{detail.views}} 浏览</text>
         <text>❤️ {{detail.likes}} 点赞</text>
       </view>
-      <button class="read-btn" bindtap="openArticle">阅读全文</button>
+      <button class="read-btn" catchtap="openArticle">阅读全文</button>
     </view>
   </view>
 
   <!-- 无 articleUrl → 展示本地详情 -->
-  <view class="detail" wx:elif="{{detail}}">
+  <view class="detail" wx:elif="{{detail}}" bindtap="handleDoubleTap">
     <image class="cover" src="{{detail.coverImage || '/static/default.png'}}" mode="aspectFill" />
     <view class="content">
       <text class="title">{{detail.title}}</text>
