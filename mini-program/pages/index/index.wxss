@@ -1,5 +1,5 @@
 /* 首页样式 */
-page { background: #f8f9fa; }
+page { background: var(--theme-bg); }
 
 .container { padding-bottom: 40rpx; }
 
@@ -19,7 +19,7 @@ page { background: #f8f9fa; }
   display: block;
 }
 
-/* Section 通用 - 简洁高级 */
+/* Section 通用 - 使用主题色 */
 .section { padding: 30rpx; }
 .section-header {
   display: flex;
@@ -30,7 +30,7 @@ page { background: #f8f9fa; }
 .section-title {
   font-size: 34rpx;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--theme-text);
   margin-left: 12rpx;
   letter-spacing: 1rpx;
 }
@@ -40,11 +40,11 @@ page { background: #f8f9fa; }
   opacity: 0.9;
 }
 
-/* 卡片列表 - 简洁高级 */
+/* 卡片列表 - 使用主题色 */
 .card-list { display: flex; flex-direction: column; gap: 20rpx; }
 
 .card {
-  background: #fff;
+  background: var(--theme-card);
   border-radius: 20rpx;
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
@@ -65,7 +65,7 @@ page { background: #f8f9fa; }
 .card-title {
   font-size: 30rpx;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--theme-text);
   display: block;
   margin-bottom: 16rpx;
   line-height: 1.5;
@@ -76,7 +76,7 @@ page { background: #f8f9fa; }
   display: flex;
   align-items: center;
   font-size: 24rpx;
-  color: #999;
+  color: var(--theme-text-light);
 }
 .meta-item {
   display: flex;
@@ -87,3 +87,8 @@ page { background: #f8f9fa; }
   font-size: 24rpx;
   margin-right: 6rpx;
 }
+
+/* 主题色元素 */
+.theme-text { color: var(--theme-color); }
+.theme-bg-light { background-color: var(--theme-light); }
+.theme-border { border-left: 6rpx solid var(--theme-color); }

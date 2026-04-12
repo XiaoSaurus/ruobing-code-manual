@@ -1,22 +1,36 @@
 const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
     keyword: '',
     sortBy: 'sort_order',
-    viewMode: 'single',  // 'single' | 'double'
+    viewMode: 'single',
     list: [],
     page: 1,
     pageSize: 10,
     hasMore: true,
-    loading: false
+    loading: false,
+    themeClass: ''
   },
 
   onLoad(options) {
+    this.applyTheme()
     if (options.keyword) {
       this.setData({ keyword: decodeURIComponent(options.keyword) })
     }
     this.loadData(true)
+  },
+
+  onShow() {
+    this.applyTheme()
+  },
+
+  applyTheme() {
+    const theme = app.globalData.currentTheme
+    if (theme) {
+      this.setData({ themeClass: 'theme-' + theme.id })
+    }
   },
 
   loadData(reset = false) {

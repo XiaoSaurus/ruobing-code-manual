@@ -1,14 +1,29 @@
 const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
     banners: [],
     hotList: [],
-    latestList: []
+    latestList: [],
+    themeClass: ''
   },
 
   onLoad() {
+    this.applyTheme()
     this.loadData()
+  },
+
+  onShow() {
+    this.applyTheme()
+  },
+
+  // 应用主题
+  applyTheme() {
+    const theme = app.globalData.currentTheme
+    if (theme) {
+      this.setData({ themeClass: 'theme-' + theme.id })
+    }
   },
 
   loadData() {

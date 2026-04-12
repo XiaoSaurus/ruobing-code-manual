@@ -1,4 +1,5 @@
 const { request } = require('../../utils/request.js')
+const app = getApp()
 
 Page({
   data: {
@@ -9,14 +10,28 @@ Page({
     page: 1,
     pageSize: 10,
     hasMore: true,
-    loading: false
+    loading: false,
+    themeClass: ''
   },
 
   onLoad(options) {
+    this.applyTheme()
     if (options.keyword) {
       this.setData({ keyword: decodeURIComponent(options.keyword) })
     }
     this.loadData(true)
+  },
+
+  onShow() {
+    this.applyTheme()
+  },
+
+  // 应用主题
+  applyTheme() {
+    const theme = app.globalData.currentTheme
+    if (theme) {
+      this.setData({ themeClass: 'theme-' + theme.id })
+    }
   },
 
   loadData(reset = false) {
