@@ -59,13 +59,24 @@ App({
 
   // 更新 TabBar 样式和图标
   updateTabBar(theme) {
+    console.log('updateTabBar called with theme:', theme)
+    
+    if (!theme || !theme.id) {
+      console.error('Invalid theme:', theme)
+      return
+    }
+
     // 更新样式（选中文字颜色）
     wx.setTabBarStyle({
       color: '#999999',
       selectedColor: theme.color,
       backgroundColor: '#ffffff',
       borderStyle: 'white'
-    }).catch(() => {})
+    }).then(() => {
+      console.log('setTabBarStyle success, color:', theme.color)
+    }).catch(err => {
+      console.error('setTabBarStyle error:', err)
+    })
 
     // 更新每个 Tab 的图标
     const tabs = [
@@ -76,12 +87,20 @@ App({
     ]
 
     tabs.forEach(tab => {
+      const iconPath = `/static/tabbar/${tab.name}.png`
+      const selectedIconPath = `/static/tabbar/${tab.name}-${theme.id}.png`
+      console.log(`Setting tab ${tab.index}: ${iconPath} / ${selectedIconPath}`)
+      
       wx.setTabBarItem({
         index: tab.index,
         text: tab.text,
-        iconPath: `/static/tabbar/${tab.name}.png`,
-        selectedIconPath: `/static/tabbar/${tab.name}-${theme.id}.png`
-      }).catch(() => {})
+        iconPath: iconPath,
+        selectedIconPath: selectedIconPath
+      }).then(() => {
+        console.log(`setTabBarItem ${tab.name} success`)
+      }).catch(err => {
+        console.error(`setTabBarItem ${tab.name} error:`, err)
+      })
     })
   }
 })

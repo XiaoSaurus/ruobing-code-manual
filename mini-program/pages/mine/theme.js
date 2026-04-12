@@ -15,6 +15,11 @@ Page({
 
   selectTheme(e) {
     const theme = e.currentTarget.dataset.theme
+    console.log('selectTheme:', theme)
+    if (!theme || !theme.id) {
+      wx.showToast({ title: '主题数据错误', icon: 'none' })
+      return
+    }
     app.setTheme(theme)
     this.setData({ currentTheme: theme })
     wx.showToast({ title: `已切换为「${theme.name}」`, icon: 'none' })
