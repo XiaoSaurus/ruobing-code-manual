@@ -13,7 +13,8 @@ const THEMES = [
 
 App({
   globalData: {
-    apiBase: 'https://www.ruobing.site:4001/api',
+    // apiBase: 'https://www.ruobing.site:4001/api',
+    apiBase: 'http://localhost:4001/api',
     userInfo: null,
     themes: THEMES,
     currentTheme: null
@@ -32,8 +33,8 @@ App({
     // 应用主题到当前页面
     this.applyThemeToPage(theme)
     
-    // 更新 tabBar
-    this.updateTabBarStyle(theme)
+    // 更新 tabBar 样式和图标
+    this.updateTabBar(theme)
   },
 
   // 应用主题到页面
@@ -56,13 +57,31 @@ App({
     }
   },
 
-  // 更新 TabBar 样式
-  updateTabBarStyle(theme) {
+  // 更新 TabBar 样式和图标
+  updateTabBar(theme) {
+    // 更新样式（选中文字颜色）
     wx.setTabBarStyle({
       color: '#999999',
       selectedColor: theme.color,
       backgroundColor: '#ffffff',
       borderStyle: 'white'
     }).catch(() => {})
+
+    // 更新每个 Tab 的图标
+    const tabs = [
+      { index: 0, name: 'home', text: '首页' },
+      { index: 1, name: 'code', text: '网页设计' },
+      { index: 2, name: 'school', text: '毕业设计' },
+      { index: 3, name: 'mine', text: '我的' }
+    ]
+
+    tabs.forEach(tab => {
+      wx.setTabBarItem({
+        index: tab.index,
+        text: tab.text,
+        iconPath: `/static/tabbar/${tab.name}.png`,
+        selectedIconPath: `/static/tabbar/${tab.name}-${theme.id}.png`
+      }).catch(() => {})
+    })
   }
 })

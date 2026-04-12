@@ -52,6 +52,9 @@
 
   <!-- 声明卡片 - 放最下面 -->
   <view class="disclaimer">
-    <text class="disclaimer-text">声明：部分资料来源于络，非小程序作者原创，仅供学习交流使用，如有侵权，请联系作者删除。</text>
-  </view>
+  <text class="disclaimer-text">
+    声明：部分资料来源于网络，非小程序作者原创，仅供学习交流使用。
+    如有侵权，请联系作者删除。
+  </text>
+</view>
 </view>
