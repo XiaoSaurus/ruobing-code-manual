@@ -9,7 +9,7 @@
       bindtap="selectTheme"
       data-theme="{{item}}"
     >
-      <view class="color-circle" style="background: linear-gradient(135deg, {{item.color}}, {{item.selectedColor}});">
+      <view class="color-circle" style="background: linear-gradient(135deg, {{item.color}}, {{item.light}});">
         <text wx:if="{{currentTheme.id === item.id}}" class="check">✓</text>
       </view>
       <text class="theme-name">{{item.name}}</text>
@@ -19,7 +19,7 @@
 
   <view class="preview">
     <view class="preview-title">效果预览</view>
-    <view class="preview-card" style="background: linear-gradient(135deg, {{currentTheme.color}}, {{currentTheme.selectedColor}});">
+    <view class="preview-card" style="background: linear-gradient(135deg, {{currentTheme.color}}, {{currentTheme.light}});">
       <view class="preview-row">
         <image class="preview-icon-img" src="/static/icons/icon-fire.png" mode="aspectFit" />
         <text class="preview-text">热门推荐</text>
