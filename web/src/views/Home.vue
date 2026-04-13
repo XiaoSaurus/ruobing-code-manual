@@ -2,7 +2,7 @@
   <div class="home">
     <!-- 顶部统计数据 -->
     <el-row :gutter="20" class="stat-row">
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card web-design" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -25,7 +25,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card graduation" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -48,7 +48,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card feedback" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -72,7 +72,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card changelog" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -98,7 +98,7 @@
 
     <!-- 系统用户统计 -->
     <el-row :gutter="20" class="stat-row">
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card sys-user" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -120,7 +120,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card user-active" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -142,7 +142,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card user-role" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -164,7 +164,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="24" :sm="12" :lg="6">
         <el-card class="stat-card user-list" shadow="hover">
           <div class="stat-content">
             <div class="stat-left">
@@ -190,7 +190,7 @@
 
     <!-- 用户图表区域 -->
     <el-row :gutter="20" class="chart-row">
-      <el-col :span="12">
+      <el-col :xs="24" :lg="12">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -202,7 +202,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :xs="24" :lg="12">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -217,7 +217,7 @@
 
     <!-- 图表区域 -->
     <el-row :gutter="20" class="chart-row">
-      <el-col :span="16">
+      <el-col :xs="24" :lg="16">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -229,7 +229,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="8">
+      <el-col :xs="24" :lg="8">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -243,7 +243,7 @@
 
     <!-- 底部图表 -->
     <el-row :gutter="20" class="chart-row">
-      <el-col :span="12">
+      <el-col :xs="24" :lg="12">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -254,7 +254,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :xs="24" :lg="12">
         <el-card class="chart-card" shadow="hover">
           <template #header>
             <div class="card-header">
@@ -577,6 +577,7 @@ function updateCharts() {
 }
 
 let resizeObserver = null
+let onWindowResize = null
 
 onMounted(async () => {
   try {
@@ -619,15 +620,17 @@ onMounted(async () => {
     initUserRoleChart()
     initUserTrendChart()
 
-    // 响应窗口大小变化
-    resizeObserver = new ResizeObserver(() => {
+    // 响应窗口大小变化（含移动端横竖屏）
+    onWindowResize = () => {
       growthChart?.resize()
       pieChart?.resize()
       barChart?.resize()
       userRoleChart?.resize()
       userTrendChart?.resize()
-    })
+    }
+    resizeObserver = new ResizeObserver(onWindowResize)
     if (growthChartRef.value) resizeObserver.observe(growthChartRef.value)
+    window.addEventListener('resize', onWindowResize)
 
   } catch (e) {
     console.error(e)
@@ -636,6 +639,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   resizeObserver?.disconnect()
+  if (onWindowResize) window.removeEventListener('resize', onWindowResize)
   growthChart?.dispose()
   pieChart?.dispose()
   barChart?.dispose()
@@ -645,16 +649,25 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.home { padding: 20px; background: #f5f7fa; min-height: 100vh; }
+.home {
+  padding: 4px 4px 24px;
+  background: transparent;
+  min-height: min-content;
+}
 
 /* 统计卡片 */
 .stat-card {
-  border: none;
-  border-radius: 12px;
+  border: 1px solid var(--rb-border, rgba(15, 23, 42, 0.08));
+  border-radius: 14px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: var(--rb-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
+  background: #fff;
 }
-.stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--rb-shadow-md, 0 4px 16px rgba(15, 23, 42, 0.08));
+}
 
 .stat-content {
   display: flex;
@@ -692,10 +705,23 @@ onUnmounted(() => {
 
 /* 图表区域 */
 .chart-row { margin-top: 20px; }
-.chart-card { border-radius: 12px; border: none; }
+.chart-card {
+  border-radius: 14px;
+  border: 1px solid var(--rb-border, rgba(15, 23, 42, 0.08));
+  overflow: hidden;
+  box-shadow: var(--rb-shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.06));
+  background: #fff;
+}
+.chart-card :deep(.el-card__header) {
+  border-bottom: 1px solid var(--rb-border, rgba(15, 23, 42, 0.08));
+  padding: 14px 18px;
+}
+.chart-card :deep(.el-card__body) {
+  padding: 16px 18px 20px;
+}
 .card-header {
   display: flex; justify-content: space-between; align-items: center;
-  font-weight: 600; font-size: 15px; color: #303133;
+  font-weight: 600; font-size: 15px; color: #0f172a;
 }
 .chart-container { height: 260px; }
 .chart-container-pie { height: 260px; }
@@ -721,4 +747,36 @@ onUnmounted(() => {
   flex: 1; height: 8px; background: #f0f2f5; border-radius: 4px; overflow: hidden;
 }
 .ib { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+@media (max-width: 768px) {
+  .home {
+    padding: 12px;
+  }
+  .stat-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .stat-row .el-col {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .chart-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .chart-row .el-col {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .chart-container,
+  .chart-container-pie,
+  .chart-container-bar {
+    height: 220px;
+  }
+  .card-header {
+    font-size: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
 </style>

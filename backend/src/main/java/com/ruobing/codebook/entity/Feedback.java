@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 @Data
 @TableName("feedback")
 public class Feedback {
-    /** 仅提交时携带，不入库；用于解析并写入 userId */
+    /** 浠呮彁浜ゆ椂鎼哄甫锛屼笉鍏ュ簱锛涚敤浜庤В鏋愬苟鍐欏叆 userId */
     @TableField(exist = false)
     private String openid;
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long userId;
     private String content;
@@ -22,3 +22,4 @@ public class Feedback {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
+

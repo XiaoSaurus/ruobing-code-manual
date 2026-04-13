@@ -3,7 +3,8 @@
     <div class="toolbar">
       <el-button type="primary" @click="dialogVisible = true">新增版本</el-button>
     </div>
-    <el-table :data="list" border>
+    <div class="table-scroll">
+    <el-table :data="list" border size="small">
       <el-table-column prop="version" label="版本号" width="120" />
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="type" label="类型" width="100">
@@ -13,9 +14,10 @@
       </el-table-column>
       <el-table-column prop="createTime" label="时间" width="180" />
     </el-table>
+    </div>
 
     <el-dialog v-model="dialogVisible" title="新增版本" width="500px">
-      <el-form :model="form" label-width="80px">
+      <el-form :model="form" label-width="80px" label-position="top">
         <el-form-item label="版本号"><el-input v-model="form.version" /></el-form-item>
         <el-form-item label="标题"><el-input v-model="form.title" /></el-form-item>
         <el-form-item label="内容"><el-input v-model="form.content" type="textarea" rows="4" /></el-form-item>
@@ -60,6 +62,5 @@ onMounted(loadData)
 </script>
 
 <style scoped>
-.page-container { padding: 20px; }
-.toolbar { margin-bottom: 15px; }
+.toolbar { margin-bottom: 0; }
 </style>

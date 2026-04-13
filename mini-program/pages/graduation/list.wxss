@@ -2,17 +2,21 @@ page { background: var(--theme-bg); }
 .container { padding: 24rpx 30rpx 40rpx; }
 
 /* 搜索栏（与网页设计 list 一致：主题变量） */
-.search-bar { display: flex; align-items: center; background: var(--theme-card); border-radius: 16rpx; padding: 20rpx 24rpx; margin-bottom: 16rpx; }
-.search-icon { color: var(--theme-text-light); font-size: 28rpx; margin-right: 12rpx; }
+.search-bar { display: flex; align-items: center; background: linear-gradient(180deg, #ffffff 0%, var(--theme-light) 100%); border-radius: 22rpx; padding: 16rpx 18rpx; margin-bottom: 18rpx; box-shadow: 0 8rpx 22rpx rgba(0,0,0,0.06); border: 1rpx solid #e8ecf2; }
+.search-icon-wrap { width: 44rpx; height: 44rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12rpx; background: linear-gradient(135deg, var(--theme-color) 0%, var(--theme-dark) 100%); box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.12); }
+.search-icon { color: #fff; font-size: 26rpx; font-weight: 700; line-height: 1; }
 .search-input { flex: 1; height: 48rpx; font-size: 28rpx; color: var(--theme-text); background: transparent; }
 .search-input::placeholder { color: var(--theme-text-light); }
+.search-actions { display: flex; align-items: center; margin-left: 12rpx; gap: 12rpx; }
+.search-clear { font-size: 24rpx; color: var(--theme-text-light); padding: 8rpx 10rpx; }
+.search-btn { font-size: 24rpx; color: #fff; background: linear-gradient(135deg, var(--theme-color) 0%, var(--theme-dark) 100%); border-radius: 999rpx; padding: 10rpx 22rpx; line-height: 1; font-weight: 600; }
 
 /* 工具栏 */
 .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24rpx; }
-.sort-tabs { display: flex; background: var(--theme-card); border-radius: 16rpx; padding: 8rpx; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.04); flex: 1; }
+.sort-tabs { display: flex; background: var(--theme-card); border-radius: 16rpx; padding: 8rpx; box-shadow: 0 4rpx 14rpx rgba(0,0,0,0.04); flex: 1; border: 1rpx solid #ebeff5; }
 .tab { flex: 1; text-align: center; padding: 14rpx 0; border-radius: 12rpx; font-size: 28rpx; color: var(--theme-text-light); transition: all 0.2s; }
 .tab text { pointer-events: none; }
-.tab.active { background: var(--theme-color); color: #fff; font-weight: 600; }
+.tab.active { background: linear-gradient(135deg, var(--theme-color) 0%, var(--theme-dark) 100%); color: #fff; font-weight: 600; }
 .view-toggle { width: 72rpx; height: 72rpx; display: flex; align-items: center; justify-content: center; background: var(--theme-card); border-radius: 12rpx; margin-left: 16rpx; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.04); }
 .toggle-icon { font-size: 32rpx; color: var(--theme-text); }
 
@@ -20,7 +24,8 @@ page { background: var(--theme-bg); }
 .card-list.view-single { display: flex !important; flex-direction: column !important; gap: 20rpx; box-sizing: border-box; }
 .card-list.view-single .card-single {
   background: var(--theme-card); border-radius: 20rpx; overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04); transition: all 0.3s ease; width: 100%; box-sizing: border-box;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.05); transition: all 0.3s ease; width: 100%; box-sizing: border-box;
+  border: 1rpx solid #edf1f6;
 }
 .card-list.view-single .card-single:active { transform: translateY(2rpx); }
 .card-list.view-single .cover { width: 100%; height: 320rpx; display: block; }
@@ -34,7 +39,8 @@ page { background: var(--theme-bg); }
 .card-list.view-double { display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; justify-content: space-between !important; box-sizing: border-box; }
 .card-list.view-double .card-double {
   background: var(--theme-card); border-radius: 20rpx; overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04); width: 48%; margin-bottom: 16rpx; box-sizing: border-box;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.05); width: 48%; margin-bottom: 16rpx; box-sizing: border-box;
+  border: 1rpx solid #edf1f6;
 }
 .card-list.view-double .card-double .cover { width: 100%; height: 200rpx; display: block; }
 .card-list.view-double .card-double .card-content { padding: 12rpx 16rpx; }

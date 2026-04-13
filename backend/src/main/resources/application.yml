@@ -17,10 +17,28 @@ mybatis-plus:
     map-underscore-to-camel-case: true
   global-config:
     db-config:
-      id-type: auto
+      id-type: assign_id
       logic-delete-field: deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
+
+# 手机号验证码登录（短信内容需自行对接服务商；dev-bypass-code 仅开发用）
+user:
+  sms:
+    code-ttl-millis: 300000
+    resend-interval-millis: 60000
+    dev-bypass-code: ""
+
+# 微信开放平台「网站应用」扫码登录（与小程序 wxapp 不同）
+# redirect-uri 须与开放平台填写的授权回调 URI 完全一致，一般为后端 /api/auth/wechat/callback
+wxweb:
+  appid: ${WXWEB_APPID:}
+  secret: ${WXWEB_SECRET:}
+  redirect-uri: ${WXWEB_REDIRECT_URI:http://localhost:4001/api/auth/wechat/callback}
+
+# 微信 OAuth 完成后浏览器跳回的前端根地址（无末尾斜杠）
+frontend:
+  oauth-return-base: ${FRONTEND_OAUTH_BASE:http://localhost:3000}
 
 # JWT 公共配置
 jwt:

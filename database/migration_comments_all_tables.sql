@@ -1,0 +1,185 @@
+﻿-- 为 ruobing_codebook 所有表/字段补充注释
+USE ruobing_codebook;
+
+-- =========================
+-- about_us
+-- =========================
+ALTER TABLE `about_us` COMMENT='关于我们内容表';
+ALTER TABLE `about_us`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `content` LONGTEXT NULL COMMENT '关于我们页面内容（HTML）',
+  MODIFY COLUMN `update_time` DATETIME NULL COMMENT '更新时间';
+
+-- =========================
+-- banner
+-- =========================
+ALTER TABLE `banner` COMMENT='首页轮播图表';
+ALTER TABLE `banner`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `title` VARCHAR(200) NOT NULL COMMENT '轮播标题',
+  MODIFY COLUMN `subtitle` VARCHAR(500) NULL COMMENT '轮播副标题',
+  MODIFY COLUMN `image_url` VARCHAR(500) NOT NULL COMMENT '图片地址',
+  MODIFY COLUMN `link_type` INT(1) NULL DEFAULT 1 COMMENT '跳转类型：1站内 2外链',
+  MODIFY COLUMN `link_id` BIGINT NULL COMMENT '站内关联ID',
+  MODIFY COLUMN `link_url` VARCHAR(500) NULL COMMENT '外链URL',
+  MODIFY COLUMN `sort_order` INT NULL DEFAULT 0 COMMENT '排序值，越小越靠前',
+  MODIFY COLUMN `status` INT(1) NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+
+-- =========================
+-- changelog
+-- =========================
+ALTER TABLE `changelog` COMMENT='更新日志表';
+ALTER TABLE `changelog`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `version` VARCHAR(32) NOT NULL COMMENT '版本号',
+  MODIFY COLUMN `title` VARCHAR(200) NOT NULL COMMENT '更新标题',
+  MODIFY COLUMN `content` TEXT NULL COMMENT '更新内容',
+  MODIFY COLUMN `type` VARCHAR(32) NULL COMMENT '更新类型',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';
+
+-- =========================
+-- feedback
+-- =========================
+ALTER TABLE `feedback` COMMENT='用户反馈表';
+ALTER TABLE `feedback`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `user_id` BIGINT NULL COMMENT '关联用户ID',
+  MODIFY COLUMN `content` TEXT NOT NULL COMMENT '反馈内容',
+  MODIFY COLUMN `contact` VARCHAR(64) NULL COMMENT '联系方式',
+  MODIFY COLUMN `images` VARCHAR(1000) NULL COMMENT '图片URL列表（逗号分隔）',
+  MODIFY COLUMN `status` INT(1) NULL DEFAULT 0 COMMENT '状态：0待处理 1已处理 2关闭',
+  MODIFY COLUMN `reply` TEXT NULL COMMENT '管理员回复',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+
+-- =========================
+-- graduation_project
+-- =========================
+ALTER TABLE `graduation_project` COMMENT='毕业设计内容表';
+ALTER TABLE `graduation_project`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `title` VARCHAR(200) NOT NULL COMMENT '标题',
+  MODIFY COLUMN `description` TEXT NULL COMMENT '摘要描述',
+  MODIFY COLUMN `content` LONGTEXT NULL COMMENT '正文内容',
+  MODIFY COLUMN `cover_image` VARCHAR(500) NULL COMMENT '封面图URL',
+  MODIFY COLUMN `tags` VARCHAR(500) NULL COMMENT '标签（逗号分隔）',
+  MODIFY COLUMN `views` INT NULL DEFAULT 0 COMMENT '浏览次数',
+  MODIFY COLUMN `likes` INT NULL DEFAULT 0 COMMENT '点赞数',
+  MODIFY COLUMN `sort_order` INT NULL DEFAULT 0 COMMENT '排序值',
+  MODIFY COLUMN `is_hot` INT(1) NULL DEFAULT 0 COMMENT '是否热门：0否 1是',
+  MODIFY COLUMN `is_latest` INT(1) NULL DEFAULT 0 COMMENT '是否最新：0否 1是',
+  MODIFY COLUMN `status` INT(1) NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  MODIFY COLUMN `favorites` INT NULL DEFAULT 0 COMMENT '收藏数',
+  MODIFY COLUMN `article_url` VARCHAR(500) NULL COMMENT '原文链接';
+
+-- =========================
+-- sys_dict
+-- =========================
+ALTER TABLE `sys_dict` COMMENT='系统字典表';
+ALTER TABLE `sys_dict`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `dict_key` VARCHAR(64) NOT NULL COMMENT '字典键',
+  MODIFY COLUMN `dict_value` LONGTEXT NULL COMMENT '字典值',
+  MODIFY COLUMN `remark` VARCHAR(200) NULL COMMENT '备注',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+
+-- =========================
+-- sys_menu
+-- =========================
+ALTER TABLE `sys_menu` COMMENT='权限菜单表';
+ALTER TABLE `sys_menu`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `path` VARCHAR(128) NOT NULL COMMENT '前端路由路径',
+  MODIFY COLUMN `title` VARCHAR(64) NOT NULL COMMENT '菜单名称',
+  MODIFY COLUMN `icon` VARCHAR(64) NULL COMMENT '图标名称',
+  MODIFY COLUMN `sort_order` INT NOT NULL DEFAULT 0 COMMENT '排序值',
+  MODIFY COLUMN `status` INT(1) NOT NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+
+-- =========================
+-- sys_role
+-- =========================
+ALTER TABLE `sys_role` COMMENT='角色表';
+ALTER TABLE `sys_role`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `role_code` VARCHAR(32) NOT NULL COMMENT '角色编码',
+  MODIFY COLUMN `role_name` VARCHAR(64) NOT NULL COMMENT '角色名称',
+  MODIFY COLUMN `status` INT(1) NOT NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+
+-- =========================
+-- sys_role_menu
+-- =========================
+ALTER TABLE `sys_role_menu` COMMENT='角色菜单关联表';
+ALTER TABLE `sys_role_menu`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `role_code` VARCHAR(32) NOT NULL COMMENT '角色编码',
+  MODIFY COLUMN `menu_id` BIGINT NOT NULL COMMENT '菜单ID',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';
+
+-- =========================
+-- sys_user（历史兼容表）
+-- =========================
+ALTER TABLE `sys_user` COMMENT='历史兼容表（已废弃，不再作为业务数据源）';
+ALTER TABLE `sys_user`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（历史）',
+  MODIFY COLUMN `username` VARCHAR(50) NOT NULL COMMENT '登录用户名（历史）',
+  MODIFY COLUMN `password` VARCHAR(100) NOT NULL COMMENT '登录密码（历史）',
+  MODIFY COLUMN `nickname` VARCHAR(50) NULL COMMENT '昵称（历史）',
+  MODIFY COLUMN `avatar` VARCHAR(500) NULL COMMENT '头像URL（历史）',
+  MODIFY COLUMN `role` VARCHAR(20) NULL COMMENT '角色（历史）',
+  MODIFY COLUMN `status` TINYINT NULL COMMENT '状态（历史）',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间（历史）',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间（历史）',
+  MODIFY COLUMN `email` VARCHAR(100) NULL COMMENT '邮箱（历史）';
+
+-- =========================
+-- user
+-- =========================
+ALTER TABLE `user` COMMENT='统一用户表（小程序 + Web后台 + Web访客）';
+ALTER TABLE `user`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `openid` VARCHAR(64) NULL COMMENT '小程序openid',
+  MODIFY COLUMN `nickname` VARCHAR(50) NULL COMMENT '昵称',
+  MODIFY COLUMN `avatar` VARCHAR(255) NULL COMMENT '头像URL',
+  MODIFY COLUMN `gender` INT(1) NULL DEFAULT 0 COMMENT '性别：0未知 1男 2女',
+  MODIFY COLUMN `phone` VARCHAR(20) NULL COMMENT '手机号',
+  MODIFY COLUMN `email` VARCHAR(64) NULL COMMENT '邮箱',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  MODIFY COLUMN `province` VARCHAR(64) NULL COMMENT '省',
+  MODIFY COLUMN `city` VARCHAR(64) NULL COMMENT '市',
+  MODIFY COLUMN `district` VARCHAR(64) NULL COMMENT '区/县',
+  MODIFY COLUMN `web_openid` VARCHAR(64) NULL COMMENT '微信网页授权openid',
+  MODIFY COLUMN `role` VARCHAR(20) NOT NULL DEFAULT 'app_user' COMMENT '角色：admin/editor/app_user',
+  MODIFY COLUMN `status` INT(1) NOT NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `username` VARCHAR(64) NULL COMMENT '后台登录用户名',
+  MODIFY COLUMN `password` VARCHAR(128) NULL COMMENT '后台登录密码';
+
+-- =========================
+-- web_design
+-- =========================
+ALTER TABLE `web_design` COMMENT='网页设计内容表';
+ALTER TABLE `web_design`
+  MODIFY COLUMN `id` BIGINT NOT NULL COMMENT '主键ID（雪花ID）',
+  MODIFY COLUMN `title` VARCHAR(200) NOT NULL COMMENT '标题',
+  MODIFY COLUMN `description` TEXT NULL COMMENT '摘要描述',
+  MODIFY COLUMN `content` LONGTEXT NULL COMMENT '正文内容',
+  MODIFY COLUMN `cover_image` VARCHAR(500) NULL COMMENT '封面图URL',
+  MODIFY COLUMN `tags` VARCHAR(500) NULL COMMENT '标签（逗号分隔）',
+  MODIFY COLUMN `views` INT NULL DEFAULT 0 COMMENT '浏览次数',
+  MODIFY COLUMN `likes` INT NULL DEFAULT 0 COMMENT '点赞数',
+  MODIFY COLUMN `sort_order` INT NULL DEFAULT 0 COMMENT '排序值',
+  MODIFY COLUMN `is_hot` INT(1) NULL DEFAULT 0 COMMENT '是否热门：0否 1是',
+  MODIFY COLUMN `is_latest` INT(1) NULL DEFAULT 0 COMMENT '是否最新：0否 1是',
+  MODIFY COLUMN `status` INT(1) NULL DEFAULT 1 COMMENT '状态：0禁用 1启用 2删除',
+  MODIFY COLUMN `create_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  MODIFY COLUMN `update_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  MODIFY COLUMN `favorites` INT NULL DEFAULT 0 COMMENT '收藏数',
+  MODIFY COLUMN `article_url` VARCHAR(500) NULL COMMENT '原文链接';

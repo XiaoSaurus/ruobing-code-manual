@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @TableName("sys_dict")
 public class SysDict {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
-    /** 唯一键，如 legal_user_agreement */
+    /** 鍞竴閿紝濡?legal_user_agreement */
     private String dictKey;
-    /** 文本内容（可存 HTML） */
+    /** 鏂囨湰鍐呭锛堝彲瀛?HTML锛?*/
     private String dictValue;
     private String remark;
     private LocalDateTime updateTime;
 }
+

@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 @Data
 @TableName("about_us")
 public class AboutUs {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private String content;
     private LocalDateTime updateTime;
 }
+

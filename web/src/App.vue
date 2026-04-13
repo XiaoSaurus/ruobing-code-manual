@@ -16,6 +16,8 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
   box-sizing: border-box;
 }
 body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: var(--rb-font-sans, 'PingFang SC', 'Microsoft YaHei', sans-serif);
+  background: var(--rb-bg-page, #f1f5f9);
+  color: var(--rb-text, #0f172a);
 }
 </style>

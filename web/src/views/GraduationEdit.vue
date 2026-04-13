@@ -1,6 +1,10 @@
 <template>
   <div class="edit-container">
-    <el-form :model="form" label-width="100px">
+    <el-form
+      :model="form"
+      :label-width="isMobile ? 'auto' : '100px'"
+      :label-position="isMobile ? 'top' : 'right'"
+    >
       <el-form-item label="标题">
         <el-input v-model="form.title" />
       </el-form-item>
@@ -37,6 +41,9 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { graduationApi } from '@/api'
 import { ElMessage } from 'element-plus'
+import { useMobile } from '@/composables/useMobile.js'
+
+const { isMobile } = useMobile()
 
 const route = useRoute()
 const router = useRouter()
@@ -57,5 +64,8 @@ const handleSave = async () => {
 </script>
 
 <style scoped>
-.edit-container { padding: 20px; max-width: 800px; }
+.edit-container { max-width: 800px; width: 100%; box-sizing: border-box; }
+@media (max-width: 768px) {
+  .edit-container { max-width: 100%; }
+}
 </style>

@@ -1,13 +1,19 @@
-<view class="container">
+<view class="container {{themeClass}}" style="{{pageStyle}}">
   <!-- 有 articleUrl → 显示文章预览卡片 + 按钮 -->
   <view class="article-card" wx:if="{{articleUrl && detail}}" bindtap="handleDoubleTap">
     <image class="card-cover" src="{{detail.coverImage}}" mode="aspectFill" />
     <view class="card-body">
       <text class="card-title">{{detail.title}}</text>
-      <text class="card-summary">{{detail.description}}</text>
-      <view class="card-meta">
-        <text>{{detail.views}} 浏览</text>
-        <text>{{detail.likes}} 点赞</text>
+      <view class="summary-card">
+        <rich-text class="summary-md" type="html" nodes="{{summaryHtml}}"></rich-text>
+      </view>
+      <view class="card-meta-row">
+        <text>👁 {{detail.views || 0}}</text>
+        <text>❤️ {{detail.likes || 0}}</text>
+        <text>⭐ {{detail.favorites || 0}}</text>
+      </view>
+      <view class="card-time-row" wx:if="{{formattedTime}}">
+        <text>🕒 {{formattedTime}}</text>
       </view>
       <button class="read-btn" catchtap="openArticle">阅读全文</button>
     </view>
@@ -19,17 +25,17 @@
     <view class="content">
       <text class="title">{{detail.title}}</text>
       <view class="meta">
-        <text>{{detail.views}} 浏览</text>
-        <text>{{detail.likes}} 点赞</text>
-        <text>{{detail.createTime}}</text>
+        <text>👁 {{detail.views || 0}}</text>
+        <text>❤️ {{detail.likes || 0}}</text>
+        <text>⭐ {{detail.favorites || 0}}</text>
+        <text>🕒 {{formattedTime}}</text>
       </view>
-      <view class="tags">
+      
+      <view class="summary-card">
+        <rich-text class="summary-md" type="html" nodes="{{summaryHtml}}"></rich-text>
+      </view>
+      <view class="tags" wx:if="{{detail.tags}}">
         <text class="tag" wx:for="{{detail.tags.split(',')}}" wx:key="index">{{item}}</text>
-      </view>
-      <view class="desc">{{detail.description}}</view>
-      <view class="code-section">
-        <view class="section-title">代码内容</view>
-        <view class="code-block">{{detail.content}}</view>
       </view>
     </view>
   </view>
@@ -38,7 +44,11 @@
   <view class="action-bar">
     <button class="action-btn {{liked ? 'action-btn-liked' : ''}}" hover-class="btn-hover" bindtap="handleLike">
       <text class="btn-icon">{{liked ? '❤️' : '🤍'}}</text>
-      <text class="btn-text">{{liked ? '取消' : '点赞'}}</text>
+      <text class="btn-text">点赞</text>
+    </button>
+    <button class="action-btn {{collected ? 'action-btn-liked' : ''}}" hover-class="btn-hover" bindtap="handleCollect">
+      <text class="btn-icon">{{collected ? '⭐' : '☆'}}</text>
+      <text class="btn-text">收藏</text>
     </button>
     <button class="action-btn" hover-class="btn-hover" open-type="share">
       <text class="btn-icon">📤</text>

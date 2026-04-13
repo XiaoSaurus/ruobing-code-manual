@@ -17,6 +17,18 @@ wxapp:
   appid: ${WXAPP_APPID:wx5282bd68a559448f}
   secret: ${WXAPP_SECRET:df8d6f8a4f0c9b3ebcf695e95ba8d217}
 
+# 开发环境：任意手机号可用该验证码登录（生产勿配置 user.sms.dev-bypass-code）
+user:
+  sms:
+    dev-bypass-code: "123456"
+
+# 微信开放平台「网站应用」（与小程序 wxapp 不同）；本地调试扫码需公网回调或使用内网穿透
+# wxweb:
+#   appid: ${WXWEB_APPID:}
+#   secret: ${WXWEB_SECRET:}
+#   redirect-uri: http://localhost:4001/api/auth/wechat/callback
+# frontend.oauth-return-base 已在 application.yml 默认 http://localhost:3000
+
 # 开发环境开启SQL日志
 mybatis-plus:
   configuration:

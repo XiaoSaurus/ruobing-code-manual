@@ -1,22 +1,61 @@
 const { request } = require('../../utils/request.js')
+const { markdownToHtml } = require('../../utils/simpleMarkdown.js')
+const app = getApp()
 
 Page({
   data: {
     detail: null,
     articleUrl: '',
+    formattedTime: '',
+    summaryHtml: '',
+    themeClass: '',
+    pageStyle: '',
     liked: false,
+    collected: false,
     lastTapTime: 0  // 上一次点击时间，用于检测双击
   },
 
   onLoad(options) {
+    this.applyTheme()
     if (options.id) {
       request(`/web-design/${options.id}`).then(res => {
+        const detail = res.data || {}
+        const accent = (app.globalData.currentTheme && app.globalData.currentTheme.color) || '#409EFF'
         this.setData({
-          detail: res.data,
-          articleUrl: res.data.articleUrl || ''
+          detail,
+          articleUrl: detail.articleUrl || '',
+          formattedTime: this.formatDateTime(detail.updateTime || detail.createTime),
+          summaryHtml: markdownToHtml(detail.description || '', accent)
         })
       })
     }
+  },
+
+  onShow() {
+    this.applyTheme()
+  },
+
+  applyTheme() {
+    const theme = app.globalData.currentTheme
+    if (!theme) return
+    const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
+    this.setData({
+      themeClass: 'theme-' + theme.id,
+      pageStyle: style
+    })
+    if (this.data.detail) {
+      this.setData({
+        summaryHtml: markdownToHtml(this.data.detail.description || '', theme.color || '#409EFF')
+      })
+    }
+  },
+
+  formatDateTime(value) {
+    if (!value) return ''
+    const date = new Date(value)
+    if (Number.isNaN(date.getTime())) return String(value)
+    const pad = n => String(n).padStart(2, '0')
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
   },
 
   // 打开公众号文章
@@ -69,6 +108,26 @@ Page({
     }
     
     // TODO: 调用后端API更新点赞数
+  },
+
+  handleCollect() {
+    const isCollected = this.data.collected
+    const detail = this.data.detail
+    this.setData({ collected: !isCollected })
+
+    if (detail) {
+      const newFavorites = isCollected
+        ? Math.max(0, (detail.favorites || 0) - 1)
+        : (detail.favorites || 0) + 1
+      this.setData({
+        detail: { ...detail, favorites: newFavorites }
+      })
+    }
+
+    wx.showToast({
+      title: isCollected ? '已取消收藏' : '收藏成功',
+      icon: 'none'
+    })
   },
 
   // 分享

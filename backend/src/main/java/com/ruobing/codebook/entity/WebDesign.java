@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("web_design")
 public class WebDesign {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private String title;
     private String description;
@@ -25,3 +25,4 @@ public class WebDesign {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
+

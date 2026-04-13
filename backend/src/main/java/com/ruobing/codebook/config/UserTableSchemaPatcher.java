@@ -51,9 +51,16 @@ public class UserTableSchemaPatcher implements BeanPostProcessor {
                 return;
             }
             ensureColumn(conn, schema, "user", "gender", "TINYINT NOT NULL DEFAULT 0 COMMENT '0未设置 1男 2女'");
+            ensureColumn(conn, schema, "user", "username", "VARCHAR(64) DEFAULT NULL COMMENT '后台登录名'");
+            ensureColumn(conn, schema, "user", "password", "VARCHAR(128) DEFAULT NULL COMMENT '后台登录密码'");
             ensureColumn(conn, schema, "user", "province", "VARCHAR(64) DEFAULT NULL COMMENT '省'");
             ensureColumn(conn, schema, "user", "city", "VARCHAR(64) DEFAULT NULL COMMENT '市'");
             ensureColumn(conn, schema, "user", "district", "VARCHAR(64) DEFAULT NULL COMMENT '区/县'");
+            ensureColumn(conn, schema, "user", "web_openid", "VARCHAR(64) DEFAULT NULL COMMENT '微信网站应用openid'");
+            ensureColumn(conn, schema, "user", "role", "VARCHAR(20) NOT NULL DEFAULT 'app_user' COMMENT '角色: app_user/admin'");
+            ensureColumn(conn, schema, "user", "status", "TINYINT NOT NULL DEFAULT 1 COMMENT '状态: 1启用 0禁用'");
+            ensureUniqueIndex(conn, schema, "user", "uk_user_username", "username");
+            ensureUniqueIndex(conn, schema, "user", "uk_user_web_openid", "web_openid");
         }
     }
 
@@ -88,6 +95,34 @@ public class UserTableSchemaPatcher implements BeanPostProcessor {
         } catch (SQLException e) {
             if (e.getMessage() != null && e.getMessage().contains("Duplicate column")) {
                 log.debug("字段已存在，跳过: {}.{}", table, column);
+                return;
+            }
+            throw e;
+        }
+    }
+
+    private static void ensureUniqueIndex(Connection conn, String schema, String table, String indexName, String column)
+            throws SQLException {
+        String check = "SELECT COUNT(*) FROM information_schema.STATISTICS "
+                + "WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ?";
+        try (PreparedStatement ps = conn.prepareStatement(check)) {
+            ps.setString(1, schema);
+            ps.setString(2, table);
+            ps.setString(3, indexName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return;
+                }
+            }
+        }
+        String ddl = "ALTER TABLE `" + table + "` ADD UNIQUE INDEX `" + indexName + "` (`" + column + "`)";
+        try (Statement st = conn.createStatement()) {
+            st.execute(ddl);
+            log.info("已自动为库 [{}] 表 [{}] 增加唯一索引 [{}]", schema, table, indexName);
+        } catch (SQLException e) {
+            if (e.getMessage() != null && (e.getMessage().contains("Duplicate key name")
+                    || e.getMessage().contains("already exists"))) {
+                log.debug("索引已存在，跳过: {}", indexName);
                 return;
             }
             throw e;

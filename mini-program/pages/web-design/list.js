@@ -4,7 +4,7 @@ const app = getApp()
 Page({
   data: {
     keyword: '',
-    sortBy: 'sort_order',
+    sortBy: 'create_time',
     viewMode: 'single',  // 'single' | 'double'
     list: [],
     page: 1,
@@ -49,9 +49,7 @@ Page({
     }
     const { keyword, sortBy, page, pageSize } = this.data
     this.setData({ loading: true })
-    request('/web-design/list', {
-      data: { keyword, sortBy, page, pageSize }
-    }).then(res => {
+    request.get('/web-design/list', { keyword, sortBy, page, pageSize }).then(res => {
       const records = (res.data.records || []).map(item => ({
         ...item,
         tagsArray: item.tags ? item.tags.split(',').filter(t => t.trim()) : []
@@ -78,7 +76,14 @@ Page({
     this.setData({ keyword: e.detail.value })
   },
 
+  onClearKeyword() {
+    this.setData({ keyword: '' })
+    this.loadData(true)
+  },
+
   onSearch() {
+    const keyword = (this.data.keyword || '').trim()
+    this.setData({ keyword })
     this.loadData(true)
   },
 

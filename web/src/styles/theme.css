@@ -1,0 +1,140 @@
+/**
+ * 若冰代码手册 · 管理后台全局视觉（需在 element-plus 样式之后引入）
+ */
+:root {
+  --rb-font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --rb-primary: #66b1ff;
+  --rb-primary-dark: #409eff;
+  --rb-primary-light: #e8f4ff;
+  --rb-bg-page: #f5f7fa;
+  --rb-bg-elevated: #ffffff;
+  --rb-border: rgba(15, 23, 42, 0.07);
+  --rb-border-strong: rgba(15, 23, 42, 0.12);
+  --rb-text: #1a1a2e;
+  --rb-text-secondary: #64748b;
+  --rb-text-muted: #94a3b8;
+  --rb-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --rb-shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
+  --rb-shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --rb-radius: 16px;
+  --rb-radius-sm: 12px;
+  --rb-sidebar: #2d3f6d;
+  --rb-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --rb-sidebar-active: rgba(102, 177, 255, 0.25);
+  --rb-sidebar-text: #d8e6ff;
+  --rb-sidebar-text-active: #ffffff;
+
+  /* 与 Element Plus 主色对齐 */
+  --el-color-primary: #66b1ff;
+  --el-color-primary-light-3: #79bbff;
+  --el-color-primary-light-5: #a0cfff;
+  --el-color-primary-light-7: #c6e2ff;
+  --el-color-primary-light-9: #ecf5ff;
+  --el-color-primary-dark-2: #409eff;
+  --el-border-radius-base: 10px;
+  --el-border-radius-small: 6px;
+}
+
+html {
+  font-family: var(--rb-font-sans);
+  color: var(--rb-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--rb-bg-page);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* 主内容区内：列表 / 表单白卡片 */
+.layout-main .page-container,
+.layout-main .edit-container {
+  background: var(--rb-bg-elevated);
+  border-radius: var(--rb-radius);
+  border: 1px solid var(--rb-border);
+  box-shadow: var(--rb-shadow-md);
+  padding: 22px 24px 24px;
+  box-sizing: border-box;
+}
+
+.layout-main .edit-container {
+  max-width: 880px;
+}
+
+/* 工具栏 */
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rb-border);
+}
+
+.toolbar:last-of-type {
+  border-bottom: none;
+}
+
+/* 表格区域：与卡片边缘留白 */
+.table-scroll {
+  margin-top: 4px;
+  border-radius: var(--rb-radius-sm);
+  border: 1px solid var(--rb-border);
+  overflow: hidden;
+}
+
+.table-scroll .el-table {
+  --el-table-border-color: transparent;
+}
+
+.table-scroll .el-table th.el-table__cell {
+  background: #f8fafc !important;
+  color: var(--rb-text-secondary);
+  font-weight: 600;
+}
+
+/* 分页 */
+.pagination-bar {
+  padding-top: 8px;
+}
+
+.pagination-bar.is-center {
+  justify-content: center;
+}
+
+/* 弹窗标题区 */
+.el-dialog__header {
+  border-bottom: 1px solid var(--rb-border);
+  margin-right: 0;
+  padding-bottom: 16px;
+}
+
+.el-dialog__title {
+  font-weight: 600;
+  color: var(--rb-text);
+}
+
+.el-card {
+  border-radius: var(--rb-radius) !important;
+  border-color: var(--rb-border) !important;
+  box-shadow: var(--rb-shadow-md) !important;
+}
+
+.el-button--primary {
+  background-image: linear-gradient(135deg, var(--rb-primary-dark) 0%, var(--rb-primary) 100%);
+  border: none !important;
+}
+
+.el-button--primary:hover {
+  filter: brightness(1.03);
+}
+
+.el-input__wrapper,
+.el-textarea__inner {
+  border-radius: 12px !important;
+}

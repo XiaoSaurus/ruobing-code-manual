@@ -1,6 +1,7 @@
 <template>
   <div class="page-container">
-    <el-table :data="list" border>
+    <div class="table-scroll">
+    <el-table :data="list" border size="small">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="content" label="反馈内容" show-overflow-tooltip />
       <el-table-column prop="contact" label="联系方式" width="150" />
@@ -17,6 +18,7 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
   </div>
 </template>
 
@@ -42,6 +44,3 @@ const handleReply = async (row) => {
 onMounted(loadData)
 </script>
 
-<style scoped>
-.page-container { padding: 20px; }
-</style>

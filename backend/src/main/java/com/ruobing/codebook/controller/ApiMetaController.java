@@ -16,7 +16,7 @@ import java.util.Map;
 public class ApiMetaController {
 
     /** 修改用户资料相关逻辑时递增，便于与旧进程区分 */
-    private static final String REVISION = "2026-04-13-user-profile-routing";
+    private static final String REVISION = "2026-04-12-web-portal-wechat-sms";
 
     @GetMapping("/revision")
     public Map<String, Object> revision() {
@@ -26,6 +26,8 @@ public class ApiMetaController {
         m.put("hint", "若 revision 与文档不一致，说明后端未用新 jar 启动，请重新编译并重启");
         m.put("userInfoGet", "GET /api/user/info?openid=...");
         m.put("userByIdGet", "GET /api/user/by-id/{id}");
+        m.put("userSmsSend", "POST /api/user/sms/send { phone }");
+        m.put("userSmsLogin", "POST /api/user/sms/login { phone, code }");
         return m;
     }
 }

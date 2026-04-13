@@ -10,36 +10,37 @@ import java.time.LocalDateTime;
 @TableName("banner")
 public class Banner {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    /** 标题 */
+    /** 鏍囬 */
     private String title;
 
-    /** 副标题/描述 */
+    /** 鍓爣棰?鎻忚堪 */
     private String subtitle;
 
-    /** 图片URL */
+    /** 鍥剧墖URL */
     private String imageUrl;
 
-    /** 链接类型: 1无链接 2网页设计 3毕业设计 4外部链接 */
+    /** 閾炬帴绫诲瀷: 1鏃犻摼鎺?2缃戦〉璁捐 3姣曚笟璁捐 4澶栭儴閾炬帴 */
     private Integer linkType;
 
-    /** 关联资源ID(web_design或graduation_project) */
+    /** 鍏宠仈璧勬簮ID(web_design鎴杇raduation_project) */
     private Long linkId;
 
-    /** 外部链接URL */
+    /** 澶栭儴閾炬帴URL */
     private String linkUrl;
 
-    /** 排序顺序(越小越靠前) */
+    /** 鎺掑簭椤哄簭(瓒婂皬瓒婇潬鍓? */
     private Integer sortOrder;
 
-    /** 状态: 0禁用 1启用 */
+    /** 鐘舵€? 0绂佺敤 1鍚敤 */
     private Integer status;
 
-    /** 创建时间 */
+    /** 鍒涘缓鏃堕棿 */
     private LocalDateTime createTime;
 
-    /** 更新时间 */
+    /** 鏇存柊鏃堕棿 */
     private LocalDateTime updateTime;
 }
+

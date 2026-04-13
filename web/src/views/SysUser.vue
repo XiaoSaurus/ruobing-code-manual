@@ -1,11 +1,11 @@
 <template>
   <div class="page-container">
     <!-- 工具栏 -->
-    <div class="toolbar">
+    <div class="toolbar toolbar--responsive">
       <el-input
         v-model="keyword"
         placeholder="搜索用户名/昵称"
-        style="width: 240px; margin-right: 10px"
+        class="search-input"
         clearable
         @clear="loadData"
         @keyup.enter="loadData"
@@ -16,7 +16,8 @@
     </div>
 
     <!-- 表格 -->
-    <el-table :data="list" border stripe>
+    <div class="table-scroll">
+    <el-table :data="list" border stripe size="small">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column label="头像" width="70">
         <template #default="{ row }">
@@ -25,6 +26,7 @@
       </el-table-column>
       <el-table-column prop="username" label="用户名" width="140" />
       <el-table-column prop="nickname" label="昵称" min-width="120" />
+      <el-table-column prop="email" label="邮箱" min-width="140" show-overflow-tooltip />
       <el-table-column prop="role" label="角色" width="100">
         <template #default="{ row }">
           <el-tag :type="row.role === 'admin' ? 'danger' : 'primary'" size="small">
@@ -51,20 +53,23 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
 
     <!-- 分页 -->
     <el-pagination
+      class="pagination-bar"
       v-model:current-page="page"
       :page-size="pageSize"
       :total="total"
       layout="total, prev, pager, next"
+      size="small"
       @current-change="loadData"
       style="margin-top: 16px"
     />
 
     <!-- 新增/编辑弹窗 -->
     <el-dialog v-model="dialogVisible" :title="editing.id ? '编辑用户' : '新增用户'" width="480px" destroy-on-close>
-      <el-form :model="form" label-width="80px">
+      <el-form :model="form" label-width="80px" label-position="top">
         <el-form-item label="用户名" required>
           <el-input v-model="form.username" :disabled="!!editing.id" placeholder="登录用户名" />
         </el-form-item>
@@ -73,6 +78,9 @@
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname" placeholder="显示昵称" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="form.email" placeholder="用于找回密码，选填" type="email" />
         </el-form-item>
         <el-form-item label="头像">
           <el-input v-model="form.avatar" placeholder="头像URL">
@@ -118,6 +126,7 @@ const form = reactive({
   username: '',
   password: '',
   nickname: '',
+  email: '',
   avatar: '',
   role: 'editor',
   status: 1
@@ -139,6 +148,7 @@ const openDialog = (row) => {
     username: row?.username || '',
     password: '',
     nickname: row?.nickname || '',
+    email: row?.email || '',
     avatar: row?.avatar || '',
     role: row?.role || 'editor',
     status: row?.status ?? 1
@@ -190,6 +200,15 @@ onMounted(loadData)
 </script>
 
 <style scoped>
-.page-container { padding: 20px; }
-.toolbar { display: flex; align-items: center; margin-bottom: 16px; gap: 10px; }
+.toolbar { display: flex; align-items: center; margin-bottom: 0; gap: 10px; flex-wrap: wrap; }
+.search-input {
+  width: 240px;
+  margin-right: 10px;
+}
+@media (max-width: 768px) {
+  .search-input {
+    width: 100%;
+    margin-right: 0;
+  }
+}
 </style>

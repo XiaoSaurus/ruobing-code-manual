@@ -32,6 +32,7 @@ function mapServerUser(u) {
   return {
     id: u.id,
     openid: u.openid,
+    phone: u.phone || '',
     nickName: u.nickname || '',
     avatarUrl: u.avatar || '',
     gender,

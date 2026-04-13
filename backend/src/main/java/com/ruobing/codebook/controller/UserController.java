@@ -35,6 +35,25 @@ public class UserController {
         return Result.success(data);
     }
 
+    @Operation(summary = "发送登录验证码", description = "向手机号发送短信验证码（开发环境见服务端日志）")
+    @PostMapping("/sms/send")
+    public Result<?> sendSms(@RequestBody Map<String, String> params) {
+        String phone = params != null ? params.get("phone") : null;
+        userService.sendLoginSms(phone);
+        return Result.success();
+    }
+
+    @Operation(summary = "手机号验证码登录", description = "与微信登录返回结构一致，含 user")
+    @PostMapping("/sms/login")
+    public Result<?> loginBySms(@RequestBody Map<String, String> params) {
+        String phone = params != null ? params.get("phone") : null;
+        String code = params != null ? params.get("code") : null;
+        User user = userService.loginByPhone(phone, code);
+        Map<String, Object> data = new HashMap<>();
+        data.put("user", user);
+        return Result.success(data);
+    }
+
     @Operation(summary = "获取用户信息", description = "根据数字ID获取用户（路径不可与 /info 冲突）")
     @GetMapping("/by-id/{id}")
     public Result<?> getUser(

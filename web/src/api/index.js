@@ -1,5 +1,7 @@
 import request from '../utils/request'
 
+export { authApi } from './auth'
+
 export const webDesignApi = {
   getList: (params) => request.get('/web-design/list', { params }),
   getHotList: () => request.get('/web-design/hot'),
@@ -35,12 +37,21 @@ export const aboutApi = {
 }
 
 export const sysUserApi = {
-  getList: (params) => request.get('/sys-user/list', { params }),
-  getAll: () => request.get('/sys-user/all'),
-  getById: (id) => request.get(`/sys-user/${id}`),
-  save: (data) => request.post('/sys-user', data),
-  update: (id, data) => request.put(`/sys-user/${id}`, data),
-  delete: (id) => request.delete(`/sys-user/${id}`),
-  updateStatus: (id, status) => request.put(`/sys-user/${id}/status?status=${status}`),
-  getStats: () => request.get('/sys-user/stats')
+  getList: (params) => request.get('/user/admin/list', { params }),
+  getAll: () => request.get('/user/admin/all'),
+  getById: (id) => request.get(`/user/admin/${id}`),
+  save: (data) => request.post('/user/admin', data),
+  update: (id, data) => request.put(`/user/admin/${id}`, data),
+  delete: (id) => request.delete(`/user/admin/${id}`),
+  updateStatus: (id, status) => request.put(`/user/admin/${id}/status?status=${status}`),
+  getStats: () => request.get('/user/admin/stats')
+}
+
+export const rbacApi = {
+  getRoles: () => request.get('/rbac/roles'),
+  saveRole: (data) => request.post('/rbac/roles', data),
+  deleteRole: (roleCode) => request.delete(`/rbac/roles/${roleCode}`),
+  getMenus: () => request.get('/rbac/menus'),
+  getRoleMenus: (roleCode) => request.get(`/rbac/roles/${roleCode}/menus`),
+  bindRoleMenus: (roleCode, menuIds) => request.post(`/rbac/roles/${roleCode}/menus`, { menuIds })
 }

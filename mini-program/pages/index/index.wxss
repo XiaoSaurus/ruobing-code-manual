@@ -1,5 +1,5 @@
 /* 首页样式 */
-page { background: var(--theme-bg); }
+page { background: linear-gradient(180deg, var(--theme-light) 0%, var(--theme-bg) 40%, var(--theme-bg) 100%); }
 
 .container { padding-bottom: 40rpx; }
 
@@ -12,6 +12,7 @@ page { background: var(--theme-bg); }
   height: 300rpx;
   border-radius: 24rpx;
   overflow: hidden;
+  box-shadow: 0 10rpx 26rpx rgba(0,0,0,0.08);
 }
 .banner-img {
   width: 100%;
@@ -38,6 +39,9 @@ page { background: var(--theme-bg); }
   width: 40rpx;
   height: 40rpx;
   opacity: 0.9;
+  padding: 6rpx;
+  border-radius: 12rpx;
+  background: var(--theme-light);
 }
 
 /* 卡片列表 - 使用主题色 */
@@ -47,7 +51,8 @@ page { background: var(--theme-bg); }
   background: var(--theme-card);
   border-radius: 20rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.04);
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.05);
+  border: 1rpx solid #edf1f6;
   transition: all 0.3s ease;
 }
 .card:active {

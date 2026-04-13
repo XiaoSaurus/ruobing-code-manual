@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("changelog")
 public class Changelog {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private String version;
     private String title;
@@ -15,3 +15,4 @@ public class Changelog {
     private String type;
     private LocalDateTime createTime;
 }
+

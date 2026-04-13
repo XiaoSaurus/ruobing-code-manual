@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("graduation_project")
 public class GraduationProject {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private String title;
     private String description;
@@ -25,3 +25,4 @@ public class GraduationProject {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
+

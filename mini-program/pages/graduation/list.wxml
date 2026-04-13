@@ -1,18 +1,24 @@
 <view class="container {{themeClass}}" style="{{pageStyle}}">
   <!-- 搜索栏 -->
   <view class="search-bar">
-    <text class="search-icon">🔍</text>
+    <view class="search-icon-wrap">
+      <text class="search-icon">⌕</text>
+    </view>
     <input class="search-input" placeholder="搜索毕业设计..."
       confirm-type="search" value="{{keyword}}"
       bindinput="onKeywordInput" bindconfirm="onSearch" />
+    <view class="search-actions">
+      <text class="search-clear" wx:if="{{keyword}}" bindtap="onClearKeyword">清空</text>
+      <view class="search-btn" bindtap="onSearch">搜索</view>
+    </view>
   </view>
 
   <!-- 工具栏：排序 + 视图切换 -->
   <view class="toolbar">
     <view class="sort-tabs">
-      <view class="tab {{sortBy === 'sort_order' ? 'active' : ''}}" bindtap="onSort" data-sort="sort_order"><text>默认</text></view>
+      <view class="tab {{sortBy === 'create_time' ? 'active' : ''}}" bindtap="onSort" data-sort="create_time"><text>最新</text></view>
       <view class="tab {{sortBy === 'views' ? 'active' : ''}}" bindtap="onSort" data-sort="views"><text>最热</text></view>
-      <view class="tab {{sortBy === 'latest' ? 'active' : ''}}" bindtap="onSort" data-sort="latest"><text>最新</text></view>
+      <view class="tab {{sortBy === 'favorites' ? 'active' : ''}}" bindtap="onSort" data-sort="favorites"><text>收藏</text></view>
     </view>
     <view class="view-toggle" bindtap="toggleView">
       <text class="toggle-icon">{{viewMode === 'single' ? '☰' : '▦'}}</text>

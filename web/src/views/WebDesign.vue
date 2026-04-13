@@ -3,7 +3,8 @@
     <div class="toolbar">
       <el-button type="primary" @click="$router.push('/web-design/edit')">新增</el-button>
     </div>
-    <el-table :data="list" border>
+    <div class="table-scroll">
+    <el-table :data="list" border size="small">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="tags" label="标签" />
@@ -22,11 +23,14 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
     <el-pagination
+      class="pagination-bar"
       v-model:current-page="page"
       :page-size="pageSize"
       :total="total"
       layout="total, prev, pager, next"
+      size="small"
       @current-change="loadData"
       style="margin-top: 20px"
     />
@@ -60,6 +64,5 @@ onMounted(loadData)
 </script>
 
 <style scoped>
-.page-container { padding: 20px; }
-.toolbar { margin-bottom: 15px; }
+.toolbar { margin-bottom: 0; }
 </style>
