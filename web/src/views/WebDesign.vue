@@ -5,16 +5,19 @@
     </div>
     <div class="table-scroll">
     <el-table :data="list" border size="small">
-      <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="tags" label="标签" />
       <el-table-column prop="views" label="浏览" width="80" />
       <el-table-column prop="likes" label="点赞" width="80" />
+      <el-table-column prop="favorites" label="收藏" width="80" />
       <el-table-column prop="isHot" label="热门" width="80">
         <template #default="{ row }">{{ row.isHot ? '是' : '否' }}</template>
       </el-table-column>
       <el-table-column prop="isLatest" label="最新" width="80">
         <template #default="{ row }">{{ row.isLatest ? '是' : '否' }}</template>
+      </el-table-column>
+      <el-table-column label="创建时间" width="180">
+        <template #default="{ row }">{{ formatDateTime(row.createTime) }}</template>
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template #default="{ row }">
@@ -41,6 +44,7 @@
 import { ref, onMounted } from 'vue'
 import { webDesignApi } from '@/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatDateTime } from '@/utils/format'
 
 const list = ref([])
 const page = ref(1)

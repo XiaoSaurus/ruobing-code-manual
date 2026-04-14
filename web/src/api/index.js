@@ -23,7 +23,7 @@ export const graduationApi = {
 export const feedbackApi = {
   getList: (params) => request.get('/feedback/list', { params }),
   submit: (data) => request.post('/feedback', data),
-  reply: (id, reply) => request.put(`/feedback/${id}/reply`, reply)
+  reply: (id, reply) => request.put(`/feedback/${id}/reply`, { reply })
 }
 
 export const changelogApi = {
@@ -52,6 +52,9 @@ export const rbacApi = {
   saveRole: (data) => request.post('/rbac/roles', data),
   deleteRole: (roleCode) => request.delete(`/rbac/roles/${roleCode}`),
   getMenus: () => request.get('/rbac/menus'),
+  getMenusAll: () => request.get('/rbac/menus/all'),
+  saveMenu: (data) => request.post('/rbac/menus', data),
+  deleteMenu: (id) => request.delete(`/rbac/menus/${id}`),
   getRoleMenus: (roleCode) => request.get(`/rbac/roles/${roleCode}/menus`),
   bindRoleMenus: (roleCode, menuIds) => request.post(`/rbac/roles/${roleCode}/menus`, { menuIds })
 }

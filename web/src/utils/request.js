@@ -30,6 +30,9 @@ request.interceptors.response.use(
         window.location.href = '/login'
       }
     }
+    if (data && typeof data.code === 'number' && data.code === 403) {
+      ElMessage.error(data.message || '无权限访问')
+    }
     return data
   },
   error => {

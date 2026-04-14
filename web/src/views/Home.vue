@@ -334,6 +334,7 @@ const likeRatio = computed(() => {
   return ((totalLikes.value / totalViews.value) * 100).toFixed(1)
 })
 
+
 // 生成近7天数据
 function getLast7Days() {
   const days = []

@@ -66,6 +66,12 @@ const routes = [
         meta: { title: '角色权限', requiresAdmin: true },
         component: () => import('@/views/Rbac.vue')
       },
+      {
+        path: 'menu-manage',
+        name: 'MenuManage',
+        meta: { title: '菜单管理', requiresAdmin: true },
+        component: () => import('@/views/MenuManage.vue')
+      },
       { path: 'profile', name: 'Profile', meta: { title: '个人资料' }, component: () => import('@/views/Profile.vue') },
       { path: 'about', name: 'About', meta: { title: '关于我们' }, component: () => import('@/views/About.vue') }
     ]

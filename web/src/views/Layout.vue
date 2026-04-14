@@ -17,6 +17,7 @@
           <el-menu-item v-if="hasMenu('/changelog')" index="/changelog"><el-icon><List /></el-icon><span>更新日志</span></el-menu-item>
           <el-menu-item v-if="hasMenu('/user-admin') || hasMenu('/sys-user')" index="/user-admin"><el-icon><UserFilled /></el-icon><span>用户管理</span></el-menu-item>
           <el-menu-item v-if="hasMenu('/rbac')" index="/rbac"><el-icon><Lock /></el-icon><span>角色权限</span></el-menu-item>
+          <el-menu-item v-if="hasMenu('/menu-manage') || hasMenu('/rbac')" index="/menu-manage"><el-icon><Grid /></el-icon><span>菜单管理</span></el-menu-item>
         </template>
         <el-menu-item v-if="hasMenu('/profile')" index="/profile"><el-icon><User /></el-icon><span>个人资料</span></el-menu-item>
         <el-menu-item index="/about"><el-icon><InfoFilled /></el-icon><span>关于我们</span></el-menu-item>
@@ -77,6 +78,7 @@
           <el-menu-item v-if="hasMenu('/changelog')" index="/changelog"><el-icon><List /></el-icon><span>更新日志</span></el-menu-item>
           <el-menu-item v-if="hasMenu('/user-admin') || hasMenu('/sys-user')" index="/user-admin"><el-icon><UserFilled /></el-icon><span>用户管理</span></el-menu-item>
           <el-menu-item v-if="hasMenu('/rbac')" index="/rbac"><el-icon><Lock /></el-icon><span>角色权限</span></el-menu-item>
+          <el-menu-item v-if="hasMenu('/menu-manage') || hasMenu('/rbac')" index="/menu-manage"><el-icon><Grid /></el-icon><span>菜单管理</span></el-menu-item>
         </template>
         <el-menu-item v-if="hasMenu('/profile')" index="/profile"><el-icon><User /></el-icon><span>个人资料</span></el-menu-item>
         <el-menu-item index="/about"><el-icon><InfoFilled /></el-icon><span>关于我们</span></el-menu-item>
@@ -86,10 +88,10 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { HomeFilled, Document, School, ChatDotRound, List, InfoFilled, UserFilled, Menu, User, ArrowDown, Lock } from '@element-plus/icons-vue'
+import { HomeFilled, Document, School, ChatDotRound, List, InfoFilled, UserFilled, Menu, User, ArrowDown, Lock, Grid } from '@element-plus/icons-vue'
 import { useMobile } from '@/composables/useMobile.js'
 import { authApi } from '@/api'
 import logoSrc from '@/assets/logo.png'
@@ -113,7 +115,25 @@ const router = useRouter()
 const { isMobile } = useMobile(768)
 const drawerVisible = ref(false)
 const isAdmin = ref(resolveAuthRole() === 'admin')
-const allowedMenuPaths = ref(new Set(['/home', '/web-design', '/graduation', '/about', '/profile']))
+function buildDefaultMenus(role) {
+  if (role === 'admin') {
+    return new Set([
+      '/home',
+      '/web-design',
+      '/graduation',
+      '/feedback',
+      '/changelog',
+      '/user-admin',
+      '/rbac',
+      '/menu-manage',
+      '/profile',
+      '/about'
+    ])
+  }
+  return new Set(['/home', '/web-design', '/graduation', '/about', '/profile'])
+}
+
+const allowedMenuPaths = ref(buildDefaultMenus(resolveAuthRole()))
 const currentUser = ref(readUser())
 
 watch(
@@ -123,6 +143,11 @@ watch(
     currentUser.value = readUser()
   }
 )
+
+function refreshUser() {
+  isAdmin.value = resolveAuthRole() === 'admin'
+  currentUser.value = readUser()
+}
 
 const pageTitle = computed(() => route.meta?.title || '管理后台')
 const userNameText = computed(() => {
@@ -146,13 +171,16 @@ function hasMenu(path) {
 async function loadMenus() {
   if (!localStorage.getItem('token')) return
   const role = resolveAuthRole()
-  if (role !== 'admin') {
-    allowedMenuPaths.value = new Set(['/home', '/web-design', '/graduation', '/about', '/profile'])
-    return
-  }
-  const res = await authApi.getMenus()
-  if (res.code === 200 && Array.isArray(res.data)) {
-    allowedMenuPaths.value = new Set(res.data.map((m) => m.path))
+  allowedMenuPaths.value = buildDefaultMenus(role)
+  try {
+    if (role !== 'admin') return
+    const res = await authApi.getMenus()
+    if (res.code === 200 && Array.isArray(res.data) && res.data.length) {
+      const merged = new Set([...buildDefaultMenus(role), ...res.data.map((m) => m.path)])
+      allowedMenuPaths.value = merged
+    }
+  } catch (_) {
+    allowedMenuPaths.value = buildDefaultMenus(role)
   }
 }
 
@@ -172,6 +200,14 @@ function handleUserCommand(cmd) {
 }
 
 loadMenus()
+
+onMounted(() => {
+  window.addEventListener('user-profile-updated', refreshUser)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('user-profile-updated', refreshUser)
+})
 </script>
 
 <style scoped>

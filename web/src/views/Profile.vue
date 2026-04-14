@@ -6,6 +6,10 @@
         <h2>{{ form.nickname || form.username || '未命名用户' }}</h2>
         <p>{{ isAdmin ? '管理员账号资料' : '访客账号资料' }}</p>
       </div>
+      <div class="avatar-actions">
+        <input ref="avatarFileRef" type="file" accept="image/*" class="hidden-file" @change="onAvatarFileChange" />
+        <el-button @click="pickAvatar">更换头像</el-button>
+      </div>
     </div>
 
     <el-form label-position="top" class="profile-form" @submit.prevent="save">
@@ -26,10 +30,6 @@
         <el-input v-model="form.nickname" maxlength="32" placeholder="显示名称" />
       </el-form-item>
 
-      <el-form-item label="头像 URL">
-        <el-input v-model="form.avatar" placeholder="https://..." />
-      </el-form-item>
-
       <el-form-item label="邮箱">
         <el-input v-model="form.email" type="email" placeholder="用于找回密码" />
       </el-form-item>
@@ -48,6 +48,7 @@ import { ElMessage } from 'element-plus'
 import { authApi } from '@/api'
 
 const saving = ref(false)
+const avatarFileRef = ref(null)
 const isAdmin = computed(() => localStorage.getItem('authRole') === 'admin')
 const defaultAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=ruobing'
 
@@ -101,9 +102,29 @@ const save = async () => {
     }
     ElMessage.success('保存成功')
     await load()
+    window.dispatchEvent(new Event('user-profile-updated'))
   } finally {
     saving.value = false
   }
+}
+
+const pickAvatar = () => {
+  avatarFileRef.value?.click()
+}
+
+const onAvatarFileChange = async (e) => {
+  const file = e.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) {
+    ElMessage.warning('请选择图片文件')
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = () => {
+    form.avatar = String(reader.result || '')
+  }
+  reader.readAsDataURL(file)
+  e.target.value = ''
 }
 
 load()
@@ -126,6 +147,12 @@ load()
 .profile-head p {
   margin: 4px 0 0;
   color: #8a8a9a;
+}
+.avatar-actions {
+  margin-left: auto;
+}
+.hidden-file {
+  display: none;
 }
 .actions {
   display: flex;

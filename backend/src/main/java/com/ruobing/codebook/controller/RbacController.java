@@ -1,6 +1,7 @@
 package com.ruobing.codebook.controller;
 
 import com.ruobing.codebook.common.Result;
+import com.ruobing.codebook.entity.SysMenu;
 import com.ruobing.codebook.entity.SysRole;
 import com.ruobing.codebook.service.RbacService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +46,25 @@ public class RbacController {
     @GetMapping("/menus")
     public Result<?> menus() {
         return Result.success(rbacService.listMenus());
+    }
+
+    @Operation(summary = "菜单列表（含禁用）")
+    @GetMapping("/menus/all")
+    public Result<?> menusAll() {
+        return Result.success(rbacService.listMenusAll());
+    }
+
+    @Operation(summary = "保存菜单")
+    @PostMapping("/menus")
+    public Result<?> saveMenu(@RequestBody SysMenu menu) {
+        return Result.success(rbacService.saveMenu(menu));
+    }
+
+    @Operation(summary = "删除菜单")
+    @DeleteMapping("/menus/{id}")
+    public Result<?> deleteMenu(@PathVariable Long id) {
+        rbacService.deleteMenu(id);
+        return Result.success();
     }
 
     @Operation(summary = "获取角色绑定菜单")

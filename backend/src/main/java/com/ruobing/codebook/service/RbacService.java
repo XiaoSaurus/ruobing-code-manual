@@ -34,6 +34,41 @@ public class RbacService {
         return menuRepository.selectList(new QueryWrapper<SysMenu>().eq("status", 1).orderByAsc("sort_order").orderByAsc("id"));
     }
 
+    public List<SysMenu> listMenusAll() {
+        return menuRepository.selectList(new QueryWrapper<SysMenu>().orderByAsc("sort_order").orderByAsc("id"));
+    }
+
+    public SysMenu saveMenu(SysMenu menu) {
+        if (menu == null || !StringUtils.hasText(menu.getPath()) || !StringUtils.hasText(menu.getTitle())) {
+            throw new IllegalArgumentException("path 和 title 不能为空");
+        }
+        menu.setPath(menu.getPath().trim());
+        menu.setTitle(menu.getTitle().trim());
+        if (menu.getSortOrder() == null) menu.setSortOrder(0);
+        if (menu.getStatus() == null) menu.setStatus(1);
+        if (menu.getId() == null) {
+            if (menuRepository.selectOne(new QueryWrapper<SysMenu>().eq("path", menu.getPath())) != null) {
+                throw new IllegalArgumentException("菜单路径已存在");
+            }
+            menuRepository.insert(menu);
+        } else {
+            SysMenu exists = menuRepository.selectById(menu.getId());
+            if (exists == null) throw new IllegalArgumentException("菜单不存在");
+            SysMenu pathExists = menuRepository.selectOne(
+                    new QueryWrapper<SysMenu>().eq("path", menu.getPath()).ne("id", menu.getId())
+            );
+            if (pathExists != null) throw new IllegalArgumentException("菜单路径已存在");
+            menuRepository.updateById(menu);
+        }
+        return menuRepository.selectById(menu.getId());
+    }
+
+    public void deleteMenu(Long id) {
+        if (id == null) throw new IllegalArgumentException("菜单ID不能为空");
+        menuRepository.deleteById(id);
+        roleMenuRepository.delete(new QueryWrapper<SysRoleMenu>().eq("menu_id", id));
+    }
+
     public SysRole saveRole(SysRole role) {
         if (!StringUtils.hasText(role.getRoleCode()) || !StringUtils.hasText(role.getRoleName())) {
             throw new IllegalArgumentException("roleCode 和 roleName 不能为空");

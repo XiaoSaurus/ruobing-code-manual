@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Tag(name = "用户反馈", description = "用户反馈管理接口")
 @RestController
 @RequestMapping("/feedback")
@@ -42,7 +44,8 @@ public class FeedbackController {
     @PutMapping("/{id}/reply")
     public Result<?> reply(
             @Parameter(description = "反馈ID") @PathVariable Long id,
-            @RequestBody String reply) {
+            @RequestBody Map<String, String> body) {
+        String reply = body == null ? null : body.get("reply");
         feedbackService.reply(id, reply);
         return Result.success();
     }

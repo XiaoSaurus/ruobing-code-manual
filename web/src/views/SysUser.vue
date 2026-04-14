@@ -18,20 +18,17 @@
     <!-- 表格 -->
     <div class="table-scroll">
     <el-table :data="list" border stripe size="small">
-      <el-table-column prop="id" label="ID" width="60" />
+      <el-table-column prop="username" label="用户名" width="150" />
+      <el-table-column prop="nickname" label="昵称" min-width="120" />
       <el-table-column label="头像" width="70">
         <template #default="{ row }">
           <el-avatar :src="row.avatar || defaultAvatar" :size="36" />
         </template>
       </el-table-column>
-      <el-table-column prop="username" label="用户名" width="140" />
-      <el-table-column prop="nickname" label="昵称" min-width="120" />
       <el-table-column prop="email" label="邮箱" min-width="140" show-overflow-tooltip />
       <el-table-column prop="role" label="角色" width="100">
         <template #default="{ row }">
-          <el-tag :type="row.role === 'admin' ? 'danger' : 'primary'" size="small">
-            {{ row.role === 'admin' ? '管理员' : '编辑' }}
-          </el-tag>
+          <el-tag :type="row.role === 'admin' ? 'danger' : 'primary'" size="small">{{ roleLabel(row.role) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="status" label="状态" width="90">
@@ -44,7 +41,9 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="170" />
+      <el-table-column label="创建时间" width="180">
+        <template #default="{ row }">{{ formatDateTime(row.createTime) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="180" fixed="right">
         <template #default="{ row }">
           <el-button size="small" @click="openDialog(row)">编辑</el-button>
@@ -112,6 +111,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { sysUserApi } from '@/api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { formatDateTime, roleLabel } from '@/utils/format'
 
 const defaultAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=default'
 
@@ -138,6 +138,10 @@ const loadData = async () => {
     pageSize: pageSize.value,
     keyword: keyword.value || undefined
   })
+  if (res.code !== 200) {
+    ElMessage.error(res.message || '用户数据加载失败')
+    return
+  }
   list.value = res.data.records
   total.value = res.data.total
 }

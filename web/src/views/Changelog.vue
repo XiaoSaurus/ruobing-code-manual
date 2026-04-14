@@ -7,12 +7,19 @@
     <el-table :data="list" border size="small">
       <el-table-column prop="version" label="版本号" width="120" />
       <el-table-column prop="title" label="标题" />
+      <el-table-column label="更新内容" min-width="260">
+        <template #default="{ row }">
+          <div class="content-preview markdown-card" v-html="toHtml(row.content)" />
+        </template>
+      </el-table-column>
       <el-table-column prop="type" label="类型" width="100">
         <template #default="{ row }">
           <el-tag :type="row.type === 'feature' ? 'success' : 'info'">{{ row.type === 'feature' ? '新功能' : '修复' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="时间" width="180" />
+      <el-table-column label="时间" width="190">
+        <template #default="{ row }">{{ formatDateTime(row.createTime) }}</template>
+      </el-table-column>
     </el-table>
     </div>
 
@@ -40,6 +47,8 @@
 import { ref, onMounted } from 'vue'
 import { changelogApi } from '@/api'
 import { ElMessage } from 'element-plus'
+import { markdownToHtml } from '@/utils/markdown'
+import { formatDateTime } from '@/utils/format'
 
 const list = ref([])
 const dialogVisible = ref(false)
@@ -58,9 +67,37 @@ const handleSave = async () => {
   loadData()
 }
 
+const toHtml = (content) => markdownToHtml(content || '', '#67c23a')
+
 onMounted(loadData)
 </script>
 
 <style scoped>
 .toolbar { margin-bottom: 0; }
+.content-preview {
+  max-height: 160px;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.markdown-card {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ebeef5;
+  background: #f8fafc;
+}
+.markdown-card :deep(p) {
+  margin: 0 0 8px;
+}
+.markdown-card :deep(h1),
+.markdown-card :deep(h2),
+.markdown-card :deep(h3) {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+.markdown-card :deep(ul),
+.markdown-card :deep(ol) {
+  margin: 0;
+  padding-left: 18px;
+}
 </style>

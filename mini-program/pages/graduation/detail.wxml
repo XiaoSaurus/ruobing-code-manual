@@ -4,9 +4,6 @@
     <image class="card-cover" src="{{detail.coverImage}}" mode="aspectFill" />
     <view class="card-body">
       <text class="card-title">{{detail.title}}</text>
-      <view class="summary-card">
-        <rich-text class="summary-md" type="html" nodes="{{summaryHtml}}"></rich-text>
-      </view>
       <view class="card-meta-row">
         <text>👁 {{detail.views || 0}}</text>
         <text>❤️ {{detail.likes || 0}}</text>
@@ -14,6 +11,9 @@
       </view>
       <view class="card-time-row" wx:if="{{formattedTime}}">
         <text>🕒 {{formattedTime}}</text>
+      </view>
+      <view class="summary-card">
+        <rich-text class="summary-md" type="html" nodes="{{summaryHtml}}"></rich-text>
       </view>
       <button class="read-btn" catchtap="openArticle">阅读全文</button>
     </view>
@@ -28,6 +28,8 @@
         <text>👁 {{detail.views || 0}}</text>
         <text>❤️ {{detail.likes || 0}}</text>
         <text>⭐ {{detail.favorites || 0}}</text>
+      </view>
+      <view class="meta-time" wx:if="{{formattedTime}}">
         <text>🕒 {{formattedTime}}</text>
       </view>
       <view class="summary-card">

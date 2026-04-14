@@ -54,8 +54,13 @@ const submit = async () => {
       ElMessage.error(res.message || '登录失败')
       return
     }
+    const role = res.data?.user?.role
+    if (role !== 'admin') {
+      ElMessage.error('该账号不是管理员账号，请使用管理员账号登录')
+      return
+    }
     localStorage.setItem('token', res.data.token)
-    localStorage.setItem('authRole', 'admin')
+    localStorage.setItem('authRole', role)
     localStorage.removeItem('appUser')
     if (res.data.user) {
       localStorage.setItem('adminUser', JSON.stringify(res.data.user))

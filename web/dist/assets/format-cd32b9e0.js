@@ -1,0 +1,1 @@
+function n(e){if(!e)return"";const t=new Date(e);if(Number.isNaN(t.getTime()))return String(e);const r=a=>String(a).padStart(2,"0");return`${t.getFullYear()}-${r(t.getMonth()+1)}-${r(t.getDate())} ${r(t.getHours())}:${r(t.getMinutes())}:${r(t.getSeconds())}`}function o(e){return{admin:"管理员",editor:"编辑",app_user:"访客用户"}[e]||e||"-"}export{n as f,o as r};
