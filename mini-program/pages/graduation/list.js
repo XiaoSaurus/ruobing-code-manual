@@ -46,9 +46,10 @@ Page({
     const { keyword, sortBy, page, pageSize } = this.data
     this.setData({ loading: true })
     request.get('/graduation/list', { keyword, sortBy, page, pageSize }).then(res => {
-      // 兼容 code:0 和 code:200
       const resData = (res && (res.code === 0 || res.code === 200)) ? (res.data || {}) : {}
-      const records = (resData.records || resData || [])
+      // 后端返回 {list, total} 或 {list, summary, total}
+      const records = resData.list || resData.records || []
+      const total = resData.total || 0
       const arr = Array.isArray(records) ? records : []
       const items = arr.map(item => ({
         ...item,
@@ -57,7 +58,7 @@ Page({
       const newList = reset ? items : [...this.data.list, ...items]
       this.setData({
         list: newList,
-        hasMore: newList.length < (resData.total || 0),
+        hasMore: newList.length < total,
         loading: false
       })
     }).catch(() => {

@@ -47,7 +47,8 @@ Page({
     this.setData({ loading: true })
     request.get('/web-design/list', { keyword, sortBy, page, pageSize }).then(res => {
       const resData = (res && (res.code === 0 || res.code === 200)) ? (res.data || {}) : {}
-      const records = (resData.records || resData || [])
+      const records = resData.list || resData.records || []
+      const total = resData.total || 0
       const arr = Array.isArray(records) ? records : []
       const items = arr.map(item => ({
         ...item,
@@ -56,7 +57,7 @@ Page({
       const newList = reset ? items : [...this.data.list, ...items]
       this.setData({
         list: newList,
-        hasMore: newList.length < (resData.total || 0),
+        hasMore: newList.length < total,
         loading: false
       })
     }).catch(() => {

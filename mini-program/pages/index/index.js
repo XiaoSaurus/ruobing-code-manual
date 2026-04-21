@@ -40,11 +40,23 @@ Page({
       request('/graduation/hot'),
       request('/graduation/latest')
     ]).then(([banners, webHot, webLatest, gpHot, gpLatest]) => {
-      // 兼容 code:0 和 code:200
+      /**
+       * normalize: 兼容多种返回结构
+       * - 数组: 直接返回
+       * - {list, total}: 取 list
+       * - {records, total}: 取 records
+       * - {data: ...}: 递归取 data
+       */
       const normalize = (res) => {
-        if (!res || (res.code !== 0 && res.code !== 200)) return []
-        const data = res.data || []
+        if (!res) return []
+        // 直接是数组
+        if (Array.isArray(res)) return res
+        // code 判断
+        if (res.code !== 0 && res.code !== 200) return []
+        let data = res.data
+        if (!data) return []
         if (Array.isArray(data)) return data
+        if (data.list) return data.list
         if (data.records) return data.records
         return []
       }
