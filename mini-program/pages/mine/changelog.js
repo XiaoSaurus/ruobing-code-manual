@@ -40,9 +40,7 @@ Page({
 
   applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({
-      pageStyle: buildThemePageStyle(theme)
-    })
+    this.setData({ pageStyle: buildThemePageStyle(theme) })
     if (this.data.list && this.data.list.length) {
       const accent = currentAccent()
       const list = this.data.list.map(it => ({
@@ -63,7 +61,8 @@ Page({
       .get('/changelog/list')
       .then(res => {
         wx.hideLoading()
-        const raw = res && res.code === 200 && res.data ? res.data : []
+        // 兼容 code:0 和 code:200
+        const raw = res && (res.code === 0 || res.code === 200) && res.data ? res.data : []
         const list = (raw || []).map(item => ({
           ...item,
           rawContent: item.content,
@@ -71,7 +70,7 @@ Page({
           createTimeLabel: formatChangelogTime(item.createTime),
           contentHtml: markdownToHtml(item.content || '', accent)
         }))
-        const latestVersion = list.length > 0 ? list[0].version : ''
+        const latestVersion = list.length > 0 ? list[0].versionCode || list[0].version : ''
         const theme = app.globalData.currentTheme || app.globalData.themes[0]
         this.setData({
           list,

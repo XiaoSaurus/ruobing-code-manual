@@ -5,7 +5,7 @@ Page({
   data: {
     keyword: '',
     sortBy: 'create_time',
-    viewMode: 'single',  // 'single' | 'double'
+    viewMode: 'single',
     list: [],
     page: 1,
     pageSize: 10,
@@ -31,15 +31,11 @@ Page({
     }
   },
 
-  // 应用主题 - 使用内联样式
   applyTheme() {
     const theme = app.globalData.currentTheme
     if (theme) {
       const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
-      this.setData({
-        themeClass: 'theme-' + theme.id,
-        pageStyle: style
-      })
+      this.setData({ themeClass: 'theme-' + theme.id, pageStyle: style })
     }
   },
 
@@ -50,14 +46,17 @@ Page({
     const { keyword, sortBy, page, pageSize } = this.data
     this.setData({ loading: true })
     request.get('/web-design/list', { keyword, sortBy, page, pageSize }).then(res => {
-      const records = (res.data.records || []).map(item => ({
+      const resData = (res && (res.code === 0 || res.code === 200)) ? (res.data || {}) : {}
+      const records = (resData.records || resData || [])
+      const arr = Array.isArray(records) ? records : []
+      const items = arr.map(item => ({
         ...item,
         tagsArray: item.tags ? item.tags.split(',').filter(t => t.trim()) : []
       }))
-      const newList = reset ? records : [...this.data.list, ...records]
+      const newList = reset ? items : [...this.data.list, ...items]
       this.setData({
         list: newList,
-        hasMore: newList.length < (res.data.total || 0),
+        hasMore: newList.length < (resData.total || 0),
         loading: false
       })
     }).catch(() => {
@@ -67,25 +66,12 @@ Page({
   },
 
   toggleView() {
-    this.setData({
-      viewMode: this.data.viewMode === 'single' ? 'double' : 'single'
-    })
+    this.setData({ viewMode: this.data.viewMode === 'single' ? 'double' : 'single' })
   },
 
-  onKeywordInput(e) {
-    this.setData({ keyword: e.detail.value })
-  },
-
-  onClearKeyword() {
-    this.setData({ keyword: '' })
-    this.loadData(true)
-  },
-
-  onSearch() {
-    const keyword = (this.data.keyword || '').trim()
-    this.setData({ keyword })
-    this.loadData(true)
-  },
+  onKeywordInput(e) { this.setData({ keyword: e.detail.value }) },
+  onClearKeyword() { this.setData({ keyword: '' }); this.loadData(true) },
+  onSearch() { this.setData({ keyword: (this.data.keyword || '').trim() }); this.loadData(true) },
 
   onSort(e) {
     const sortBy = e.currentTarget.dataset.sort

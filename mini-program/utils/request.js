@@ -1,3 +1,8 @@
+/**
+ * HTTP 请求工具
+ * - 自动注入 Authorization Token
+ * - 统一处理 401 跳转登录
+ */
 const request = (url, options = {}) => {
   const app = getApp()
   return new Promise((resolve, reject) => {
@@ -5,10 +10,14 @@ const request = (url, options = {}) => {
     const maxRetry = Number.isInteger(opts.retry) ? opts.retry : 1
     const timeout = Number.isInteger(opts.timeout) ? opts.timeout : 15000
     let data = opts.data
-    // 对象必须 JSON 序列化，否则部分环境下 PUT/POST 体为空，后端收不到 province/nickname 等
     if (data != null && typeof data === 'object' && !(data instanceof ArrayBuffer)) {
       data = JSON.stringify(data)
     }
+
+    // 自动注入 Token
+    const token = wx.getStorageSync('accessToken') || ''
+    const authHeader = token ? { Authorization: token } : {}
+
     const doRequest = (attempt = 0) => {
       wx.request({
         url: app.globalData.apiBase + url,
@@ -17,12 +26,17 @@ const request = (url, options = {}) => {
         timeout,
         header: {
           'Content-Type': 'application/json',
+          ...authHeader,
           ...(opts.header || {})
         },
         success: res => {
           if (res.statusCode < 200 || res.statusCode >= 300) {
             reject(new Error('HTTP ' + res.statusCode))
             return
+          }
+          // 401 未登录 → 清除本地登录态
+          if (res.data && res.data.code === 401) {
+            app.clearAuth && app.clearAuth()
           }
           resolve(res.data)
         },
@@ -45,9 +59,10 @@ request.get = (url, params) => {
   let query = ''
   if (params) {
     query = Object.keys(params)
-      .map(k => `${k}=${encodeURIComponent(params[k] == null ? '' : params[k])}`)
+      .filter(k => params[k] != null && params[k] !== '')
+      .map(k => `${k}=${encodeURIComponent(params[k])}`)
       .join('&')
-    url = url + '?' + query
+    if (query) url = url + '?' + query
   }
   return request(url, { method: 'GET' })
 }

@@ -1,31 +1,10 @@
 const app = getApp()
-const { mapServerUser, pullUserFromServer, isApiSuccess } = require('../../utils/userSync.js')
+const { mapServerUser, isApiSuccess } = require('../../utils/userSync.js')
 const { buildThemePageStyle } = require('../../utils/themeUi.js')
 
-/** 协议弹窗：仅一处换行（部分机型需 \r\n）；getUserProfile 失败用 toast，勿用二次确认弹窗 */
 const MODAL_AGREE_TIP =
   '请先勾选「登录即表示同意《用户协议》和《隐私政策》」\r\n是否同意并继续？'
 const TOAST_TAP_AGAIN = '请再次点击\n「微信授权登录」'
-
-function pickLoginUser(res) {
-  if (!res || typeof res !== 'object') return null
-  const data = res.data
-  if (!data || typeof data !== 'object') return null
-  // 兼容多种后端结构：{data:{user}}, {data:{result}}, {data:{...userFields}}
-  return data.user || data.result || data.profile || data
-}
-
-function normalizeUserShape(u) {
-  if (!u || typeof u !== 'object') return null
-  const openid = u.openid || u.openId || u.open_id || ''
-  if (!openid) return null
-  return {
-    ...u,
-    openid,
-    nickname: u.nickname || u.nickName || '',
-    avatar: u.avatar || u.avatarUrl || ''
-  }
-}
 
 Page({
   data: {
@@ -36,8 +15,9 @@ Page({
 
   onLoad() {
     this.applyTheme()
+    const token = wx.getStorageSync('accessToken')
     const userInfo = wx.getStorageSync('userInfo')
-    if (userInfo && userInfo.openid) {
+    if (token && userInfo && userInfo.openid) {
       wx.navigateBack()
     }
   },
@@ -50,9 +30,7 @@ Page({
 
   applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({
-      pageStyle: buildThemePageStyle(theme)
-    })
+    this.setData({ pageStyle: buildThemePageStyle(theme) })
   },
 
   toggleAgree() {
@@ -65,10 +43,7 @@ Page({
   },
 
   ensureAgreeThen(next) {
-    if (this.data.agreed) {
-      next()
-      return
-    }
+    if (this.data.agreed) { next(); return }
     wx.showModal({
       title: '提示',
       content: MODAL_AGREE_TIP,
@@ -81,42 +56,38 @@ Page({
     })
   },
 
+  /** 处理登录响应：存 Token + userInfo */
   applyLoginResponse(res) {
     if (!isApiSuccess(res)) {
-      wx.showToast({ title: res.message || res.msg || '登录失败', icon: 'none' })
+      wx.showToast({ title: res.msg || res.message || '登录失败', icon: 'none' })
       return
     }
-    const rawUser = pickLoginUser(res)
-    const dataRoot = res && res.data && typeof res.data === 'object' ? res.data : {}
-    // 后端兜底：允许 openid 挂在 data 根节点，避免 user 对象缺字段时误判登录失败
-    const mergedUser = rawUser && typeof rawUser === 'object'
-      ? { ...rawUser, openid: rawUser.openid || rawUser.openId || rawUser.open_id || dataRoot.openid }
-      : rawUser
-    let storeInfo = mapServerUser(normalizeUserShape(mergedUser))
-    if (!storeInfo || !storeInfo.openid) {
+    const data = res.data || {}
+    const token = data.accessToken
+    if (!token) {
       wx.showToast({ title: '登录数据异常', icon: 'none' })
-      console.error('登录返回数据不符合预期:', res)
       return
     }
-    wx.showLoading({ title: '同步资料…' })
-    pullUserFromServer(storeInfo.openid)
-      .then(fresh => {
-        wx.hideLoading()
-        if (fresh) {
-          storeInfo = fresh
-        }
-        wx.setStorageSync('userInfo', storeInfo)
-        app.globalData.userInfo = storeInfo
-        wx.showToast({ title: '登录成功', icon: 'success' })
-        setTimeout(() => wx.navigateBack(), 800)
-      })
-      .catch(() => {
-        wx.hideLoading()
-        wx.setStorageSync('userInfo', storeInfo)
-        app.globalData.userInfo = storeInfo
-        wx.showToast({ title: '登录成功', icon: 'success' })
-        setTimeout(() => wx.navigateBack(), 800)
-      })
+
+    // 存 Token
+    app.setToken(token)
+
+    // 构建本地 userInfo
+    const userInfo = {
+      id: data.userId,
+      openid: data.openid || '',
+      nickName: data.nickname || '',
+      avatarUrl: data.avatar || '',
+      gender: 0,
+      province: '', city: '', district: '',
+      regionValue: [], regionDisplayText: '',
+      loginTime: Date.now()
+    }
+    wx.setStorageSync('userInfo', userInfo)
+    app.globalData.userInfo = userInfo
+
+    wx.showToast({ title: '登录成功', icon: 'success' })
+    setTimeout(() => wx.navigateBack(), 800)
   },
 
   onLoginTap() {
@@ -132,15 +103,9 @@ Page({
           this.setData({ agreed: true }, () => {
             wx.getUserProfile({
               desc: '用于展示头像与昵称',
-              success: r => {
-                if (r.userInfo) this.doWechatLogin(r.userInfo)
-              },
+              success: r => { if (r.userInfo) this.doWechatLogin(r.userInfo) },
               fail: () => {
-                wx.showToast({
-                  title: TOAST_TAP_AGAIN,
-                  icon: 'none',
-                  duration: 3000
-                })
+                wx.showToast({ title: TOAST_TAP_AGAIN, icon: 'none', duration: 3000 })
               }
             })
           })
@@ -166,7 +131,6 @@ Page({
   doWechatLogin(userInfo) {
     this.setData({ loading: true })
     wx.showLoading({ title: '登录中…' })
-
     wx.login({
       success: loginRes => {
         if (!loginRes.code) {
@@ -175,8 +139,9 @@ Page({
           wx.showToast({ title: '微信登录失败', icon: 'none' })
           return
         }
+        // 调新后端 /auth/wx-login
         app.globalData.request
-          .post('/user/login', {
+          .post('/auth/wx-login', {
             code: loginRes.code,
             nickname: userInfo.nickName,
             avatar: userInfo.avatarUrl

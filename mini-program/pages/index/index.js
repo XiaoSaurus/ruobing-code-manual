@@ -17,22 +17,17 @@ Page({
 
   onShow() {
     this.applyTheme()
-    // 主题切换后，从 TabBar 页面更新 TabBar 样式
     if (app.globalData.themeDirty) {
       app.globalData.themeDirty = false
       app.updateTabBar(app.globalData.currentTheme)
     }
   },
 
-  // 应用主题 - 使用内联样式
   applyTheme() {
     const theme = app.globalData.currentTheme
     if (theme) {
       const style = `--theme-color: ${theme.color}; --theme-light: ${theme.light}; --theme-dark: ${theme.dark};`
-      this.setData({
-        themeClass: 'theme-' + theme.id,
-        pageStyle: style
-      })
+      this.setData({ themeClass: 'theme-' + theme.id, pageStyle: style })
     }
   },
 
@@ -45,18 +40,17 @@ Page({
       request('/graduation/hot'),
       request('/graduation/latest')
     ]).then(([banners, webHot, webLatest, gpHot, gpLatest]) => {
+      // 兼容 code:0 和 code:200
       const normalize = (res) => {
-        if (!res || res.code !== 200) return []
+        if (!res || (res.code !== 0 && res.code !== 200)) return []
         const data = res.data || []
         if (Array.isArray(data)) return data
         if (data.records) return data.records
         return []
       }
 
-      // 轮播图：直接取数组
       const bannerList = normalize(banners)
 
-      // 热门/最新：合并网页设计+毕业设计
       const merge = (list, type) => normalize(list).map(item => ({
         ...item,
         _type: type,
@@ -88,22 +82,15 @@ Page({
     const { index } = e.currentTarget.dataset
     const banner = this.data.banners[index]
     if (!banner) return
-
     switch (banner.linkType) {
-      case 2: // 网页设计
-        if (banner.linkId) {
-          wx.navigateTo({ url: `/pages/web-design/detail?id=${banner.linkId}` })
-        }
+      case 2:
+        if (banner.linkId) wx.navigateTo({ url: `/pages/web-design/detail?id=${banner.linkId}` })
         break
-      case 3: // 毕业设计
-        if (banner.linkId) {
-          wx.navigateTo({ url: `/pages/graduation/detail?id=${banner.linkId}` })
-        }
+      case 3:
+        if (banner.linkId) wx.navigateTo({ url: `/pages/graduation/detail?id=${banner.linkId}` })
         break
-      case 4: // 外部链接
-        if (banner.linkUrl) {
-          wx.navigateTo({ url: `/pages/webview/index?url=${encodeURIComponent(banner.linkUrl)}` })
-        }
+      case 4:
+        if (banner.linkUrl) wx.navigateTo({ url: `/pages/web-view/web-view?url=${encodeURIComponent(banner.linkUrl)}` })
         break
       default:
         break

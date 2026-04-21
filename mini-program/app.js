@@ -18,22 +18,21 @@ const THEMES = [
 
 function normalizeSavedTheme(saved) {
   if (!saved || !saved.id) return THEMES[0]
-  if (saved.id === 'white') return THEMES[0] // 已移除「纯白色」→ 科技蓝
+  if (saved.id === 'white') return THEMES[0]
   const hit = THEMES.find(t => t.id === saved.id)
   if (hit) return hit
-  // 已移除「极客黑」或缓存损坏时回退默认
   return THEMES[0]
 }
 
 App({
   globalData: {
-    // apiBase: 'https://www.ruobing.site:4001/api',
-    apiBase: 'http://localhost:4001/api',
+    // 新后端：ruobing-boot 集成模块
+    apiBase: 'http://localhost:8080/codemanual',
     userInfo: null,
     themes: THEMES,
     currentTheme: null,
     themeDirty: false,
-    request: request  // HTTP 请求工具，login.js 等页面通过 app.request 调用
+    request: request
   },
 
   onLaunch() {
@@ -42,24 +41,40 @@ App({
     if (!saved || saved.id !== theme.id) {
       wx.setStorageSync('theme', theme)
     }
-    this.setTheme(theme, false) // 启动时不更新 TabBar（此时无 TabBar）
+    this.setTheme(theme, false)
+  },
+
+  /** 获取存储的 accessToken */
+  getToken() {
+    return wx.getStorageSync('accessToken') || ''
+  },
+
+  /** 保存 accessToken */
+  setToken(token) {
+    if (token) {
+      wx.setStorageSync('accessToken', token)
+    } else {
+      wx.removeStorageSync('accessToken')
+    }
+  },
+
+  /** 清除登录态 */
+  clearAuth() {
+    wx.removeStorageSync('accessToken')
+    wx.removeStorageSync('userInfo')
+    this.globalData.userInfo = null
   },
 
   setTheme(theme, updateTabBarNow = false) {
     this.globalData.currentTheme = theme
     this.globalData.themeDirty = true
     wx.setStorageSync('theme', theme)
-
-    // 应用主题到当前页面
     this.applyThemeToPage(theme)
-
-    // TabBar 更新：只在当前有 TabBar 时才更新
     if (updateTabBarNow) {
       this.updateTabBar(theme)
     }
   },
 
-  // 应用主题到页面
   applyThemeToPage(theme) {
     try {
       const pages = getCurrentPages()
@@ -78,26 +93,20 @@ App({
     }
   },
 
-  // 更新 TabBar 样式和图标（仅从 TabBar 页面调用才有效）
   updateTabBar(theme) {
     if (!theme || !theme.id) return
-
-    // 更新样式（选中文字颜色）
     wx.setTabBarStyle({
       color: '#999999',
       selectedColor: theme.color,
       backgroundColor: '#ffffff',
       borderStyle: 'white'
     }).catch(() => {})
-
-    // 更新每个 Tab 的图标
     const tabs = [
       { index: 0, name: 'home', text: '首页' },
       { index: 1, name: 'code', text: '网页设计' },
       { index: 2, name: 'school', text: '毕业设计' },
       { index: 3, name: 'mine', text: '我的' }
     ]
-
     tabs.forEach(tab => {
       wx.setTabBarItem({
         index: tab.index,

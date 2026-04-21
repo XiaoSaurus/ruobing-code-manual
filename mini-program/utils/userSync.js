@@ -1,10 +1,10 @@
 const { request } = require('./request.js')
 
-/** 与后端 Result.code 兼容（数字或字符串） */
+/** 新后端 code:0 为成功 */
 function isApiSuccess(res) {
   if (!res || res.code === undefined || res.code === null) return false
   const c = res.code
-  return c === 200 || c === 0 || c === '200' || c === '0'
+  return c === 0 || c === 200 || c === '0' || c === '200'
 }
 
 function buildRegionDisplay(province, city, district) {
@@ -13,7 +13,7 @@ function buildRegionDisplay(province, city, district) {
 }
 
 /**
- * 后端 User（nickname/avatar 等）→ 小程序本地 userInfo 结构
+ * 后端 User → 小程序本地 userInfo 结构
  */
 function mapServerUser(u) {
   if (!u || typeof u !== 'object') return null
@@ -31,7 +31,7 @@ function mapServerUser(u) {
   }
   return {
     id: u.id,
-    openid: u.openid,
+    openid: u.openid || '',
     phone: u.phone || '',
     nickName: u.nickname || '',
     avatarUrl: u.avatar || '',
@@ -46,12 +46,12 @@ function mapServerUser(u) {
 }
 
 /**
- * GET /user/info 拉取数据库中的最新资料（登录后、进入「我的」等场景使用）
+ * GET /auth/userinfo — 用 Token 拉取最新用户信息
  */
-function pullUserFromServer(openid) {
-  if (!openid) return Promise.resolve(null)
-  return request
-    .get('/user/info', { openid })
+function pullUserFromServer() {
+  const token = wx.getStorageSync('accessToken') || ''
+  if (!token) return Promise.resolve(null)
+  return request.get('/auth/userinfo')
     .then(res => {
       if (!isApiSuccess(res)) return null
       const u = res.data

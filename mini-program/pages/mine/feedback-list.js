@@ -2,8 +2,7 @@ const app = getApp()
 const { buildThemePageStyle } = require('../../utils/themeUi.js')
 
 function isLoggedIn() {
-  const userInfo = wx.getStorageSync('userInfo')
-  return !!(userInfo && userInfo.openid)
+  return !!(wx.getStorageSync('accessToken'))
 }
 
 function formatTime(t) {
@@ -47,24 +46,17 @@ Page({
 
   applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({
-      pageStyle: buildThemePageStyle(theme)
-    })
+    this.setData({ pageStyle: buildThemePageStyle(theme) })
   },
 
   loadData() {
-    const userInfo = wx.getStorageSync('userInfo') || {}
-    const openid = userInfo.openid || ''
-    if (!openid) {
-      this.setData({ list: [], loaded: true })
-      return
-    }
     wx.showLoading({ title: '加载中…' })
+    // Token 由 request.js 自动注入
     app.globalData.request
-      .get('/feedback/mine', { openid })
+      .get('/feedback/mine')
       .then(res => {
         wx.hideLoading()
-        const raw = res && res.code === 200 && res.data ? res.data : []
+        const raw = res && (res.code === 0 || res.code === 200) && res.data ? res.data : []
         const list = (raw || []).map(item => {
           const replied = !!(item.status === true || item.status === 1 || item.reply)
           return {

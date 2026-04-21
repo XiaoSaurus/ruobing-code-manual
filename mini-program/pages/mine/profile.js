@@ -28,12 +28,9 @@ Page({
 
   onShow() {
     this.applyTheme()
-    const openid = (wx.getStorageSync('userInfo') || {}).openid
-    if (!openid) {
-      this.loadProfile()
-      return
-    }
-    pullUserFromServer(openid).then(fresh => {
+    const token = wx.getStorageSync('accessToken') || ''
+    if (!token) { this.loadProfile(); return }
+    pullUserFromServer().then(fresh => {
       if (fresh) {
         wx.setStorageSync('userInfo', fresh)
         app.globalData.userInfo = fresh
@@ -45,7 +42,6 @@ Page({
   loadProfile() {
     const userInfo = wx.getStorageSync('userInfo') || {}
     const genderMap = { 0: '未设置', 1: '男', 2: '女' }
-
     let regionValue = userInfo.regionValue
     if (!regionValue || !Array.isArray(regionValue) || regionValue.length !== 3) {
       const p = userInfo.province || ''
@@ -53,7 +49,6 @@ Page({
       const d = userInfo.district || ''
       regionValue = p ? [p, c || '', d || ''] : []
     }
-
     const regionDisplayText =
       userInfo.regionDisplayText ||
       buildRegionDisplay(
@@ -61,10 +56,7 @@ Page({
         userInfo.city || (regionValue[1] || ''),
         userInfo.district || (regionValue[2] || '')
       )
-
-    const g =
-      userInfo.gender !== undefined && userInfo.gender !== null ? userInfo.gender : 0
-
+    const g = userInfo.gender !== undefined && userInfo.gender !== null ? userInfo.gender : 0
     this.setData({
       form: {
         id: userInfo.id || '',
@@ -84,20 +76,12 @@ Page({
 
   applyTheme() {
     const theme = app.globalData.currentTheme || app.globalData.themes[0]
-    this.setData({
-      pageStyle: buildThemePageStyle(theme)
-    })
+    this.setData({ pageStyle: buildThemePageStyle(theme) })
   },
 
-  /**
-   * 微信官方头像选择（button open-type="chooseAvatar"）
-   * @see https://developers.weixin.qq.com/miniprogram/dev/component/button.html
-   */
   onChooseAvatar(e) {
     const url = e.detail && e.detail.avatarUrl
-    if (url) {
-      this.setData({ 'form.avatarUrl': url })
-    }
+    if (url) this.setData({ 'form.avatarUrl': url })
   },
 
   editNickname() {
@@ -119,15 +103,11 @@ Page({
       success: res => {
         const gender = res.tapIndex
         const genderMap = { 0: '未设置', 1: '男', 2: '女' }
-        this.setData({
-          'form.gender': gender,
-          genderText: genderMap[gender]
-        })
+        this.setData({ 'form.gender': gender, genderText: genderMap[gender] })
       }
     })
   },
 
-  /** 省市区（原生 picker，无需定位权限） */
   onRegionChange(e) {
     const val = e.detail.value || []
     const [province = '', city = '', district = ''] = val
@@ -151,6 +131,7 @@ Page({
     this.setData({ saving: true })
     const nickname = form.nickName.trim()
 
+    // 先更新本地缓存
     const userInfo = {
       ...wx.getStorageSync('userInfo'),
       id: form.id,
@@ -167,12 +148,12 @@ Page({
     wx.setStorageSync('userInfo', userInfo)
     app.globalData.userInfo = userInfo
 
+    // 调新后端 PUT /auth/userinfo
     app.globalData.request
-      .put('/user/info', {
-        openid: form.openid,
+      .put('/auth/userinfo', {
         nickname: nickname,
         avatar: form.avatarUrl,
-        gender: form.gender,
+        gender: String(form.gender),
         phone: form.phone || '',
         email: form.email || '',
         province: form.province || '',
@@ -182,13 +163,10 @@ Page({
       .then(res => {
         this.setData({ saving: false })
         if (!isApiSuccess(res)) {
-          wx.showToast({
-            title: res.message || res.msg || '保存失败，请检查网络与登录状态',
-            icon: 'none'
-          })
+          wx.showToast({ title: res.msg || res.message || '保存失败', icon: 'none' })
           return
         }
-        return pullUserFromServer(form.openid).then(fresh => {
+        return pullUserFromServer().then(fresh => {
           if (fresh) {
             wx.setStorageSync('userInfo', fresh)
             app.globalData.userInfo = fresh
