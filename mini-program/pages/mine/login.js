@@ -7,22 +7,32 @@ const MODAL_AGREE_TIP =
   '请先勾选「登录即表示同意《用户协议》和《隐私政策》」\r\n是否同意并继续？'
 const TOAST_TAP_AGAIN = '请再次点击\n「微信授权登录」'
 
-function isValidCnPhone(p) {
-  return /^1[3-9]\d{9}$/.test((p || '').trim())
+function pickLoginUser(res) {
+  if (!res || typeof res !== 'object') return null
+  const data = res.data
+  if (!data || typeof data !== 'object') return null
+  // 兼容多种后端结构：{data:{user}}, {data:{result}}, {data:{...userFields}}
+  return data.user || data.result || data.profile || data
+}
+
+function normalizeUserShape(u) {
+  if (!u || typeof u !== 'object') return null
+  const openid = u.openid || u.openId || u.open_id || ''
+  if (!openid) return null
+  return {
+    ...u,
+    openid,
+    nickname: u.nickname || u.nickName || '',
+    avatar: u.avatar || u.avatarUrl || ''
+  }
 }
 
 Page({
   data: {
     loading: false,
     pageStyle: '',
-    agreed: false,
-    loginMode: 'phone',
-    phone: '',
-    smsCode: '',
-    smsCooldown: 0
+    agreed: false
   },
-
-  smsTimer: null,
 
   onLoad() {
     this.applyTheme()
@@ -32,12 +42,7 @@ Page({
     }
   },
 
-  onUnload() {
-    if (this.smsTimer) {
-      clearInterval(this.smsTimer)
-      this.smsTimer = null
-    }
-  },
+  onUnload() {},
 
   onShow() {
     this.applyTheme()
@@ -50,22 +55,6 @@ Page({
     })
   },
 
-  onLoginModeTap(e) {
-    const mode = e.currentTarget.dataset.mode
-    if (!mode || mode === this.data.loginMode) return
-    this.setData({ loginMode: mode })
-  },
-
-  onPhoneInput(e) {
-    const raw = (e.detail.value || '').replace(/\D/g, '').slice(0, 11)
-    this.setData({ phone: raw })
-  },
-
-  onSmsInput(e) {
-    const raw = (e.detail.value || '').replace(/\D/g, '').slice(0, 6)
-    this.setData({ smsCode: raw })
-  },
-
   toggleAgree() {
     this.setData({ agreed: !this.data.agreed })
   },
@@ -73,24 +62,6 @@ Page({
   openLegal(e) {
     const type = e.currentTarget.dataset.type || 'user'
     wx.navigateTo({ url: `/pages/mine/legal?type=${type}` })
-  },
-
-  startSmsCooldown() {
-    if (this.smsTimer) {
-      clearInterval(this.smsTimer)
-      this.smsTimer = null
-    }
-    this.setData({ smsCooldown: 60 })
-    this.smsTimer = setInterval(() => {
-      const n = this.data.smsCooldown - 1
-      if (n <= 0) {
-        clearInterval(this.smsTimer)
-        this.smsTimer = null
-        this.setData({ smsCooldown: 0 })
-      } else {
-        this.setData({ smsCooldown: n })
-      }
-    }, 1000)
   },
 
   ensureAgreeThen(next) {
@@ -110,75 +81,21 @@ Page({
     })
   },
 
-  onSendSms() {
-    if (this.data.smsCooldown > 0) return
-    const phone = (this.data.phone || '').trim()
-    if (!isValidCnPhone(phone)) {
-      wx.showToast({ title: '请输入11位手机号', icon: 'none' })
-      return
-    }
-    this.ensureAgreeThen(() => {
-      wx.showLoading({ title: '发送中…' })
-      app.globalData.request
-        .post('/user/sms/send', { phone })
-        .then(res => {
-          wx.hideLoading()
-          if (!isApiSuccess(res)) {
-            wx.showToast({ title: res.message || res.msg || '发送失败', icon: 'none' })
-            return
-          }
-          wx.showToast({ title: '验证码已发送', icon: 'success' })
-          this.startSmsCooldown()
-        })
-        .catch(() => {
-          wx.hideLoading()
-          wx.showToast({ title: '网络异常', icon: 'none' })
-        })
-    })
-  },
-
-  onPhoneLoginTap() {
-    if (this.data.loading) return
-    const phone = (this.data.phone || '').trim()
-    const code = (this.data.smsCode || '').trim()
-    if (!isValidCnPhone(phone)) {
-      wx.showToast({ title: '请输入11位手机号', icon: 'none' })
-      return
-    }
-    if (!code || code.length < 4) {
-      wx.showToast({ title: '请输入验证码', icon: 'none' })
-      return
-    }
-    this.ensureAgreeThen(() => this.doPhoneLogin(phone, code))
-  },
-
-  doPhoneLogin(phone, code) {
-    this.setData({ loading: true })
-    wx.showLoading({ title: '登录中…' })
-    app.globalData.request
-      .post('/user/sms/login', { phone, code })
-      .then(res => {
-        wx.hideLoading()
-        this.setData({ loading: false })
-        this.applyLoginResponse(res)
-      })
-      .catch(err => {
-        wx.hideLoading()
-        this.setData({ loading: false })
-        wx.showToast({ title: '网络异常，请重试', icon: 'none' })
-        console.error('登录失败:', err)
-      })
-  },
-
   applyLoginResponse(res) {
     if (!isApiSuccess(res)) {
       wx.showToast({ title: res.message || res.msg || '登录失败', icon: 'none' })
       return
     }
-    const u = res.data && res.data.user
-    let storeInfo = mapServerUser(u)
+    const rawUser = pickLoginUser(res)
+    const dataRoot = res && res.data && typeof res.data === 'object' ? res.data : {}
+    // 后端兜底：允许 openid 挂在 data 根节点，避免 user 对象缺字段时误判登录失败
+    const mergedUser = rawUser && typeof rawUser === 'object'
+      ? { ...rawUser, openid: rawUser.openid || rawUser.openId || rawUser.open_id || dataRoot.openid }
+      : rawUser
+    let storeInfo = mapServerUser(normalizeUserShape(mergedUser))
     if (!storeInfo || !storeInfo.openid) {
       wx.showToast({ title: '登录数据异常', icon: 'none' })
+      console.error('登录返回数据不符合预期:', res)
       return
     }
     wx.showLoading({ title: '同步资料…' })

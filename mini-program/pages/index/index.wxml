@@ -6,7 +6,13 @@
       indicator-active-color="#fff"
       autoplay circular interval="4000" duration="600">
       <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="goBanner" data-index="{{index}}">
-        <image class="banner-img" src="{{item.imageUrl}}" mode="aspectFill" />
+        <image
+          class="banner-img"
+          src="{{item.imageUrl || '/static/default.png'}}"
+          mode="aspectFill"
+          binderror="onBannerImageError"
+          data-index="{{index}}"
+        />
       </swiper-item>
     </swiper>
   </view>
@@ -19,7 +25,13 @@
     </view>
     <view class="card-list">
       <view class="card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
-        <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+        <image
+          class="cover"
+          src="{{item.coverImage || '/static/default.png'}}"
+          mode="aspectFill"
+          binderror="onHotCoverError"
+          data-index="{{index}}"
+        />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
           <view class="card-footer">
@@ -40,7 +52,13 @@
     </view>
     <view class="card-list">
       <view class="card" wx:for="{{latestList}}" wx:key="id" bindtap="goDetail" data-type="{{item._type}}" data-id="{{item.id}}">
-        <image class="cover" src="{{item.coverImage || '/static/default.png'}}" mode="aspectFill" />
+        <image
+          class="cover"
+          src="{{item.coverImage || '/static/default.png'}}"
+          mode="aspectFill"
+          binderror="onLatestCoverError"
+          data-index="{{index}}"
+        />
         <view class="card-content">
           <text class="card-title">{{item.title}}</text>
           <view class="card-footer">

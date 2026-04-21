@@ -2,28 +2,42 @@ const request = (url, options = {}) => {
   const app = getApp()
   return new Promise((resolve, reject) => {
     const opts = { ...options }
+    const maxRetry = Number.isInteger(opts.retry) ? opts.retry : 1
+    const timeout = Number.isInteger(opts.timeout) ? opts.timeout : 15000
     let data = opts.data
     // 对象必须 JSON 序列化，否则部分环境下 PUT/POST 体为空，后端收不到 province/nickname 等
     if (data != null && typeof data === 'object' && !(data instanceof ArrayBuffer)) {
       data = JSON.stringify(data)
     }
-    wx.request({
-      url: app.globalData.apiBase + url,
-      method: opts.method || 'GET',
-      data: data,
-      header: {
-        'Content-Type': 'application/json',
-        ...(opts.header || {})
-      },
-      success: res => {
-        if (res.statusCode < 200 || res.statusCode >= 300) {
-          reject(new Error('HTTP ' + res.statusCode))
-          return
+    const doRequest = (attempt = 0) => {
+      wx.request({
+        url: app.globalData.apiBase + url,
+        method: opts.method || 'GET',
+        data: data,
+        timeout,
+        header: {
+          'Content-Type': 'application/json',
+          ...(opts.header || {})
+        },
+        success: res => {
+          if (res.statusCode < 200 || res.statusCode >= 300) {
+            reject(new Error('HTTP ' + res.statusCode))
+            return
+          }
+          resolve(res.data)
+        },
+        fail: err => {
+          const msg = (err && err.errMsg) || ''
+          const isTimeout = msg.includes('timeout')
+          if (isTimeout && attempt < maxRetry) {
+            doRequest(attempt + 1)
+            return
+          }
+          reject(err)
         }
-        resolve(res.data)
-      },
-      fail: err => reject(err)
-    })
+      })
+    }
+    doRequest()
   })
 }
 

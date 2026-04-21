@@ -108,5 +108,32 @@ Page({
       default:
         break
     }
+  },
+
+  onBannerImageError(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    if (Number.isNaN(index)) return
+    const list = [...this.data.banners]
+    if (!list[index] || list[index].imageUrl === '/static/default.png') return
+    list[index] = { ...list[index], imageUrl: '/static/default.png' }
+    this.setData({ banners: list })
+  },
+
+  onHotCoverError(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    if (Number.isNaN(index)) return
+    const list = [...this.data.hotList]
+    if (!list[index] || list[index].coverImage === '/static/default.png') return
+    list[index] = { ...list[index], coverImage: '/static/default.png' }
+    this.setData({ hotList: list })
+  },
+
+  onLatestCoverError(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    if (Number.isNaN(index)) return
+    const list = [...this.data.latestList]
+    if (!list[index] || list[index].coverImage === '/static/default.png') return
+    list[index] = { ...list[index], coverImage: '/static/default.png' }
+    this.setData({ latestList: list })
   }
 })
