@@ -29,12 +29,15 @@ function mapServerUser(u) {
     const n = parseInt(String(u.gender), 10)
     gender = Number.isNaN(n) ? 0 : n
   }
+  // 微信临时文件路径（wxfile://）已过期，过滤为空以显示默认头像
+  const rawAvatar = u.avatar || ''
+  const avatarUrl = (rawAvatar.startsWith && rawAvatar.startsWith('wxfile://')) ? '' : rawAvatar
   return {
     id: u.id,
     openid: u.openid || '',
     phone: u.phone || '',
     nickName: u.nickname || '',
-    avatarUrl: u.avatar || '',
+    avatarUrl,
     gender,
     province: p,
     city: c || '',

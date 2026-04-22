@@ -80,8 +80,41 @@ Page({
   },
 
   onChooseAvatar(e) {
-    const url = e.detail && e.detail.avatarUrl
-    if (url) this.setData({ 'form.avatarUrl': url })
+    const localPath = e.detail && e.detail.avatarUrl
+    if (!localPath) return
+    // 先显示本地临时头像（让用户立即看到）
+    this.setData({ 'form.avatarUrl': localPath })
+    wx.showLoading({ title: '头像上传中…', mask: true })
+    wx.uploadFile({
+      url: app.globalData.apiBase + '/sys/file/upload',
+      filePath: localPath,
+      name: 'file',
+      header: {
+        Authorization: wx.getStorageSync('accessToken') || ''
+      },
+      success: res => {
+        wx.hideLoading()
+        if (res.statusCode < 200 || res.statusCode >= 300) {
+          wx.showToast({ title: '头像上传失败', icon: 'none' })
+          return
+        }
+        try {
+          const json = JSON.parse(res.data)
+          if (json && json.code === 0 && json.data && json.data.url) {
+            const serverUrl = json.data.url
+            this.setData({ 'form.avatarUrl': serverUrl })
+          } else {
+            wx.showToast({ title: '头像上传失败', icon: 'none' })
+          }
+        } catch {
+          wx.showToast({ title: '头像上传失败', icon: 'none' })
+        }
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '头像上传失败', icon: 'none' })
+      }
+    })
   },
 
   editNickname() {
