@@ -26,8 +26,10 @@ function normalizeSavedTheme(saved) {
 
 App({
   globalData: {
-    // 新后端：ruobing-boot 集成模块
-    apiBase: 'http://localhost:8080/codemanual',
+    // 线上后端服务
+    apiBase: 'https://ruobing.site:4040/codemanual',
+    // 本地后端服务
+    // apiBase: 'http://localhost:4040/codemanual',
     userInfo: null,
     themes: THEMES,
     currentTheme: null,
