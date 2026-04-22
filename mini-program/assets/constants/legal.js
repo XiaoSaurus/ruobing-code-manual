@@ -1,10 +1,9 @@
 ﻿// 用户协议与隐私政策（静态文本，无需接口）
 // 更新日期：2026年4月12日
+// 注意：微信 rich-text 仅支持部分 HTML 标签，已移除 html/head/meta/body 等不支持标签
 
 module.exports = {
-  USER_AGREEMENT_HTML: `<html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
-<body style="font-size:14px;line-height:1.8;padding:12px 16px;color:#333;">
+  USER_AGREEMENT_HTML: `<section style="font-size:14px;line-height:1.8;padding:12px 16px;color:#333;">
 <h2 style="font-size:18px;margin-bottom:12px;">若冰代码手册用户协议</h2>
 <p><b>更新日期：2026年4月12日</b></p>
 <p>欢迎您使用「若冰代码手册」微信小程序（以下简称「本小程序」）。请您在使用前仔细阅读本协议。您点击同意或实际使用本服务，即视为已阅读并同意本协议全部内容。</p>
@@ -27,11 +26,9 @@ module.exports = {
 <p>运营方有权根据业务需要修订本协议，并以适当方式提示。若您不同意修订内容，应停止使用本服务。</p>
 <h3>七、联系我们</h3>
 <p>您可通过「我的 → 意见反馈」与我们联系。</p>
-</body></html>`,
+</section>`,
 
-  PRIVACY_POLICY_HTML: `<html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
-<body style="font-size:14px;line-height:1.8;padding:12px 16px;color:#333;">
+  PRIVACY_POLICY_HTML: `<section style="font-size:14px;line-height:1.8;padding:12px 16px;color:#333;">
 <h2 style="font-size:18px;margin-bottom:12px;">若冰代码手册隐私政策</h2>
 <p><b>更新日期：2026年4月12日</b></p>
 <p>我们深知个人信息对您的重要性，将按照法律法规要求采取安全保护措施，尽力保护您的个人信息安全可控。本政策说明我们如何收集、使用、存储与保护您的信息。</p>
@@ -57,5 +54,5 @@ module.exports = {
 <p>我们可能适时修订本政策，并在本页面或小程序内提示。重大变更时，我们将通过适当方式告知。</p>
 <h3>八、联系我们</h3>
 <p>如您对本政策有疑问，请通过「我的 → 意见反馈」与我们联系。</p>
-</body></html>`
+</section>`
 };
